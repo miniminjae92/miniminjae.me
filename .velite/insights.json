@@ -1,0 +1,15 @@
+[
+  {
+    "title": "첫 인사이트",
+    "slug": "first-insight",
+    "date": "2025-11-17T01:00:00.000Z",
+    "description": "Insight 카테고리 예시 글입니다.",
+    "tags": [
+      "thinking",
+      "learning"
+    ],
+    "code": "const{Fragment:n,jsx:t,jsxs:r}=arguments[0];function _createMdxContent(e){const o={h1:\"h1\",p:\"p\",strong:\"strong\",...e.components};return r(n,{children:[t(o.h1,{children:\"Insight 제목\"}),\"\\n\",r(o.p,{children:[\"여기에 \",t(o.strong,{children:\"MDX(Markdown for JSX(JavaScript XML))\"}),\" 형식으로\\n생각, 정리, 회고를 마음껏 적으면 된다.\"]})]})}return{default:function(n={}){const{wrapper:r}=n.components||{};return r?t(r,{...n,children:t(_createMdxContent,{...n})}):_createMdxContent(n)}};",
+    "permalink": "/insight/first-insight",
+    "type": "insight"
+  }
+]
