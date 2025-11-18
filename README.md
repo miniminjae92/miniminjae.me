@@ -1,36 +1,107 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🚀 My Tech Blog v2
 
-## Getting Started
+Next.js와 Velite를 활용하여 구축한 개인 기술 블로그입니다.
+**Insight(깊은 통찰)**와 **Memo(가벼운 기록)**를 분리하여 관리하며, MDX를 통해 유연한 콘텐츠 작성이 가능합니다.
 
-First, run the development server:
+![Next JS](https://img.shields.io/badge/Next-black?style=for-the-badge&logo=next.js&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
+![Velite](https://img.shields.io/badge/Velite-Type--Safe-yellow?style=for-the-badge)
+
+## 🛠 Tech Stack
+
+- **Framework**: [Next.js 14+](https://nextjs.org/) (App Router)
+- **Content Engine**: [Velite](https://velite.js.org/) (Type-safe MDX)
+- **Styling**: Tailwind CSS
+- **Package Manager**: pnpm
+- **Image Optimization**: sharp (Custom Script)
+
+## 📂 Project Structure
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+.
+├── scripts/             # 유지보수용 스크립트 (이미지 압축 등)
+├── src/
+│   ├── app/             # Next.js App Router 페이지
+│   ├── components/      # UI 컴포넌트
+│   └── content/         # 블로그 포스트 원본 (MDX)
+│       ├── insight/     # 기술적 통찰, 긴 글 (Page Bundle 구조)
+│       └── memo/        # 짧은 메모, TIL (Page Bundle 구조)
+└── velite.config.ts     # 콘텐츠 스키마 및 Velite 설정
+
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🏃‍♂️ Getting Started
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+이 프로젝트는 pnpm을 패키지 매니저로 사용합니다.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 1. 설치
 
-## Learn More
+```Bash
+pnpm install
+```
 
-To learn more about Next.js, take a look at the following resources:
+### 2. 개발 서버 실행
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```Bash
+pnpm dev
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+실행 후 [http://localhost:3000](http://localhost:3000)에서 확인 가능합니다.
 
-## Deploy on Vercel
+## ✍️ Writing Content
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+모든 콘텐츠는 `src/content` 디렉토리 내에 **폴더 단위(Page Bundle)**로 작성합니다. 이미지와 MDX 파일을 같은 폴더에 두어 관리 효율성을 높입니다.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+**폴더 구조 규칙**
+
+```Plaintext
+
+src/content/insight/
+└── my-new-post/        <-- 슬러그(URL)가 될 폴더명
+    ├── index.mdx       <-- 본문 파일명은 항상 index.mdx
+    ├── thumbnail.png   <-- 관련 이미지
+    └── architecture.svg
+```
+
+**Frontmatter 예시 (`index.mdx`)**
+
+**Insight (깊은 글)**
+
+```YAML
+
+---
+title: "Next.js 14 아키텍처 분석"
+slug: nextjs-architecture
+date: 2025-11-18
+description: "App Router의 동작 원리를 깊게 파헤쳐봅니다."
+tags: ["nextjs", "react", "architecture"]
+---
+```
+
+**Memo (가벼운 메모)**
+
+```YAML
+---
+title: "오늘의 Git 명령어 팁"
+slug: git-tips-2025
+date: 2025-11-18
+tags: ["git", "til"]
+---
+```
+
+## 🖼️ Image Optimization
+
+레포지토리 용량 관리와 성능 최적화를 위해 `sharp` 기반의 커스텀 스크립트를 사용합니다. 글 작성을 마치고 커밋하기 전에 아래 명령어를 실행하면 `src/content` 내의 이미지들이 자동으로 압축(Overwrite)됩니다.
+
+```Bash
+# 이미지 최적화 실행
+npm run compress
+
+# 최적화된 이미지와 글 커밋
+git add .
+git commit -m "feat: add new post with optimized images"
+```
+
+## 📝 License
+
+This project is licensed under the MIT License.
