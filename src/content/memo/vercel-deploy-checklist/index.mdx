@@ -1,0 +1,37 @@
+---
+title: Vercel 배포 전에 확인할 것들
+slug: vercel-deploy-checklist
+date: 2025-11-15 10:30
+description: 로컬에서는 되는데 Vercel에서 에러 나는 상황을 줄이기 위한 개인용 체크리스트.
+tags:
+  - vercel
+  - deploy
+  - nextjs
+---
+
+# Vercel 배포 전에 확인할 것들
+
+Next.js 프로젝트를 Vercel에 올릴 때 매번 헤매지 않도록 체크리스트를 만들어 둔다.
+
+## 1. GitHub 연결
+
+- 메인 브랜치 이름 확인 (`main` / `master`)  
+- Vercel 프로젝트가 올바른 레포와 브랜치를 바라보는지
+
+## 2. 환경 변수
+
+- `.env.local`에만 있고 Vercel에 등록되지 않은 값은 없는지  
+- `NEXT_PUBLIC_` 접두사가 필요한 값은 제대로 분리했는지
+
+## 3. 빌드 설정
+
+- Framework: Next.js 자동 인식되는지  
+- Build Command: 기본값 `next build`  
+- Output: 기본값 `.next`
+
+## 4. 외부 리소스
+
+- 외부 이미지 도메인: `next.config.mjs`의 `images.domains` 설정  
+- 폰트/OG 이미지에서 사용한 URL이 배포 환경에서도 접근 가능한지
+
+이 글은 “배포 전에 한 번 훑는 리스트”로 쓰인다.

@@ -1,0 +1,38 @@
+---
+title: Next.js 블로그 최소 셋업 메모
+slug: nextjs-blog-min-setup
+date: 2025-11-15 09:00
+description: Next.js + TypeScript + Tailwind + MDX로 블로그 시작할 때 다시 보기 위한 최소 셋업 정리.
+tags:
+  - nextjs
+  - setup
+  - tailwind
+---
+
+# Next.js 블로그 최소 셋업 메모
+
+블로그를 새로 만들 때마다 검색하지 않도록, 내가 자주 쓰는 최소 셋업을 정리해 둔다.
+
+## 1. 프로젝트 생성
+
+```bash
+npx create-next-app@latest blog \
+  --typescript \
+  --app \
+  --src-dir \
+  --tailwind
+
+## 2. Tailwind 기본 확인
+
+- `globals.css`에 `@import "tailwindcss";`가 들어있는지
+- tailwind.config의 content 경로에
+./src/app/**/*.{js,ts,jsx,tsx,mdx} 포함했는지
+
+## 3. 콘텐츠 디렉터리
+
+- `src/content/insight`
+- `src/content/memo`
+
+각 폴더 아래에 `slug/index.mdx` 형태로 글을 만든다.
+
+이 메모는 “처음 환경 세팅”을 위한 체크리스트 역할을 한다.
