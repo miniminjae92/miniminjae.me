@@ -1467,7 +1467,7 @@ export default function CursorSplash({
   ]);
 
   return (
-    <div className="pointer-events-none fixed top-0 left-0 z-50 h-full w-full opacity-20 grayscale-100">
+    <div className="pointer-events-none fixed top-0 left-0 z-50 h-full w-full opacity-10 grayscale-100">
       <canvas ref={canvasRef} id="fluid" className="block h-screen w-screen" />
     </div>
   );

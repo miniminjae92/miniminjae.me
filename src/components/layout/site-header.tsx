@@ -5,6 +5,7 @@ const navItems = [
   { href: "/", label: "Home" },
   { href: "/insight", label: "Insight" },
   { href: "/memo", label: "Memo" },
+  { href: "/log", label: "Log" },
 ];
 
 export function SiteHeader() {
@@ -13,13 +14,13 @@ export function SiteHeader() {
       <div className="mx-auto flex max-w-3xl items-center justify-between px-4 py-4">
         <Link
           href="/"
-          className="text-sm font-semibold tracking-tight text-heading"
+          className="text-base font-semibold tracking-tight text-heading"
         >
           minjae.log
         </Link>
 
         <div className="flex items-center gap-4">
-          <nav className="flex gap-4 text-xs font-medium text-second">
+          <nav className="flex gap-3 text-xs font-medium text-second">
             {navItems.map((item) => (
               <Link
                 key={item.href}

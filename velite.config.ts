@@ -49,5 +49,24 @@ export default defineConfig({
           type: "memo" as const,
         })),
     },
+
+    logs: {
+      name: "Log",
+      pattern: "log/**/*.mdx",
+      schema: s
+        .object({
+          title: s.string().max(99),
+          slug: s.slug("logs"),
+          date: s.isodate(),
+          description: s.string().optional(),
+          tags: s.array(s.string()).default([]),
+          code: s.mdx(),
+        })
+        .transform((entry) => ({
+          ...entry,
+          permalink: `/log/${entry.slug}`,
+          type: "log" as const,
+        })),
+    },
   },
 });

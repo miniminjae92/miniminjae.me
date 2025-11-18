@@ -44,13 +44,18 @@ export default function RootLayout({
     <html lang="ko" suppressHydrationWarning>
       <body className="antialiased">
         <ThemeProvider attribute="class" defaultTheme="system">
-          <div className="flex min-h-screen flex-col bg-page text-body">
-            <HomeCursor />
-            <SiteHeader />
-            <main className="mx-auto flex w-full max-w-3xl flex-1 flex-col px-4 py-10">
-              {children}
-            </main>
-            <SiteFooter />
+          <HomeCursor />
+          <div className="min-h-screen bg-page text-body">
+            <div className="mx-auto flex min-h-screen max-w-3xl flex-col pb-8 pt-30">
+              <div className="relative">
+                <SiteHeader />
+              </div>
+
+              <main className="mx-auto flex w-full max-w-3xl flex-1 flex-col px-4 py-10">
+                {children}
+              </main>
+              <SiteFooter />
+            </div>
           </div>
         </ThemeProvider>
       </body>

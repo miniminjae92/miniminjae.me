@@ -1,67 +1,136 @@
 import Link from "next/link";
-import { insights, memos } from "#site/content";
+import { insights, memos, logs } from "#site/content";
+import { MdOutlineAlternateEmail } from "react-icons/md";
+import { FaGithub, FaLinkedin } from "react-icons/fa";
+import { format } from "date-fns";
 
 type Insight = (typeof insights)[number];
 type Memo = (typeof memos)[number];
-type AnyPost = Insight | Memo;
+type Log = (typeof logs)[number];
+type AnyPost = Insight | Memo | Log;
 
 function sortByDateDesc(a: AnyPost, b: AnyPost) {
   return new Date(b.date).getTime() - new Date(a.date).getTime();
 }
 
+interface SectionProps {
+  label: string;
+  subtitle: string;
+  posts: AnyPost[];
+}
+
+function FocusSectionPanel({ label, subtitle, posts }: SectionProps) {
+  return (
+    <section className="space-y-3">
+      {/* 섹션 헤더 */}
+      <h2 className="text-sm font-semibold text-heading">
+        <span className="font-bold">{label}</span>
+        <span className="text-second">, {subtitle}</span>
+      </h2>
+
+      {/* 리스트 컨테이너 (L자 테두리 + 그룹 호버 효과) */}
+      <div className="group/list flex flex-col border-l border-border/60 py-2 pl-4">
+        {posts.map((post) => (
+          <Link
+            key={post.slug}
+            href={post.permalink}
+            className="
+              group flex items-center justify-between rounded-lg px-3 py-2
+              transition-all duration-300
+              hover:bg-gray-100 dark:hover:bg-gray-800/50 
+              hover:!opacity-100 group-hover/list:opacity-40
+            "
+          >
+            {/* 제목 */}
+            <span className="truncate font-medium text-body transition-colors group-hover:text-heading">
+              {post.title}
+            </span>
+
+            {/* 날짜 및 화살표 영역 */}
+            <div className="flex items-center gap-2 pl-4">
+              {/* 날짜: date-fns가 없다면 new Date(post.date).toLocaleDateString() 등을 사용 */}
+              <span className="text-xs text-second tabular-nums tracking-tight">
+                {format(new Date(post.date), "yy.MM.dd")}
+              </span>
+
+              {/* 화살표 애니메이션 */}
+              <span className="text-heading opacity-0 -translate-x-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0">
+                →
+              </span>
+            </div>
+          </Link>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 export default function HomePage() {
-  const latest: AnyPost[] = [...insights, ...memos]
+  const latestInsights: Insight[] = [...insights]
     .sort(sortByDateDesc)
-    .slice(0, 6);
+    .slice(0, 5);
+
+  const latestMemos: Memo[] = [...memos].sort(sortByDateDesc).slice(0, 5);
+
+  const latestLogs: Log[] = [...logs].sort(sortByDateDesc).slice(0, 5);
 
   return (
-    <section className="space-y-8">
+    <section className="space-y-10">
       {/* Header */}
-      <header className="space-y-2">
-        <p className="text-sm text-second">Minjae Kang</p>
-
-        <h1 className="text-2xl font-semibold tracking-tight text-heading">
-          Insight / Memo 를 쌓아가는 블로그
-        </h1>
-
-        <p className="text-sm text-second">
-          공부하면서 떠오른 생각(Insight)과 짧은 메모(Memo)를 정리하는 공간.
+      <header className="space-y-5">
+        <p className="text-lg text-second">
+          <span className="font-bold text-heading">호기심</span>으로 본질을
+          묻고, 복잡함을{" "}
+          <span className="font-bold text-heading">단순하게</span> 정돈하는
+          과정을 사랑합니다.
+          <br />
+          모든 것에 <span className="font-bold text-heading">감사하며</span>,
+          제가 얻은 깨달음이{" "}
+          <span className="font-bold text-heading">세상에 선한 기여로</span>{" "}
+          남기를 소망합니다.
         </p>
+
+        <div className="flex items-center gap-3 text-second">
+          <a
+            href="mailto:miniminjae92@gmail.com"
+            className="hover:text-heading"
+          >
+            <MdOutlineAlternateEmail size={18} />
+          </a>
+          <a
+            href="https://github.com/miniminjae92"
+            className="hover:text-heading"
+          >
+            <FaGithub size={18} />
+          </a>
+          <a
+            href="https://www.linkedin.com/in/your-link"
+            className="hover:text-heading"
+          >
+            <FaLinkedin size={18} />
+          </a>
+        </div>
       </header>
 
-      {/* Latest Section */}
-      <section className="space-y-4">
-        <h2 className="text-sm font-semibold uppercase tracking-wide text-second">
-          Latest
-        </h2>
+      <div className="grid gap-12">
+        <FocusSectionPanel
+          label="Insight"
+          subtitle="나만의 추상화"
+          posts={latestInsights}
+        />
 
-        <div className="space-y-2">
-          {latest.map((post) => (
-            <Link
-              key={`${post.type}-${post.slug}`}
-              href={post.permalink}
-              className="block rounded-lg border border-border bg-page/60 px-4 py-3 text-sm transition
-                         hover:border-heading hover:bg-page/80"
-            >
-              <div className="flex items-center justify-between gap-2">
-                <span className="text-[11px] uppercase tracking-wide text-second">
-                  {post.type}
-                </span>
+        <FocusSectionPanel
+          label="Memo"
+          subtitle="바로 꺼내 쓰는 지식"
+          posts={latestMemos}
+        />
 
-                <span className="text-[11px] text-second">
-                  {new Date(post.date).toLocaleDateString("ko-KR")}
-                </span>
-              </div>
-
-              <p className="mt-1 font-medium text-heading">{post.title}</p>
-
-              {post.description && (
-                <p className="mt-1 text-xs text-second">{post.description}</p>
-              )}
-            </Link>
-          ))}
-        </div>
-      </section>
+        <FocusSectionPanel
+          label="Log"
+          subtitle="시간이 만든 나의 개발 일지"
+          posts={latestLogs}
+        />
+      </div>
     </section>
   );
 }
