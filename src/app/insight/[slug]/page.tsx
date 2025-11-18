@@ -20,20 +20,29 @@ export default async function InsightDetailPage({ params }: InsightPageProps) {
 
   return (
     <article className="space-y-6">
+      {/* Header */}
       <header className="space-y-2">
-        <p className="text-xs uppercase tracking-wide text-neutral-500">
-          Insight
-        </p>
-        <h1 className="text-2xl font-semibold tracking-tight">{post.title}</h1>
-        <p className="text-xs text-neutral-500">
+        <p className="text-xs uppercase tracking-wide text-second">Insight</p>
+
+        <h1 className="text-2xl font-semibold tracking-tight text-heading">
+          {post.title}
+        </h1>
+
+        <p className="text-xs text-second">
           {new Date(post.date).toLocaleDateString("ko-KR")}
         </p>
+
         {post.description && (
-          <p className="text-sm text-neutral-400">{post.description}</p>
+          <p className="text-sm text-second">{post.description}</p>
         )}
       </header>
 
-      <div className="prose prose-invert max-w-none prose-headings:scroll-mt-24">
+      {/* Article Body */}
+      <div
+        className="prose max-w-none prose-headings:text-heading prose-p:text-body prose-strong:text-heading 
+                      prose-a:text-heading hover:prose-a:text-heading/80 
+                      prose-ul:text-body prose-ol:text-body"
+      >
         <MDXContent code={post.code} />
       </div>
     </article>
