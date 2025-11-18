@@ -17,7 +17,7 @@ export default defineConfig({
       pattern: "insight/**/*.mdx",
       schema: s
         .object({
-          title: s.string().max(100),
+          title: s.string().max(99),
           slug: s.slug("insights"),
           date: s.isodate(),
           description: s.string().optional(),
@@ -36,7 +36,7 @@ export default defineConfig({
       pattern: "memo/**/*.mdx",
       schema: s
         .object({
-          title: s.string().max(100),
+          title: s.string().max(99),
           slug: s.slug("memos"),
           date: s.isodate(),
           description: s.string().optional(),
