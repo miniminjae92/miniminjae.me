@@ -22,6 +22,7 @@
 
 # misc
 .DS_Store
+Thumbs.db
 *.pem
 
 # debug
@@ -40,4 +41,15 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# Velite
 .velite
+public/static
+
+# IDE
+.idea
+.vscode
+*.iws
+*.iml
+*.iml
+*.ipr
+
