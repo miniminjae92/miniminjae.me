@@ -47,10 +47,9 @@ export function SearchDialog() {
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="flex items-center gap-1 p-2 rounded-full text-second hover:text-heading hover:bg-gray-100 dark:hover:bg-gray-800 transition"
+        className="p-2 rounded-full text-heading hover:text-heading hover:bg-gray-100 transition"
       >
         <FiSearch className="w-4 h-4" />
-        <span className="text-[10px] uppercase text-second/70">⌘K</span>
       </button>
 
       {open && (
