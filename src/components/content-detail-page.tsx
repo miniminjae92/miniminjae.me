@@ -4,17 +4,20 @@ import { PostContent } from "@/types/content";
 import AuthorProfile from "./author-profile";
 import PostLicense from "./post-license";
 import PostPagination from "./post-pagination";
+import { RelatedPosts } from "./related-posts";
 
 interface ContentDetailPageProps {
   post: PostContent;
   prevPost?: PostContent | null;
   nextPost?: PostContent | null;
+  relatedPosts?: PostContent[];
 }
 
 export default function ContentDetailPage({
   post,
   prevPost,
   nextPost,
+  relatedPosts = [],
 }: ContentDetailPageProps) {
   return (
     <article className="space-y-6">
@@ -41,6 +44,8 @@ export default function ContentDetailPage({
         {(prevPost || nextPost) && (
           <PostPagination prevPost={prevPost} nextPost={nextPost} />
         )}
+
+        {relatedPosts.length > 0 && <RelatedPosts posts={relatedPosts} />}
       </footer>
     </article>
   );

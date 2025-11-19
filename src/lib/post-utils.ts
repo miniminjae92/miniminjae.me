@@ -16,3 +16,30 @@ export function getPostNeighbors(posts: PostContent[], currentSlug: string) {
 
   return { prev: prevPost, next: nextPost };
 }
+
+/**
+ * 전체 포스트 중 현재 포스트와 태그가 겹치는 글을 찾아 반환합니다.
+ * 정렬 우선순위: 1. 겹치는 태그 수(내림차순) 2. 날짜(최신순)
+ */
+export function getRelatedPosts(
+  allPosts: PostContent[],
+  currentPost: PostContent,
+  limit: number = 5,
+) {
+  return allPosts
+    .filter((post) => post.slug !== currentPost.slug)
+    .map((post) => {
+      const sharedTagsCount = post.tags.filter((tag) =>
+        currentPost.tags.includes(tag),
+      ).length;
+      return { ...post, sharedTagsCount };
+    })
+    .filter((post) => post.sharedTagsCount > 0)
+    .sort((a, b) => {
+      if (a.sharedTagsCount !== b.sharedTagsCount) {
+        return b.sharedTagsCount - a.sharedTagsCount;
+      }
+      return new Date(b.date).getTime() - new Date(a.date).getTime();
+    })
+    .slice(0, limit);
+}
