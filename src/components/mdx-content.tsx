@@ -141,7 +141,7 @@ const components = {
     if (isInline) {
       return (
         <code
-          className="relative rounded bg-selection px-[0.3rem] py-[0.2rem] font-mono text-[0.85em] font-semibold text-heading"
+          className="relative rounded bg-selection px-[0.3rem] py-[0.2rem] font-mono text-[0.85em] font-bold text-heading"
           {...props}
         />
       );

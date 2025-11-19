@@ -26,10 +26,10 @@
   --gray-950: #000000;
 
   --page-background: var(--gray-50);
-  --heading: var(--gray-900);
-  --text-body: var(--gray-850);
-  --text-second: var(--gray-700);
-  --text-disabled: var(--gray-500);
+  --heading: var(--gray-700);
+  --text-body: var(--gray-600);
+  --text-second: var(--gray-500);
+  --text-disabled: var(--gray-400);
 
   --selection: hsla(0, 0%, 0%, 0.045);
   --border: hsla(0, 0%, 0%, 0.09);
@@ -50,14 +50,14 @@
   --gray-900: #fff;
   --gray-950: #fff;
 
-  --page-background: var(--gray-75);
-  --heading: var(--gray-900);
-  --text-body: var(--gray-800);
-  --text-second: var(--gray-600);
-  --text-disabled: var(--gray-500);
+  --page-background: var(--gray-50);
+  --heading: var(--gray-700);
+  --text-body: var(--gray-600);
+  --text-second: var(--gray-500);
+  --text-disabled: var(--gray-400);
 
   --selection: hsla(0, 0%, 100%, 0.077);
-  --border: hsla(0, 0%, 100%, 0.1);
+  --border: hsla(0, 0%, 100%, 0.2);
 }
 
 @theme inline {
