@@ -20,7 +20,7 @@ export function SiteHeader() {
 
           <Link
             href="/tags"
-            className="p-2 rounded-full text-heading hover:text-heading hover:bg-gray-100 transition"
+            className="p-2 rounded-full text-heading hover:bg-gray-100 transition"
           >
             <FaTags />
           </Link>

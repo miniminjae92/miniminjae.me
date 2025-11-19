@@ -1,7 +1,6 @@
 // src/components/related-posts.tsx
 import Link from "next/link";
 import { PostContent } from "@/types/content";
-import { format } from "date-fns";
 
 interface RelatedPostsProps {
   posts: PostContent[];
@@ -11,27 +10,23 @@ export function RelatedPosts({ posts }: RelatedPostsProps) {
   if (posts.length === 0) return null;
 
   return (
-    <section className="mt-12 border-t border-border pt-8">
-      <h3 className="mb-4 text-lg font-semibold text-heading">Related Posts</h3>
-      <ul className="flex flex-col gap-2">
+    <section className="text-sm">
+      <p className="text-second">Related Posts</p>
+      <ul className="flex flex-col">
         {posts.map((post) => (
-          <li key={post.slug}>
-            <Link
-              href={post.permalink}
-              className="group flex items-center justify-between rounded-lg px-3 py-2
-                         transition-colors hover:bg-gray-100 dark:hover:bg-gray-800/50"
-            >
-              <div className="flex flex-col gap-1 overflow-hidden">
-                <span className="truncate font-medium text-body transition-colors group-hover:text-heading">
-                  {post.title}
-                </span>
-              </div>
-
-              <span className="ml-4 shrink-0 text-xs text-second tabular-nums">
-                {format(new Date(post.date), "yy.MM.dd")}
+          <Link
+            key={post.slug}
+            href={post.permalink}
+            className="group flex items-center rounded-lg py-1
+                         transition-colors "
+          >
+            <span className="mr-1">&gt;</span>
+            <div className="flex flex-col overflow-hidden">
+              <span className="font-semibold truncate text-heading transition-colors hover:text-heading hover:bg-selection">
+                {post.title}
               </span>
-            </Link>
-          </li>
+            </div>
+          </Link>
         ))}
       </ul>
     </section>
