@@ -33,7 +33,7 @@ export default function ContentDetailPage({
         <MDXContent code={post.code} />
       </div>
 
-      <footer className="mb-5 space-y-2">
+      <footer className="py-10 mb-5 space-y-2">
         <PostLicense />
 
         <AuthorProfile />
