@@ -1,7 +1,5 @@
 import Link from "next/link";
 import { insights, memos, logs } from "#site/content";
-import { MdOutlineAlternateEmail } from "react-icons/md";
-import { FaGithub, FaLinkedin } from "react-icons/fa";
 import { format } from "date-fns";
 import { SocialLinks } from "@/components/social-links";
 

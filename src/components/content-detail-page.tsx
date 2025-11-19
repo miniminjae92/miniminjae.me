@@ -1,6 +1,8 @@
 import { MDXContent } from "@/components/mdx-content";
 import { ArchiveNav } from "@/components/layout/archive-nav";
 import { PostContent } from "@/types/content";
+import AuthorProfile from "./author-profile";
+import PostLicense from "./post-license";
 
 interface ContentDetailPageProps {
   post: PostContent;
@@ -23,6 +25,12 @@ export default function ContentDetailPage({ post }: ContentDetailPageProps) {
       >
         <MDXContent code={post.code} />
       </div>
+
+      <section className="mb-5 space-y-2">
+        <PostLicense />
+
+        <AuthorProfile />
+      </section>
     </article>
   );
 }
