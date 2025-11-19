@@ -1,47 +1,21 @@
-import Link from "next/link";
 import { memos } from "#site/content";
-
-const sortedMemos = [...memos].sort(
-  (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
-);
+import { PostArchiveList } from "@/components/layout/post-archive-list";
+import { ArchiveNav } from "@/components/layout/archive-nav";
 
 export default function MemoIndexPage() {
+  const description = "유용한 지식을 보관하는 공간입니다.";
+
   return (
-    <section className="space-y-6">
-      {/* Header */}
-      <header className="space-y-1">
-        <h1 className="text-xl font-semibold tracking-tight text-heading">
-          Memo
-        </h1>
-        <p className="text-sm text-second">
-          바로 쓰고 바로 찾아보는 실용 정보 저장 공간
-        </p>
+    <div className="space-y-2">
+      <header>
+        <p className="text-sm tracking-tight text-second">{description}</p>
       </header>
 
-      {/* List */}
-      <ul className="space-y-3">
-        {sortedMemos.map((post) => (
-          <li key={post.slug}>
-            <Link
-              href={post.permalink}
-              className="block rounded-md border border-border bg-page/60 px-4 py-3 text-sm transition 
-                         hover:border-heading hover:bg-page/80"
-            >
-              <div className="flex items-center justify-between gap-2">
-                <span className="font-medium text-heading">{post.title}</span>
+      {/* Navigation (아이콘 네비게이션) */}
+      <ArchiveNav />
 
-                <span className="text-[11px] text-second">
-                  {new Date(post.date).toLocaleDateString("ko-KR")}
-                </span>
-              </div>
-
-              {post.description && (
-                <p className="mt-1 text-xs text-second">{post.description}</p>
-              )}
-            </Link>
-          </li>
-        ))}
-      </ul>
-    </section>
+      {/* 아카이브 목록 */}
+      <PostArchiveList posts={memos} />
+    </div>
   );
 }

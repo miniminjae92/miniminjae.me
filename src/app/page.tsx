@@ -22,13 +22,16 @@ interface SectionProps {
 function FocusSectionPanel({ label, subtitle, posts }: SectionProps) {
   return (
     <section className="space-y-3">
-      {/* 섹션 헤더 */}
       <h2 className="text-sm font-semibold text-heading">
-        <span className="font-bold">{label}</span>
-        <span className="text-second">, {subtitle}</span>
+        <Link
+          href={`/${label.toLowerCase()}`}
+          className="font-bold hover:text-heading hover:bg-gray-200 rounded py-1"
+        >
+          {label}
+        </Link>
+        <span className="text-sm text-second">, {subtitle}</span>
       </h2>
 
-      {/* 리스트 컨테이너 (L자 테두리 + 그룹 호버 효과) */}
       <div className="group/list flex flex-col border-l border-border/60 py-2 pl-4">
         {posts.map((post) => (
           <Link
@@ -77,7 +80,7 @@ export default function HomePage() {
   return (
     <section className="space-y-10">
       {/* Header */}
-      <header className="space-y-5">
+      <header className="mt-10 space-y-5">
         <p className="text-lg text-second">
           <span className="font-bold text-heading">호기심</span>으로 본질을
           묻고, 복잡함을{" "}

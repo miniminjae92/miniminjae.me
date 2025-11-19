@@ -1,0 +1,109 @@
+// app/tags/page.tsx
+"use client";
+
+import { useMemo, useState } from "react";
+import Link from "next/link";
+import { insights, memos, logs } from "#site/content";
+
+type Insight = (typeof insights)[number];
+type Memo = (typeof memos)[number];
+type Log = (typeof logs)[number];
+type AnyPost = Insight | Memo | Log;
+
+const allPosts: AnyPost[] = [...insights, ...memos, ...logs];
+
+function buildTags(posts: AnyPost[]) {
+  const map = new Map<string, { count: number; posts: AnyPost[] }>();
+
+  for (const post of posts) {
+    for (const tag of post.tags) {
+      const key = tag.trim();
+      if (!key) continue;
+
+      const entry = map.get(key) ?? { count: 0, posts: [] };
+      entry.count++;
+      entry.posts.push(post);
+      map.set(key, entry);
+    }
+  }
+
+  return Array.from(map.entries()).sort(
+    (a, b) => b[1].count - a[1].count || a[0].localeCompare(b[0], "ko"),
+  );
+}
+
+export default function TagsPage() {
+  const [selectedTag, setSelectedTag] = useState<string | null>(null);
+  const tags = useMemo(() => buildTags(allPosts), []);
+  const postsForSelected =
+    selectedTag == null
+      ? []
+      : (tags.find(([tag]) => tag === selectedTag)?.[1].posts ?? []);
+
+  return (
+    <section className="space-y-8">
+      <header className="space-y-2">
+        <p className="text-xs uppercase tracking-wide text-second">Tags</p>
+        <h1 className="text-2xl font-semibold tracking-tight text-heading">
+          자주 사용하는 태그로 글을 모아보기
+        </h1>
+        <p className="text-sm text-second">
+          전체 글에서 태그를 모아 한 번에 볼 수 있습니다.
+        </p>
+      </header>
+
+      {/* 태그 리스트 */}
+      <div className="flex flex-wrap gap-2">
+        {tags.map(([tag, info]) => {
+          const active = tag === selectedTag;
+          return (
+            <button
+              key={tag}
+              type="button"
+              onClick={() => setSelectedTag(active ? null : tag)}
+              className={`rounded-full border px-3 py-1 text-xs transition
+                ${
+                  active
+                    ? "border-heading bg-page/80 text-heading"
+                    : "border-border bg-page/40 text-second hover:border-heading hover:text-heading"
+                }`}
+            >
+              {tag}
+              <span className="ml-1 text-[10px] text-second/70">
+                {info.count}
+              </span>
+            </button>
+          );
+        })}
+      </div>
+
+      {/* 선택된 태그의 글 목록 */}
+      {selectedTag && (
+        <div className="space-y-2">
+          <h2 className="text-sm font-semibold text-heading">
+            “{selectedTag}” 태그가 달린 글
+          </h2>
+
+          <div className="space-y-1">
+            {postsForSelected.map((post) => (
+              <Link
+                key={`${post.type}-${post.slug}`}
+                href={post.permalink}
+                className="group flex items-baseline justify-between gap-3 rounded-md
+                           px-3 py-2 text-sm text-second transition
+                           hover:bg-page/80 hover:text-heading"
+              >
+                <span className="flex-1 truncate group-hover:text-heading">
+                  {post.title}
+                </span>
+                <span className="text-[11px] text-second">
+                  {new Date(post.date).toLocaleDateString("ko-KR")}
+                </span>
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
+    </section>
+  );
+}
