@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ThemeToggle } from "../theme-toggle";
+import { SearchButton } from "../search-button";
 
 const navItems = [
   { href: "/", label: "Home" },
@@ -20,6 +21,8 @@ export function SiteHeader() {
         </Link>
 
         <div className="flex items-center gap-4">
+          <SearchButton />
+
           <nav className="flex gap-3 text-xs font-medium text-second">
             {navItems.map((item) => (
               <Link

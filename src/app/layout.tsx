@@ -4,6 +4,7 @@ import { HomeCursor } from "@/components/home-cursor";
 import { SiteHeader } from "@/components/layout/site-header";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { ThemeProvider } from "next-themes";
+import { SearchModal } from "@/components/search-modal";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://minjae-log.vercel.app"),
@@ -45,6 +46,7 @@ export default function RootLayout({
       <body className="antialiased">
         <ThemeProvider attribute="class" defaultTheme="system">
           <HomeCursor />
+          <SearchModal />
           <div className="min-h-screen bg-page text-body">
             <div className="mx-auto flex min-h-screen max-w-3xl flex-col pb-8 pt-30">
               <div className="relative">

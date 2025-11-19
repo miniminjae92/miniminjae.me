@@ -4,16 +4,18 @@
   "private": true,
   "scripts": {
     "dev": "velite dev & next dev",
-    "build": "velite build && next build",
+    "build": "velite build && next build && pagefind --site .next/server/app --output-path public/pagefind",
     "start": "next start",
     "lint": "eslint",
     "compress": "node scripts/optimize-images.js",
     "preinstall": "npx only-allow pnpm"
   },
   "dependencies": {
+    "cmdk": "^1.1.1",
     "date-fns": "^4.1.0",
     "next": "16.0.1",
     "next-themes": "^0.4.6",
+    "pagefind": "^1.4.0",
     "react": "19.2.0",
     "react-dom": "19.2.0",
     "react-icons": "^5.5.0"
