@@ -3,12 +3,19 @@ import { ArchiveNav } from "@/components/layout/archive-nav";
 import { PostContent } from "@/types/content";
 import AuthorProfile from "./author-profile";
 import PostLicense from "./post-license";
+import PostPagination from "./post-pagination";
 
 interface ContentDetailPageProps {
   post: PostContent;
+  prevPost?: PostContent | null;
+  nextPost?: PostContent | null;
 }
 
-export default function ContentDetailPage({ post }: ContentDetailPageProps) {
+export default function ContentDetailPage({
+  post,
+  prevPost,
+  nextPost,
+}: ContentDetailPageProps) {
   return (
     <article className="space-y-6">
       <header>
@@ -26,11 +33,15 @@ export default function ContentDetailPage({ post }: ContentDetailPageProps) {
         <MDXContent code={post.code} />
       </div>
 
-      <section className="mb-5 space-y-2">
+      <footer className="mb-5 space-y-2">
         <PostLicense />
 
         <AuthorProfile />
-      </section>
+
+        {(prevPost || nextPost) && (
+          <PostPagination prevPost={prevPost} nextPost={nextPost} />
+        )}
+      </footer>
     </article>
   );
 }
