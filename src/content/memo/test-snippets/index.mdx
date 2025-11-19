@@ -1,0 +1,73 @@
+---
+title: Luasnip snippets 사용 및 트러블 슈팅
+slug: test-snippets
+date: 2025-11-19 12:23
+description: snippets 작성시 대괄호 주의
+tags:
+  - snippets
+  - luasnip
+---
+
+```
+diff --git a/.config/nvim/lua/miniminjae/core/init.lua b/.config/nvim/lua/miniminjae/core/init.lua
+index 7a9671a..feb9577 100644
+--- a/.config/nvim/lua/miniminjae/core/init.lua
++++ b/.config/nvim/lua/miniminjae/core/init.lua
+@@ -1,2 +1,9 @@
++vim.api.nvim_create_autocmd({ "BufEnter", "BufRead" }, {
++	pattern = { "*.mdx" },
++	callback = function()
++		vim.bo.filetype = "markdown"
++	end,
++})
++
+ require("miniminjae.core.options")
+ require("miniminjae.core.keymaps")
+diff --git a/.config/nvim/lua/miniminjae/plugins/luasnip.lua b/.config/nvim/lua/miniminjae/plugins/luasnip.lua
+new file mode 100644
+index 0000000..caa7d5d
+--- /dev/null
++++ b/.config/nvim/lua/miniminjae/plugins/luasnip.lua
+@@ -0,0 +1,10 @@
++return {
++	"L3MON4D3/LuaSnip",
++	config = function(_, opts)
++		require("luasnip").setup(opts)
++
++		require("luasnip.loaders.from_lua").load({
++			paths = vim.fn.stdpath("config") .. "/snippets",
++		})
++	end,
++}
+diff --git a/.config/nvim/lua/miniminjae/plugins/nvim-cmp.lua b/.config/nvim/lua/miniminjae/plugins/nvim-cmp.lua
+index 3a997fb..2ba1403 100644
+--- a/.config/nvim/lua/miniminjae/plugins/nvim-cmp.lua
++++ b/.config/nvim/lua/miniminjae/plugins/nvim-cmp.lua
+@@ -43,6 +43,26 @@ return {
+ 				["<C-Space>"] = cmp.mapping.complete(), -- show completion suggestions
+ 				["<C-e>"] = cmp.mapping.abort(), -- close completion window
+ 				["<CR>"] = cmp.mapping.confirm({ select = false }),
++				["<Tab>"] = cmp.mapping(function(fallback)
++					if cmp.visible() then
++						cmp.select_next_item()
++					elseif luasnip.expand_or_jumpable() then
++						luasnip.expand_or_jump()
++					else
++						fallback()
++					end
++				end, { "i", "s" }),
++
++				["<S-Tab>"] = cmp.mapping(function(fallback)
++					if cmp.visible() then
++						cmp.select_prev_item()
++					elseif luasnip.jumpable(-1) then
++						luasnip.jump(-1)
++					else
++						fallback()
++					end
++				end, { "i", "s" }),
++
+ 				["<C-l>"] = cmp.mapping(function(fallback)
+ 					if luasnip.expand_or_jumpable() then
+ 						luasnip.jump(1)
+```
