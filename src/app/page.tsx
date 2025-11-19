@@ -3,6 +3,7 @@ import { insights, memos, logs } from "#site/content";
 import { MdOutlineAlternateEmail } from "react-icons/md";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 import { format } from "date-fns";
+import { SocialLinks } from "@/components/social-links";
 
 type Insight = (typeof insights)[number];
 type Memo = (typeof memos)[number];
@@ -93,26 +94,11 @@ export default function HomePage() {
           남기를 소망합니다.
         </p>
 
-        <div className="flex items-center gap-3 text-second">
-          <a
-            href="mailto:miniminjae92@gmail.com"
-            className="hover:text-heading"
-          >
-            <MdOutlineAlternateEmail size={18} />
-          </a>
-          <a
-            href="https://github.com/miniminjae92"
-            className="hover:text-heading"
-          >
-            <FaGithub size={18} />
-          </a>
-          <a
-            href="https://www.linkedin.com/in/your-link"
-            className="hover:text-heading"
-          >
-            <FaLinkedin size={18} />
-          </a>
-        </div>
+        <SocialLinks
+          email="miniminjae92@gmail.com"
+          github="https://github.com/miniminjae92"
+          linkedin="https://www.linkedin.com/in/miniminjae92"
+        />
       </header>
 
       <div className="grid gap-12 mb-10">
