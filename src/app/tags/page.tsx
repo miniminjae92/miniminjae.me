@@ -4,6 +4,7 @@
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import { insights, memos, logs } from "#site/content";
+import { ArchiveNav } from "@/components/layout/archive-nav";
 
 type Insight = (typeof insights)[number];
 type Memo = (typeof memos)[number];
@@ -43,13 +44,10 @@ export default function TagsPage() {
   return (
     <section className="space-y-8">
       <header className="space-y-2">
-        <p className="text-xs uppercase tracking-wide text-second">Tags</p>
-        <h1 className="text-2xl font-semibold tracking-tight text-heading">
-          자주 사용하는 태그로 글을 모아보기
-        </h1>
         <p className="text-sm text-second">
           전체 글에서 태그를 모아 한 번에 볼 수 있습니다.
         </p>
+        <ArchiveNav />
       </header>
 
       {/* 태그 리스트 */}

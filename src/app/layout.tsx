@@ -46,12 +46,12 @@ export default function RootLayout({
         <ThemeProvider attribute="class" defaultTheme="system">
           <HomeCursor />
           <div className="min-h-screen bg-page text-body">
-            <div className="mx-auto flex min-h-screen max-w-3xl flex-col pb-8 pt-30">
+            <div className="mx-auto flex min-h-screen max-w-2xl flex-col pb-8 pt-30">
               <div className="relative">
                 <SiteHeader />
               </div>
 
-              <main className="mx-auto flex w-full max-w-3xl flex-1 flex-col px-4">
+              <main className="mx-auto flex w-full max-w-2xl flex-1 flex-col px-4">
                 {children}
               </main>
               <SiteFooter />

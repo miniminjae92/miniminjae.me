@@ -32,7 +32,7 @@ function FocusSectionPanel({ label, subtitle, posts }: SectionProps) {
         <span className="text-sm text-second">, {subtitle}</span>
       </h2>
 
-      <div className="group/list flex flex-col border-l border-border/60 py-2 pl-4">
+      <div className="group/list flex flex-col border-l border-b rounded-bl-lg border-border/60 py-2 pl-4 w-3/4">
         {posts.map((post) => (
           <Link
             key={post.slug}
@@ -115,7 +115,7 @@ export default function HomePage() {
         </div>
       </header>
 
-      <div className="grid gap-12">
+      <div className="grid gap-12 mb-10">
         <FocusSectionPanel
           label="Insight"
           subtitle="나만의 추상화"

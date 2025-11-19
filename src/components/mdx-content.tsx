@@ -5,7 +5,6 @@ import Image from "next/image";
 import { Callout } from "./callout";
 
 const components = {
-  // --- [기본 타이포그래피] ---
   h1: (props: HTMLAttributes<HTMLHeadingElement>) => (
     <h1
       className="mt-12 mb-4 text-3xl font-bold text-heading scroll-m-20"
@@ -31,16 +30,16 @@ const components = {
     <p className="leading-7 text-body [&:not(:first-child)]:mt-5" {...props} />
   ),
 
-  // --- [리스트] ---
   ul: (props: HTMLAttributes<HTMLUListElement>) => (
-    <ul className="my-6 ml-6 list-disc [&>li]:mt-2 text-body" {...props} />
+    <ul className="ml-6 list-disc [&>li]:mt-1 text-body" {...props} />
   ),
   ol: (props: HTMLAttributes<HTMLOListElement>) => (
-    <ol className="my-6 ml-6 list-decimal [&>li]:mt-2 text-body" {...props} />
+    <ol className="ml-6 list-decimal [&>li]:mt-1 text-body" {...props} />
   ),
-  li: (props: HTMLAttributes<HTMLLIElement>) => <li className="" {...props} />,
+  li: (props: HTMLAttributes<HTMLLIElement>) => (
+    <li className="leading-7 my-1" {...props} />
+  ),
 
-  // --- [인용구] ---
   blockquote: (props: HTMLAttributes<HTMLQuoteElement>) => (
     <blockquote
       className="mt-6 border-l-4 border-border pl-6 italic text-second"
@@ -48,7 +47,6 @@ const components = {
     />
   ),
 
-  // --- [표 (Table) - 놓치기 쉬운 부분!] ---
   table: (props: HTMLAttributes<HTMLTableElement>) => (
     <div className="my-6 w-full overflow-y-auto">
       <table
@@ -58,7 +56,7 @@ const components = {
     </div>
   ),
   thead: (props: HTMLAttributes<HTMLTableSectionElement>) => (
-    <thead className="bg-gray-100 dark:bg-gray-150" {...props} />
+    <thead className="bg-gray-100 dark:bg-gray-100" {...props} />
   ),
   tbody: (props: HTMLAttributes<HTMLTableSectionElement>) => (
     <tbody {...props} />
@@ -143,7 +141,7 @@ const components = {
     if (isInline) {
       return (
         <code
-          className="relative rounded bg-gray-200 px-[0.3rem] py-[0.2rem] font-mono text-[0.85em] font-semibold text-heading"
+          className="relative rounded bg-selection px-[0.3rem] py-[0.2rem] font-mono text-[0.85em] font-semibold text-heading"
           {...props}
         />
       );
@@ -155,7 +153,7 @@ const components = {
     <hr className="my-8 border-border" {...props} />
   ),
   img: (props: any) => (
-    <span className="block my-8 overflow-hidden rounded-lg border border-border bg-page">
+    <figure className="block my-8 overflow-hidden rounded-lg border border-border bg-page">
       <Image
         src={props.src}
         alt={props.alt || ""}
@@ -165,11 +163,11 @@ const components = {
         unoptimized={props.src.startsWith("http")}
       />
       {props.alt && (
-        <span className="block p-2 text-center text-xs text-second bg-page border-t border-border">
+        <figcaption className="block p-2 text-center text-xs text-second bg-page border-t border-border">
           {props.alt}
-        </span>
+        </figcaption>
       )}
-    </span>
+    </figure>
   ),
 
   // --- [커스텀 컴포넌트 등록] ---
