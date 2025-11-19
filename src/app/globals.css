@@ -103,3 +103,7 @@ body {
     --body-margin-right: max(16px, env(safe-area-inset-right));
   }
 }
+
+pre code span[data-rehype-pretty-code-fragment] {
+  color: inherit !important;
+}

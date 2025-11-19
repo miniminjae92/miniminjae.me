@@ -1,5 +1,14 @@
 // velite.config.ts
 import { defineConfig, s } from "velite";
+import rehypePrettyCode from "rehype-pretty-code";
+
+const prettyCodeOptions = {
+  theme: {
+    light: "github-light",
+    dark: "github-dark",
+  },
+  keepBackground: false,
+};
 
 export default defineConfig({
   root: "src/content",
@@ -22,7 +31,9 @@ export default defineConfig({
           date: s.isodate(),
           description: s.string().optional(),
           tags: s.array(s.string()).default([]),
-          code: s.mdx(),
+          code: s.mdx({
+            rehypePlugins: [[rehypePrettyCode, prettyCodeOptions as any]],
+          }),
         })
         .transform((entry) => ({
           ...entry,
@@ -41,7 +52,9 @@ export default defineConfig({
           date: s.isodate(),
           description: s.string().optional(),
           tags: s.array(s.string()).default([]),
-          code: s.mdx(),
+          code: s.mdx({
+            rehypePlugins: [[rehypePrettyCode, prettyCodeOptions as any]],
+          }),
         })
         .transform((entry) => ({
           ...entry,
@@ -60,7 +73,9 @@ export default defineConfig({
           date: s.isodate(),
           description: s.string().optional(),
           tags: s.array(s.string()).default([]),
-          code: s.mdx(),
+          code: s.mdx({
+            rehypePlugins: [[rehypePrettyCode, prettyCodeOptions as any]],
+          }),
         })
         .transform((entry) => ({
           ...entry,

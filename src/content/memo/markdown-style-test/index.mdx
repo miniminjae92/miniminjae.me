@@ -1,0 +1,117 @@
+---
+title: markdown 스타일링 테스트 페이지
+slug: markdown-style-test
+date: 2025-11-19 12:32
+description: 블로그의 모든 markdown 요소들이 제대로 렌더링되는지 확인하는 테스트 글입니다.
+tags:
+  - markdown
+---
+
+# Heading 1: 가장 큰 제목입니다
+
+이 페이지는 **Markdown 스타일링**이 제대로 적용되었는지 확인하기 위한 테스트 페이지입니다.
+
+## Heading 2: 두 번째로 큰 제목입니다
+
+본문 텍스트는 이렇게 보입니다. 가독성을 위해 적절한 줄간격(`leading-7`)과 색상(`text-body`)이 적용되어야 합니다.
+
+### Heading 3: 세 번째 제목입니다
+
+작은 소제목으로 사용됩니다.
+
+#### Heading 4: 네 번째 제목입니다
+
+더 작은 소제목입니다.
+
+---
+
+## 텍스트 강조 (Emphasis)
+
+- **Bold 텍스트는 이렇게 굵게 보입니다.**
+- _Italic 텍스트는 이렇게 기울어져 보입니다._
+- ~~취소선(Strikethrough)은 이렇게 보입니다.~~
+- `Inline Code`는 이렇게 배경색이 들어가고 폰트가 다릅니다.
+
+---
+
+## 리스트 (Lists)
+
+### 순서 없는 리스트 (Unordered List)
+
+- 첫 번째 항목입니다.
+- 두 번째 항목입니다.
+  - 들여쓰기 된 하위 항목입니다.
+  - 하위 항목 하나 더.
+- 세 번째 항목입니다.
+
+### 순서 있는 리스트 (Ordered List)
+
+1. 첫 번째 순서입니다.
+2. 두 번째 순서입니다.
+3. 세 번째 순서입니다.
+
+---
+
+## 인용구 (Blockquote)
+
+> "성공하는 개발자는 코드를 잘 짜는 사람이 아니라, 문제를 해결하는 사람이다."
+>
+> 인용구 내에서 **강조**도 가능합니다.
+
+---
+
+## 링크 (Links)
+
+- [외부 링크 (Google)](https://google.com) - 새 탭에서 열려야 합니다.
+- [내부 링크 (/insight)](/insight) - 페이지 새로고침 없이 이동해야 합니다.
+
+---
+
+## 코드 블록 (Code Blocks)
+
+```typescript
+// Typescript 코드 블록 테스트
+interface User {
+  name: string;
+  age: number;
+}
+
+function greeting(user: User) {
+  console.log(`Hello, ${user.name}!`);
+}
+
+/* CSS 코드 블록 테스트 */
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+```
+
+# 콜아웃 테스트 (Callout)
+
+<Callout type="info" title="정보">
+  이것은 정보 콜아웃입니다. 독자에게 팁을 줄 때 유용합니다.
+</Callout>
+
+<Callout type="warning" title="주의사항">
+  이것은 경고 콜아웃입니다. 주의가 필요할 때 사용하세요.
+</Callout>
+
+<Callout type="danger">제목 없는 위험 콜아웃입니다.</Callout>
+
+---
+
+# 표 테스트 (Table)
+
+| 기능      |  상태   |            비고 |
+| :-------- | :-----: | --------------: |
+| 검색 모달 | ✅ 완료 |   Pagefind 사용 |
+| 다크 모드 | ✅ 완료 |     next-themes |
+| 콜아웃    | ✅ 완료 | 커스텀 컴포넌트 |
+
+---
+
+# 기타 기능
+
+취소선은 ~~이렇게~~ 작성합니다.
