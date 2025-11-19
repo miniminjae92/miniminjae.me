@@ -22,7 +22,8 @@ export function ArchiveNav() {
       <span className="text-disabled mr-1 whitespace-nowrap">by 강민재</span>
 
       {NAV_ITEMS.map((item) => {
-        const isActive = pathname === item.href;
+        const isActive =
+          pathname === item.href || pathname.startsWith(`${item.href}/`);
 
         return (
           <Link
