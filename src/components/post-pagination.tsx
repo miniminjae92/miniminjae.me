@@ -14,7 +14,7 @@ export default function PostPagination({
     <nav className="flex flex-col text-sm justify-between py-2 mt-4 mb-4 sm:flex-row">
       {prevPost ? (
         <Link
-          href={`/${prevPost.slug}`}
+          href={`/${prevPost.permalink}`}
           className="group flex flex-col items-start gap-1 w-full sm:w-1/2"
         >
           <span className="text-second group-hover:text-heading">Previous</span>
@@ -28,7 +28,7 @@ export default function PostPagination({
 
       {nextPost ? (
         <Link
-          href={`/${nextPost.slug}`}
+          href={`/${nextPost.permalink}`}
           className="group flex flex-col items-start sm:items-end gap-1 w-full sm:w-1/2 text-left sm:text-right"
         >
           <span className="text-second group-hover:text-heading">Next</span>

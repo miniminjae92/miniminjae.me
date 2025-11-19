@@ -32,7 +32,7 @@ export default async function LogDetailPage({ params }: BasePageProps) {
       post={post}
       prevPost={prev}
       nextPost={next}
-      relatePosts={relatedPosts}
+      relatedPosts={relatedPosts}
     />
   );
 }

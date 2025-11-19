@@ -32,7 +32,7 @@ export default async function InsightDetailPage({ params }: BasePageProps) {
       post={post}
       prevPost={prev}
       nextPost={next}
-      relatePosts={relatedPosts}
+      relatedPosts={relatedPosts}
     />
   );
 }
