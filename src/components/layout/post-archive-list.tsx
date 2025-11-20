@@ -44,7 +44,7 @@ export function PostArchiveList({ posts }: PostArchiveListProps) {
               {year}
             </h3>
 
-            <ul className="py-4">
+            <ul className="py-2">
               {grouped[year].map((post) => {
                 const dateLabel = format(new Date(post.date), "MM. dd.");
 

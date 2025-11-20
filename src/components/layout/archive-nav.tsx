@@ -35,7 +35,7 @@ export function ArchiveNav() {
 
               isActive
                 ? "text-heading font-medium"
-                : "text-second hover:text-heading",
+                : "text-body hover:text-heading",
 
               isActive ? "bg-gray-200" : "hover:bg-gray-200",
             )}

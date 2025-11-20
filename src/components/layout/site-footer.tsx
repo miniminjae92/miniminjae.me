@@ -2,8 +2,8 @@ import { RealTimeClock } from "../real-time-clock";
 
 export function SiteFooter() {
   return (
-    <footer className="border-t border-border bg-page/80 backdrop-blur">
-      <div className="mx-auto flex max-w-2xl items-center justify-between px-4 py-4 text-xs text-neutral-500">
+    <footer className="mt-10 backdrop-blur">
+      <div className="flex items-center justify-between py-10 text-xs text-second">
         <span>Copyright © 강민재</span>
         <span className="text-[11px] font-mono tabular-nums">
           <RealTimeClock />

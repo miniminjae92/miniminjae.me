@@ -7,7 +7,7 @@ import { FaTags } from "react-icons/fa";
 export function SiteHeader() {
   return (
     <header>
-      <div className="mx-auto flex max-w-2xl items-center justify-between px-4 py-2">
+      <div className="py-1 flex items-center justify-between h-[var(--header-height)]">
         <Link
           href="/"
           className="text-base font-semibold tracking-tight text-heading"
@@ -15,12 +15,12 @@ export function SiteHeader() {
           minjae.log
         </Link>
 
-        <div className="flex items-center gap-2 mr-4">
+        <div className="flex items-center gap-2">
           <SearchDialog />
 
           <Link
             href="/tags"
-            className="p-2 rounded-full text-heading hover:bg-gray-100 transition"
+            className="p-2 rounded-full text-heading hover:bg-selection transition"
           >
             <FaTags />
           </Link>
