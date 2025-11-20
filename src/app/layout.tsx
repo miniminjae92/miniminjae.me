@@ -42,18 +42,17 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ko" suppressHydrationWarning>
-      <body className="antialiased">
+      <body className="antialiased bg-page text-body page-shell">
         <ThemeProvider attribute="class" defaultTheme="system">
           <HomeCursor />
-          <div className="min-h-screen bg-page text-body">
-            <div className="mx-auto flex min-h-screen max-w-2xl flex-col pb-8 pt-30">
+
+          <div className="min-h-screen">
+            <div className="flex min-h-screen flex-col pt-[var(--page-top)]">
               <div className="relative">
                 <SiteHeader />
               </div>
 
-              <main className="mx-auto flex w-full max-w-2xl flex-1 flex-col px-4">
-                {children}
-              </main>
+              <main className="flex-1">{children}</main>
               <SiteFooter />
             </div>
           </div>

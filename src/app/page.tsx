@@ -21,17 +21,17 @@ interface SectionProps {
 function FocusSectionPanel({ label, subtitle, posts }: SectionProps) {
   return (
     <section className="space-y-3">
-      <h2 className="text-sm font-semibold text-heading">
+      <h2 className="text-sm font-bold text-heading">
         <Link
           href={`/${label.toLowerCase()}`}
-          className="font-bold hover:text-heading hover:bg-gray-200 rounded py-1"
+          className="hover:bg-selection rounded py-1"
         >
           {label}
         </Link>
-        <span className="text-sm text-second">, {subtitle}</span>
+        <span className="text-second">, {subtitle}</span>
       </h2>
 
-      <div className="group/list flex flex-col border-l border-b rounded-bl-lg border-border/60 py-2 pl-4 w-3/4">
+      <div className="group/list flex flex-col border-l border-b rounded-bl-lg border-border/60 py-2 pl-4">
         {posts.map((post) => (
           <Link
             key={post.slug}
@@ -81,15 +81,14 @@ export default function HomePage() {
       {/* Header */}
       <header className="mt-10 space-y-5">
         <p className="text-lg text-second">
-          <span className="font-bold text-heading">호기심</span>으로 본질을
-          묻고, 복잡함을{" "}
-          <span className="font-bold text-heading">단순하게</span> 정돈하는
-          과정을 사랑합니다.
+          <span className="font-bold text-body">호기심</span>으로 본질을 묻고,
+          복잡함을 <span className="font-bold text-body">단순하게</span>{" "}
+          정돈하는 과정을 사랑합니다.
           <br />
-          모든 것에 <span className="font-bold text-heading">감사하며</span>,
-          제가 얻은 깨달음이{" "}
-          <span className="font-bold text-heading">세상에 선한 기여로</span>{" "}
-          남기를 소망합니다.
+          모든 것에 <span className="font-bold text-body">감사하며</span>, 제가
+          얻은 깨달음이{" "}
+          <span className="font-bold text-body">세상에 선한 기여로</span> 남기를
+          소망합니다.
         </p>
 
         <SocialLinks
@@ -99,7 +98,7 @@ export default function HomePage() {
         />
       </header>
 
-      <div className="grid gap-12 mb-10">
+      <div className="max-w-content gap-12 grid mb-10">
         <FocusSectionPanel
           label="Insight"
           subtitle="나만의 추상화"

@@ -9,7 +9,7 @@ interface SocialLinksProps {
 
 export function SocialLinks({ email, github, linkedin }: SocialLinksProps) {
   return (
-    <div className="flex items-center text-heading">
+    <div className="flex items-center text-body hover:text-heading">
       <a href={`mailto:{email}`} className="p-1 rounded hover:bg-selection">
         <MdOutlineAlternateEmail size={16} />
       </a>

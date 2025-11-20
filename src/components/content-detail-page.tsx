@@ -5,6 +5,8 @@ import AuthorProfile from "./author-profile";
 import PostLicense from "./post-license";
 import PostPagination from "./post-pagination";
 import { RelatedPosts } from "./related-posts";
+import { format } from "date-fns";
+import { Comments } from "./comments";
 
 interface ContentDetailPageProps {
   post: PostContent;
@@ -23,7 +25,7 @@ export default function ContentDetailPage({
     <article className="space-y-6">
       <header>
         <p className="text-sm text-second">
-          {new Date(post.date).toLocaleDateString("ko-KR")}
+          {format(new Date(post.date), "MMM d, yyyy")}
         </p>
         <ArchiveNav />
       </header>
@@ -46,6 +48,8 @@ export default function ContentDetailPage({
         )}
 
         {relatedPosts.length > 0 && <RelatedPosts posts={relatedPosts} />}
+
+        <Comments />
       </footer>
     </article>
   );
