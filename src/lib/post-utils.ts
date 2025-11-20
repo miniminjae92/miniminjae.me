@@ -1,4 +1,48 @@
+// src/lib/post-utils.ts
+import { insights, memos, logs } from "#site/content";
 import { PostContent } from "@/types/content";
+
+// 모든 포스트 타입을 아우르는 타입 정의
+export type AnyPost = PostContent;
+
+/**
+ * 날짜 내림차순 정렬 함수 (Comparator)
+ * sort 메서드에 직접 전달하여 사용 가능
+ */
+export const sortByDateDesc = (a: AnyPost, b: AnyPost) =>
+  new Date(b.date).getTime() - new Date(a.date).getTime();
+
+/**
+ * 모든 포스트를 날짜순으로 정렬하여 반환
+ */
+export const getAllPostsSorted = (): AnyPost[] => {
+  const allPosts = [...insights, ...memos, ...logs];
+  return allPosts.sort(sortByDateDesc);
+};
+
+/**
+ * 전체 포스트에서 태그를 추출하고 카운트하여 정렬된 리스트 반환
+ */
+export function getAllTags() {
+  const posts = getAllPostsSorted();
+  const map = new Map<string, { count: number; posts: AnyPost[] }>();
+
+  for (const post of posts) {
+    for (const tag of post.tags) {
+      const key = tag.trim();
+      if (!key) continue;
+
+      const entry = map.get(key) ?? { count: 0, posts: [] };
+      entry.count++;
+      entry.posts.push(post);
+      map.set(key, entry);
+    }
+  }
+
+  return Array.from(map.entries()).sort(
+    (a, b) => b[1].count - a[1].count || a[0].localeCompare(b[0], "ko"),
+  );
+}
 
 /**
  * 전체 포스트 목록과 현재 슬러그를 받아 이전/다음 포스트를 반환합니다.

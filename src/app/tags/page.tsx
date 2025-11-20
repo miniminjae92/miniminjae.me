@@ -1,41 +1,14 @@
 // app/tags/page.tsx
 "use client";
 
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
-import { insights, memos, logs } from "#site/content";
 import { ArchiveNav } from "@/components/layout/archive-nav";
-
-type Insight = (typeof insights)[number];
-type Memo = (typeof memos)[number];
-type Log = (typeof logs)[number];
-type AnyPost = Insight | Memo | Log;
-
-const allPosts: AnyPost[] = [...insights, ...memos, ...logs];
-
-function buildTags(posts: AnyPost[]) {
-  const map = new Map<string, { count: number; posts: AnyPost[] }>();
-
-  for (const post of posts) {
-    for (const tag of post.tags) {
-      const key = tag.trim();
-      if (!key) continue;
-
-      const entry = map.get(key) ?? { count: 0, posts: [] };
-      entry.count++;
-      entry.posts.push(post);
-      map.set(key, entry);
-    }
-  }
-
-  return Array.from(map.entries()).sort(
-    (a, b) => b[1].count - a[1].count || a[0].localeCompare(b[0], "ko"),
-  );
-}
+import { getAllTags } from "@/lib/post-utils";
 
 export default function TagsPage() {
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
-  const tags = useMemo(() => buildTags(allPosts), []);
+  const tags = getAllTags();
   const postsForSelected =
     selectedTag == null
       ? []

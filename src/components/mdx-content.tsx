@@ -3,6 +3,7 @@ import type { ComponentType, HTMLAttributes } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Callout } from "./callout";
+import { CodeBlock } from "./code-block";
 
 const components = {
   h1: (props: HTMLAttributes<HTMLHeadingElement>) => (
@@ -80,34 +81,7 @@ const components = {
     />
   ),
 
-  pre: (props: any) => {
-    const language = props["data-language"] as string | undefined;
-
-    return (
-      <div className="group my-6 overflow-hidden rounded-2xl border border-border/70 bg-page/80 shadow-sm shadow-black/30">
-        {/* macOS-style top bar */}
-        <div className="flex items-center justify-between border-b border-border/60 px-4 py-2 text-[11px] text-second">
-          <div className="flex items-center gap-1">
-            <span className="h-2.5 w-2.5 rounded-full bg-red-500/70" />
-            <span className="h-2.5 w-2.5 rounded-full bg-yellow-500/70" />
-            <span className="h-2.5 w-2.5 rounded-full bg-green-500/70" />
-          </div>
-          {language && (
-            <span className="text-[10px] uppercase tracking-wide text-second/80">
-              {language}
-            </span>
-          )}
-        </div>
-
-        <pre
-          {...props}
-          className={`overflow-x-auto px-4 py-4 text-[13px] leading-relaxed ${
-            props.className ?? ""
-          }`}
-        />
-      </div>
-    );
-  },
+  pre: CodeBlock,
   // --- [기타 요소] ---
   a: ({
     href,

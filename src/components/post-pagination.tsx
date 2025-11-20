@@ -11,7 +11,7 @@ export default function PostPagination({
   nextPost,
 }: PostPaginationProps) {
   return (
-    <nav className="flex flex-col text-sm justify-between py-2 mt-4 mb-4 sm:flex-row">
+    <nav className="flex flex-col text-sm justify-between py-4 mt-4 mb-4 sm:flex-row">
       {prevPost ? (
         <Link
           href={prevPost.permalink}

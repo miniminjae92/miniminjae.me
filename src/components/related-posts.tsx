@@ -10,7 +10,7 @@ export function RelatedPosts({ posts }: RelatedPostsProps) {
   if (posts.length === 0) return null;
 
   return (
-    <section className="text-sm">
+    <section className="text-sm py-4">
       <p className="text-second">Related Posts</p>
       <ul className="flex flex-col">
         {posts.map((post) => (
