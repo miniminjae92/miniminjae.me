@@ -4,9 +4,9 @@ import { PostContent } from "@/types/content";
 import AuthorProfile from "./author-profile";
 import PostLicense from "./post-license";
 import PostPagination from "./post-pagination";
-import { RelatedPosts } from "./related-posts";
 import { format } from "date-fns";
 import { Comments } from "./comments";
+import { RelatedPosts } from "./post/related-posts";
 
 interface ContentDetailPageProps {
   post: PostContent;

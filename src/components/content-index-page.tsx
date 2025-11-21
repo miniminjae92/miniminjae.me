@@ -1,4 +1,4 @@
-import { PostArchiveList } from "@/components/layout/post-archive-list";
+import { PostArchiveList } from "@/components/post/post-archive-list";
 import { ArchiveNav } from "@/components/layout/archive-nav";
 import { PostContent } from "@/types/content";
 
