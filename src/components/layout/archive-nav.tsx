@@ -1,5 +1,6 @@
-// src/components/layout/archive-nav.tsx (수정된 코드)
+// src/components/layout/archive-nav.tsx
 "use client";
+
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
