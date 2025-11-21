@@ -1,15 +1,16 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { format } from "date-fns";
+import { formatClock } from "@/lib/date";
 
 export function RealTimeClock() {
   const [time, setTime] = useState<string | null>(null);
 
   useEffect(() => {
-    setTime(format(new Date(), "yyyy. MM. dd. HH:mm:ss"));
+    setTime(formatClock());
+
     const timer = setInterval(() => {
-      setTime(format(new Date(), "yyyy. MM. dd. HH:mm:ss"));
+      setTime(formatClock());
     }, 1000);
 
     return () => clearInterval(timer);
