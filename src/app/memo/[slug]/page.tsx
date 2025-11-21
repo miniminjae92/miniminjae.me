@@ -1,17 +1,18 @@
 import { notFound } from "next/navigation";
-import { insights, memos, logs } from "#site/content";
 import { BasePageProps } from "@/types/content";
-import ContentDetailPage from "@/components/content-detail-page";
-import { getPostNeighbors, getRelatedPosts } from "@/lib/post-utils";
+import ContentDetailPage from "@/components/post/content-detail-page";
+import {
+  getAllPostsDesc,
+  getPostNeighbors,
+  getPostsByTypeDesc,
+  getRelatedPosts,
+} from "@/lib/posts";
 
-const allPosts = [...insights, ...memos, ...logs];
-
-const sortedMemos = memos.sort(
-  (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
-);
+const allPosts = getAllPostsDesc();
+const sortedMemos = getPostsByTypeDesc("memo");
 
 export function generateStaticParams() {
-  return memos.map((post) => ({ slug: post.slug }));
+  return sortedMemos.map((post) => ({ slug: post.slug }));
 }
 
 export default async function MemoDetailPage({ params }: BasePageProps) {
@@ -24,7 +25,6 @@ export default async function MemoDetailPage({ params }: BasePageProps) {
   }
 
   const { prev, next } = getPostNeighbors(sortedMemos, slug);
-
   const relatedPosts = getRelatedPosts(allPosts, post, 5);
 
   return (

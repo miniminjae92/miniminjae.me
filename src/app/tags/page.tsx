@@ -4,7 +4,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { ArchiveNav } from "@/components/layout/archive-nav";
-import { getAllTags } from "@/lib/post-utils";
+import { getAllTags } from "@/lib/tags";
 
 export default function TagsPage() {
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
