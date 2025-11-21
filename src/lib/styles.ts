@@ -1,5 +1,5 @@
 export const hoverStyles = {
-  full: "p-2 rounded-full text-heading hover:bg-selection transition-colors",
+  full: "p-2 rounded-full text-heading hover:bg-selection transition-colors cursor-pointer",
   fullMuted:
     "p-2 rounded-full text-body hover:text-heading hover:bg-selection transition-colors",
 

@@ -5,23 +5,75 @@ import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { FiSearch } from "react-icons/fi";
 import { getAllPostsDesc } from "@/lib/posts";
-import { hoverStyles } from "@/lib/styles";
 
 const allPosts = getAllPostsDesc();
+
+const searchStyles = {
+  // Trigger button
+  triggerButton:
+    "p-2 rounded-full text-heading transition hover:bg-selection hover:text-heading cursor-pointer",
+
+  // Dim + blur background (backdrop layer, z-40)
+  backdrop: "fixed inset-0 z-40 bg-page/50",
+
+  // Centered layer for the dialog (z-50)
+  layer:
+    "z-50 fixed w-[600px] h-[400px] left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2",
+  // Dialog container (card)
+  dialog:
+    "h-full flex flex-col rounded-xl border border-border bg-page shadow-2xl shadow-black/40 overflow-hidden text-sm text-body",
+
+  // Header row of the dialog
+  header: "flex items-center gap-4 px-3 py-3 border-b border-border/60",
+
+  // Search icon in the header
+  headerIcon: "w-5 h-5 text-second",
+
+  // Text input field
+  input: "flex-1 text-[14px] text-heading outline-none placeholder:text-second",
+
+  // Scrollable results region with fixed height
+  resultsContainer: "flex-1 overflow-y-auto p-2",
+
+  // Wrapper when there are no results / no query
+  emptyWrapper: "flex h-full justify-center p-2",
+
+  // Text for empty states
+  emptyText: "text-sm text-second",
+
+  // Section label (e.g. “Posts”)
+  sectionLabel: "px-2 py-1 text-[11px] font-medium text-second",
+
+  // Single result row container
+  resultItem:
+    "group flex items-center justify-between rounded-md px-2 py-1.5 transition-colors hover:bg-selection cursor-pointer",
+
+  // Result title text
+  resultTitle: "text-sm text-body truncate group-hover:text-heading",
+
+  // Result description text
+  // resultDescription: "mt-0.5 text-[11px] text-second",
+
+  // Footer row at the bottom of the dialog
+  footer:
+    "flex justify-end px-4 py-2 border-t border-border text-[10px] text-second",
+};
 
 export function SearchDialog() {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
 
-  // 단축키 & 스크롤 잠금 처리
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
         e.preventDefault();
         setOpen((prev) => !prev);
       }
-      if (e.key === "Escape") setOpen(false);
+      if (e.key === "Escape") {
+        setOpen(false);
+      }
     };
+
     if (open) {
       document.body.style.overflow = "hidden";
     } else {
@@ -48,76 +100,89 @@ export function SearchDialog() {
 
   return (
     <>
+      {/* trigger button */}
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className={hoverStyles.full}
-        aria-label="검색창 열기"
+        className={searchStyles.triggerButton}
+        aria-label="Open search dialog"
       >
         <FiSearch className="w-4 h-4" />
       </button>
 
-      {open && (
-        // 배경(Backdrop) 클릭 시 닫기, 박스 누르면 닫히지 않게 막음 (이벤트 전파 중단)
-        <div
-          className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center pt-24 px-4"
-          onClick={() => setOpen(false)}
-        >
-          {/* 실제 검색창 박스 */}
+      {!open ? null : (
+        <>
+          {/* backdrop layer (click to close) */}
           <div
-            className="w-full max-w-xl rounded-xl border border-border bg-page p-4 shadow-2xl"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="flex items-center gap-3 border-b border-border/60 pb-3">
-              <input
-                autoFocus
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                placeholder="무엇을 찾고 계신가요?"
-                className="flex-1 bg-transparent text-sm text-heading outline-none placeholder:text-second/50"
-              />
-              <span className="hidden sm:inline-block rounded border border-border/60 bg-gray-100 dark:bg-gray-800 px-1.5 py-0.5 text-[10px] text-second font-medium">
-                ESC
-              </span>
-            </div>
+            className={searchStyles.backdrop}
+            onClick={() => setOpen(false)}
+          />
 
-            {/* 검색 결과 리스트 */}
-            <div className="mt-3 max-h-[60vh] space-y-1 overflow-y-auto scrollbar-hide">
-              {results.length === 0 && query.length > 0 ? (
-                <p className="px-2 py-8 text-center text-xs text-second">
-                  "{query}"에 대한 검색 결과가 없습니다.
-                </p>
-              ) : results.length === 0 ? (
-                <p className="px-2 py-8 text-center text-xs text-second/70">
-                  키워드를 입력해 보세요.
-                </p>
-              ) : (
-                results.map((post) => (
-                  <Link
-                    key={`${post.type}-${post.slug}`}
-                    href={post.permalink}
-                    onClick={() => setOpen(false)}
-                    className="group block rounded-md px-3 py-2.5 transition-colors hover:bg-gray-100 dark:hover:bg-gray-800/50"
-                  >
-                    <div className="flex items-center justify-between gap-2">
-                      <span className="font-medium text-heading group-hover:text-primary truncate">
-                        {post.title}
-                      </span>
-                      <span className="text-[10px] uppercase tracking-wider text-second/80 border border-border rounded px-1.5 py-0.5">
-                        {post.type}
-                      </span>
-                    </div>
-                    {post.description && (
-                      <p className="mt-1 line-clamp-1 text-xs text-second group-hover:text-body">
-                        {post.description}
-                      </p>
-                    )}
-                  </Link>
-                ))
-              )}
+          {/* dialog layer */}
+          <div className={searchStyles.layer}>
+            <div
+              className={searchStyles.dialog}
+              role="dialog"
+              aria-modal="true"
+            >
+              {/* header */}
+              <div className={searchStyles.header}>
+                <FiSearch className={searchStyles.headerIcon} />
+                <input
+                  autoFocus
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                  placeholder="Search posts..."
+                  className={searchStyles.input}
+                />
+              </div>
+
+              {/* results area - fixed height, always scrollable */}
+              <div className={searchStyles.resultsContainer}>
+                {results.length === 0 && query.length === 0 && (
+                  <div className={searchStyles.emptyWrapper}>
+                    <p className={searchStyles.emptyText}>Type to search.</p>
+                  </div>
+                )}
+
+                {results.length === 0 && query.length > 0 && (
+                  <div className={searchStyles.emptyWrapper}>
+                    <p className={searchStyles.emptyText}>No results found.</p>
+                  </div>
+                )}
+
+                {results.length > 0 && (
+                  <div className="space-y-1">
+                    <p className={searchStyles.sectionLabel}>Posts</p>
+
+                    {results.map((post) => (
+                      <Link
+                        key={`${post.type}-${post.slug}`}
+                        href={post.permalink}
+                        onClick={() => setOpen(false)}
+                        className={searchStyles.resultItem}
+                      >
+                        <div className="flex-1 min-w-0">
+                          <p className={searchStyles.resultTitle}>
+                            {post.title}
+                          </p>
+                          {/* {post.description && ( */}
+                          {/*   <p className={searchStyles.resultDescription}> */}
+                          {/*     {post.description} */}
+                          {/*   </p> */}
+                          {/* )} */}
+                        </div>
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* footer */}
+              <div className={searchStyles.footer}>Search by minjae.log</div>
             </div>
           </div>
-        </div>
+        </>
       )}
     </>
   );
