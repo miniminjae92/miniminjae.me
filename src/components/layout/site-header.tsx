@@ -1,13 +1,15 @@
+// src/components/layout/site-header.tsx
 "use client";
+
 import Link from "next/link";
 import { ThemeToggle } from "../theme-toggle";
 import { SearchDialog } from "../search-dialog";
-import { FaTags } from "react-icons/fa";
+import { TagsButton } from "../tags-button";
 
 export function SiteHeader() {
   return (
     <header>
-      <div className="py-1 flex items-center justify-between h-[var(--header-height)]">
+      <div className="flex items-center justify-between py-1 ">
         <Link
           href="/"
           className="text-base font-semibold tracking-tight text-heading"
@@ -17,14 +19,7 @@ export function SiteHeader() {
 
         <div className="flex items-center gap-2">
           <SearchDialog />
-
-          <Link
-            href="/tags"
-            className="p-2 rounded-full text-heading hover:bg-selection transition"
-          >
-            <FaTags />
-          </Link>
-
+          <TagsButton />
           <ThemeToggle />
         </div>
       </div>

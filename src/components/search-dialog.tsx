@@ -5,6 +5,7 @@ import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { insights, memos } from "#site/content";
 import { FiSearch } from "react-icons/fi";
+import { hoverStyles } from "@/lib/styles";
 
 type Insight = (typeof insights)[number];
 type Memo = (typeof memos)[number];
@@ -47,7 +48,8 @@ export function SearchDialog() {
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="p-2 rounded-full text-heading hover:text-heading hover:bg-gray-100 transition"
+        className={hoverStyles.full}
+        aria-label="Search"
       >
         <FiSearch className="w-4 h-4" />
       </button>

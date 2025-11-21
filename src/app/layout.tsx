@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { ThemeProvider } from "next-themes";
 import { HomeCursor } from "@/components/home-cursor";
+import { PageShell } from "@/components/layout/page-shell";
 import { SiteHeader } from "@/components/layout/site-header";
 import { SiteFooter } from "@/components/layout/site-footer";
-import { ThemeProvider } from "next-themes";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://minjae-log.vercel.app"),
@@ -45,17 +46,11 @@ export default function RootLayout({
       <body className="antialiased bg-page text-body page-shell">
         <ThemeProvider attribute="class" defaultTheme="system">
           <HomeCursor />
-
-          <div className="min-h-screen">
-            <div className="flex min-h-screen flex-col pt-[var(--page-top)]">
-              <div className="relative">
-                <SiteHeader />
-              </div>
-
-              <main className="flex-1">{children}</main>
-              <SiteFooter />
-            </div>
-          </div>
+          <PageShell>
+            <SiteHeader />
+            <main className="flex-1">{children}</main>
+            <SiteFooter />
+          </PageShell>
         </ThemeProvider>
       </body>
     </html>

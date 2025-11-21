@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
 import { BsSunFill, BsFillMoonStarsFill } from "react-icons/bs";
+import { hoverStyles } from "@/lib/styles";
 
 export function ThemeToggle() {
   const [mounted, setMounted] = useState(false);
@@ -39,7 +40,7 @@ export function ThemeToggle() {
     <button
       type="button"
       onClick={toggleTheme}
-      className="p-2 rounded-full text-heading hover:text-heading hover:bg-gray-100 transition"
+      className={hoverStyles.full}
       aria-label="Toggle theme"
     >
       <Icon className="w-4 h-4" />
