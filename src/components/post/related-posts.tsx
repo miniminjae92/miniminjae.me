@@ -16,9 +16,15 @@ export function RelatedPosts({ posts }: RelatedPostsProps) {
       <p className="text-second">Related Posts</p>
       <ul className="flex flex-col space-y-1">
         {posts.map((post) => (
-          <Link key={post.slug} href={post.permalink}>
+          <Link
+            key={post.slug}
+            href={post.permalink}
+            className="flex items-center"
+          >
             <span className="mr-1">&gt;</span>
-            <span className={cn(hoverStyles.text, "truncate font-semibold")}>
+            <span
+              className={cn(hoverStyles.text, "truncate min-w-0 font-semibold")}
+            >
               {post.title}
             </span>
           </Link>

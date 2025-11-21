@@ -1,9 +1,10 @@
+// src/components/mdx/mdx-content.tsx
 import * as runtime from "react/jsx-runtime";
 import type { ComponentType, HTMLAttributes } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Callout } from "./callout";
-import { CodeBlock } from "./code-block";
+import { Callout } from "@/components/mdx/callout";
+import { CodeBlock } from "@/components/mdx/code-block";
 
 const components = {
   h1: (props: HTMLAttributes<HTMLHeadingElement>) => (
@@ -82,7 +83,7 @@ const components = {
   ),
 
   pre: CodeBlock,
-  // --- [기타 요소] ---
+
   a: ({
     href,
     children,
@@ -109,9 +110,9 @@ const components = {
       </a>
     );
   },
+
   code: (props: any) => {
     const isInline = !props["data-theme"] && !props["data-language"];
-
     if (isInline) {
       return (
         <code
@@ -120,12 +121,13 @@ const components = {
         />
       );
     }
-
     return <code {...props} />;
   },
+
   hr: (props: HTMLAttributes<HTMLHRElement>) => (
     <hr className="my-8 border-border" {...props} />
   ),
+
   img: (props: any) => (
     <figure className="block my-8 overflow-hidden rounded-lg border border-border bg-page">
       <Image
@@ -144,7 +146,6 @@ const components = {
     </figure>
   ),
 
-  // --- [커스텀 컴포넌트 등록] ---
   Callout,
 };
 

@@ -2,9 +2,9 @@
 "use client";
 
 import Link from "next/link";
-import { ThemeToggle } from "../theme-toggle";
-import { SearchDialog } from "../search-dialog";
-import { TagsButton } from "../tags-button";
+import { ThemeToggle } from "../ui/theme-toggle";
+import { SearchDialog } from "../features/search-dialog";
+import { TagsButton } from "../ui/tags-button";
 
 export function SiteHeader() {
   return (

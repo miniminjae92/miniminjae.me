@@ -7,17 +7,20 @@ interface SocialLinksProps {
   linkedin: string;
 }
 
+const badgeStyle = "p-1 rounded hover:bg-selection";
+const badgeSize = 16;
+
 export function SocialLinks({ email, github, linkedin }: SocialLinksProps) {
   return (
     <div className="flex items-center text-body hover:text-heading">
-      <a href={`mailto:{email}`} className="p-1 rounded hover:bg-selection">
-        <MdOutlineAlternateEmail size={16} />
+      <a href={`mailto:${email}`} className={badgeStyle}>
+        <MdOutlineAlternateEmail size={badgeSize} />
       </a>
-      <a href={github} className="p-1 rounded hover:bg-selection">
-        <FaGithub size={16} />
+      <a href={github} className={badgeStyle}>
+        <FaGithub size={badgeSize} />
       </a>
-      <a href={linkedin} className="p-1 rounded hover:bg-selection">
-        <FaLinkedin size={16} />
+      <a href={linkedin} className={badgeStyle}>
+        <FaLinkedin size={badgeSize} />
       </a>
     </div>
   );

@@ -1,5 +1,5 @@
 // src/components/home/home-hero.tsx
-import { SocialLinks } from "@/components/social-links";
+import { SocialLinks } from "@/components/ui/social-links";
 
 export function HomeHero() {
   return (

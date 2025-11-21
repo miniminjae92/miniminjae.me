@@ -1,4 +1,4 @@
-import { RealTimeClock } from "../real-time-clock";
+import { RealTimeClock } from "../features/real-time-clock";
 
 export function SiteFooter() {
   return (

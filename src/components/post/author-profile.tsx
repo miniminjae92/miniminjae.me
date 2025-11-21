@@ -1,5 +1,6 @@
-import { ArchiveNav } from "./layout/archive-nav";
-import { SocialLinks } from "./social-links";
+// src/components/author-profile.tsx
+import { ArchiveNav } from "../layout/archive-nav";
+import { SocialLinks } from "../ui/social-links";
 
 export default function AuthorProfile() {
   return (
