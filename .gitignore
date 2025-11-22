@@ -55,3 +55,4 @@ public/pagefind
 *.iml
 *.ipr
 
+./src/content/.drafts/
