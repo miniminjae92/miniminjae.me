@@ -9,34 +9,37 @@ import { CodeBlock } from "@/components/mdx/code-block";
 const components = {
   h1: (props: HTMLAttributes<HTMLHeadingElement>) => (
     <h1
-      className="mt-12 mb-4 text-3xl font-bold text-heading scroll-m-20"
+      className="mt-12 mb-4 text-[24px] font-bold text-heading scroll-m-20"
       {...props}
     />
   ),
   h2: (props: HTMLAttributes<HTMLHeadingElement>) => (
     <h2
-      className="mt-10 mb-4 text-2xl font-semibold text-heading scroll-m-20 border-b border-border pb-2"
+      className="mt-10 mb-4 text-[22px] font-semibold text-heading scroll-m-20 border-b border-border pb-2"
       {...props}
     />
   ),
   h3: (props: HTMLAttributes<HTMLHeadingElement>) => (
     <h3
-      className="mt-8 mb-4 text-xl font-semibold text-heading scroll-m-20"
+      className="mt-8 mb-4 text-[20px] font-semibold text-heading scroll-m-20"
       {...props}
     />
   ),
   h4: (props: HTMLAttributes<HTMLHeadingElement>) => (
-    <h4 className="mt-8 mb-4 text-lg font-semibold text-heading" {...props} />
+    <h4
+      className="mt-8 mb-4 text-[18px] font-semibold text-heading"
+      {...props}
+    />
   ),
   p: (props: HTMLAttributes<HTMLParagraphElement>) => (
-    <p className="leading-7 text-body [&:not(:first-child)]:mt-5" {...props} />
+    <p className="leading-7 [&:not(:first-child)]:mt-5" {...props} />
   ),
 
   ul: (props: HTMLAttributes<HTMLUListElement>) => (
-    <ul className="ml-6 list-disc [&>li]:mt-1 text-body" {...props} />
+    <ul className="ml-6 list-disc [&>li]:mt-1" {...props} />
   ),
   ol: (props: HTMLAttributes<HTMLOListElement>) => (
-    <ol className="ml-6 list-decimal [&>li]:mt-1 text-body" {...props} />
+    <ol className="ml-6 list-decimal [&>li]:mt-1" {...props} />
   ),
   li: (props: HTMLAttributes<HTMLLIElement>) => (
     <li className="leading-7 my-1" {...props} />
@@ -44,7 +47,7 @@ const components = {
 
   blockquote: (props: HTMLAttributes<HTMLQuoteElement>) => (
     <blockquote
-      className="mt-6 border-l-4 border-border pl-6 italic text-second"
+      className="mt-6 border-l-4 border-border pl-6 italic"
       {...props}
     />
   ),
@@ -52,7 +55,7 @@ const components = {
   table: (props: HTMLAttributes<HTMLTableElement>) => (
     <div className="my-6 w-full overflow-y-auto">
       <table
-        className="w-full border-collapse border border-border text-sm"
+        className="w-full border-collapse border border-border"
         {...props}
       />
     </div>
@@ -129,7 +132,7 @@ const components = {
   ),
 
   img: (props: any) => (
-    <figure className="block my-8 overflow-hidden rounded-lg border border-border bg-page">
+    <span className="my-8 block overflow-hidden rounded-lg border border-border bg-page">
       <Image
         src={props.src}
         alt={props.alt || ""}
@@ -143,7 +146,7 @@ const components = {
           {props.alt}
         </figcaption>
       )}
-    </figure>
+    </span>
   ),
 
   Callout,
