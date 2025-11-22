@@ -1,6 +1,7 @@
-// velite.config.ts
 import { defineConfig, s } from "velite";
 import rehypePrettyCode from "rehype-pretty-code";
+import remarkMath from "remark-math";
+import rehypeKatex from "rehype-katex";
 
 const prettyCodeOptions = {
   theme: {
@@ -20,6 +21,12 @@ export default defineConfig({
     clean: true,
   },
 
+  mdx: {
+    gfm: true,
+    remarkPlugins: [remarkMath],
+    rehypePlugins: [rehypeKatex, [rehypePrettyCode, prettyCodeOptions]],
+  },
+
   collections: {
     insights: {
       name: "Insight",
@@ -31,9 +38,7 @@ export default defineConfig({
           date: s.isodate(),
           description: s.string().optional(),
           tags: s.array(s.string()).default([]),
-          code: s.mdx({
-            rehypePlugins: [[rehypePrettyCode, prettyCodeOptions as any]],
-          }),
+          code: s.mdx(),
         })
         .transform((entry) => ({
           ...entry,
@@ -52,9 +57,7 @@ export default defineConfig({
           date: s.isodate(),
           description: s.string().optional(),
           tags: s.array(s.string()).default([]),
-          code: s.mdx({
-            rehypePlugins: [[rehypePrettyCode, prettyCodeOptions as any]],
-          }),
+          code: s.mdx(),
         })
         .transform((entry) => ({
           ...entry,
@@ -73,9 +76,7 @@ export default defineConfig({
           date: s.isodate(),
           description: s.string().optional(),
           tags: s.array(s.string()).default([]),
-          code: s.mdx({
-            rehypePlugins: [[rehypePrettyCode, prettyCodeOptions as any]],
-          }),
+          code: s.mdx(),
         })
         .transform((entry) => ({
           ...entry,

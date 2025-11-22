@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import { siteMetadata } from "@/config/site-metadata";
 import "./globals.css";
+import "katex/dist/katex.min.css";
 import { ThemeProvider } from "next-themes";
 import { HomeCursor } from "@/components/effects/home-cursor";
 import { PageShell } from "@/components/layout/page-shell";
