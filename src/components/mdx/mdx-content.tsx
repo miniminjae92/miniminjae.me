@@ -24,7 +24,7 @@ const components = {
   ),
 
   strong: (props: HTMLAttributes<HTMLElement>) => (
-    <strong className="font-medium text-body" {...props} />
+    <strong className="font-medium text-heading" {...props} />
   ),
 
   ul: (props: HTMLAttributes<HTMLUListElement>) => (
