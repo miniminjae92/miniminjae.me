@@ -8,10 +8,7 @@ import { CodeBlock } from "@/components/mdx/code-block";
 
 const components = {
   h1: (props: HTMLAttributes<HTMLHeadingElement>) => (
-    <h1
-      className="mt-16 mb-4 font-bold text-heading scroll-m-20 border-b border-border pb-2"
-      {...props}
-    />
+    <h1 className="mt-16 mb-4 font-bold text-heading scroll-m-20" {...props} />
   ),
   h2: (props: HTMLAttributes<HTMLHeadingElement>) => (
     <h2 className="mt-14 mb-3 font-bold text-heading scroll-m-20" {...props} />
@@ -26,6 +23,10 @@ const components = {
     <p className="leading-7 [&:not(:first-child)]:mt-5" {...props} />
   ),
 
+  strong: (props: HTMLAttributes<HTMLElement>) => (
+    <strong className="font-medium text-body" {...props} />
+  ),
+
   ul: (props: HTMLAttributes<HTMLUListElement>) => (
     <ul className="ml-6 list-disc [&>li]:mt-1" {...props} />
   ),
@@ -38,7 +39,7 @@ const components = {
 
   blockquote: (props: HTMLAttributes<HTMLQuoteElement>) => (
     <blockquote
-      className="mt-6 border-l-4 border-border pl-6 italic"
+      className="mt-4 mb-4 border-l-4 border-border pl-6 italic"
       {...props}
     />
   ),
