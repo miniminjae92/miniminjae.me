@@ -5,8 +5,8 @@
 :root {
   --page-top: 128px;
   --page-half-top: 64px;
-  --page-width: 52rem;
-  --content-width: 40rem;
+  --page-width: 50rem;
+  --content-width: 38rem;
   --body-margin-left: max(24px, env(safe-area-inset-left));
   --body-margin-right: max(24px, env(safe-area-inset-right));
 

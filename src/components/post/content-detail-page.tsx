@@ -28,7 +28,7 @@ export default function ContentDetailPage({
         <ArchiveNav />
       </header>
 
-      <div className="prose max-w-none text-[15px] text-second mb-10">
+      <div className="prose max-w-none text-base text-second mb-10">
         <MDXContent code={post.code} />
       </div>
 

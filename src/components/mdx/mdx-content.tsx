@@ -9,27 +9,18 @@ import { CodeBlock } from "@/components/mdx/code-block";
 const components = {
   h1: (props: HTMLAttributes<HTMLHeadingElement>) => (
     <h1
-      className="mt-12 mb-4 text-[24px] font-bold text-heading scroll-m-20"
+      className="mt-16 mb-4 font-bold text-heading scroll-m-20 border-b border-border pb-2"
       {...props}
     />
   ),
   h2: (props: HTMLAttributes<HTMLHeadingElement>) => (
-    <h2
-      className="mt-10 mb-4 text-[22px] font-semibold text-heading scroll-m-20 border-b border-border pb-2"
-      {...props}
-    />
+    <h2 className="mt-14 mb-3 font-bold text-heading scroll-m-20" {...props} />
   ),
   h3: (props: HTMLAttributes<HTMLHeadingElement>) => (
-    <h3
-      className="mt-8 mb-4 text-[20px] font-semibold text-heading scroll-m-20"
-      {...props}
-    />
+    <h3 className="mt-10 mb-2 font-bold text-heading scroll-m-20" {...props} />
   ),
   h4: (props: HTMLAttributes<HTMLHeadingElement>) => (
-    <h4
-      className="mt-8 mb-4 text-[18px] font-semibold text-heading"
-      {...props}
-    />
+    <h4 className="mt-8 mb-2 font-bold text-heading" {...props} />
   ),
   p: (props: HTMLAttributes<HTMLParagraphElement>) => (
     <p className="leading-7 [&:not(:first-child)]:mt-5" {...props} />
@@ -142,9 +133,9 @@ const components = {
         unoptimized={props.src.startsWith("http")}
       />
       {props.alt && (
-        <figcaption className="block p-2 text-center text-xs text-second bg-page border-t border-border">
+        <span className="block p-2 text-center text-xs text-second bg-page border-t border-border">
           {props.alt}
-        </figcaption>
+        </span>
       )}
     </span>
   ),

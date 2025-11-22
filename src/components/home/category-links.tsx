@@ -84,7 +84,7 @@ function FocusSectionPanel({
         <span className="text-second">, {subtitle}</span>
       </h2>
 
-      <div className="group/list flex flex-col border-l border-b rounded-bl-lg border-border/60 py-2 pl-4">
+      <div className="group/list flex flex-col border-l border-b rounded-bl-lg border-border/60 py-2 pl-4 ml-2">
         {posts.map((post) => (
           <Link key={post.slug} href={post.permalink} className={styles.item}>
             <span className="truncate font-medium text-body transition-colors group-hover:text-heading">
