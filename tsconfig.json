@@ -20,8 +20,8 @@
     ],
     "baseUrl": ".",
     "paths": {
-      "#site/content": ["./.velite"],
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "#site/content": ["./.velite"]
     }
   },
   "include": [

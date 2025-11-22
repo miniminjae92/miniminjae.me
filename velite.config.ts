@@ -1,15 +1,10 @@
+// velite.config.ts
 import { defineConfig, s } from "velite";
-import rehypePrettyCode from "rehype-pretty-code";
 import remarkMath from "remark-math";
+import remarkGfm from "remark-gfm";
+import remarkSmartypants from "remark-smartypants";
 import rehypeKatex from "rehype-katex";
-
-const prettyCodeOptions = {
-  theme: {
-    light: "github-light",
-    dark: "github-dark",
-  },
-  keepBackground: false,
-};
+import rehypePrettyCode from "rehype-pretty-code";
 
 export default defineConfig({
   root: "src/content",
@@ -23,8 +18,20 @@ export default defineConfig({
 
   mdx: {
     gfm: true,
-    remarkPlugins: [remarkMath],
-    rehypePlugins: [rehypeKatex, [rehypePrettyCode, prettyCodeOptions]],
+    remarkPlugins: [remarkGfm, remarkSmartypants, remarkMath],
+    rehypePlugins: [
+      rehypeKatex,
+      [
+        rehypePrettyCode,
+        {
+          theme: {
+            light: "github-light-default",
+            dark: "github-dark",
+          },
+          keepBackground: false,
+        },
+      ],
+    ],
   },
 
   collections: {

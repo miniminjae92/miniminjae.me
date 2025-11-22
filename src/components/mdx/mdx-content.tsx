@@ -4,7 +4,7 @@ import type { ComponentType, HTMLAttributes } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Callout } from "@/components/mdx/callout";
-import { CodeBlock } from "@/components/mdx/code-block";
+import { PreWithCopy } from "./pre-with-copy";
 
 const components = {
   h1: (props: HTMLAttributes<HTMLHeadingElement>) => (
@@ -77,8 +77,6 @@ const components = {
     />
   ),
 
-  pre: CodeBlock,
-
   a: ({
     href,
     children,
@@ -106,18 +104,18 @@ const components = {
     );
   },
 
-  code: (props: any) => {
-    const isInline = !props["data-theme"] && !props["data-language"];
-    if (isInline) {
-      return (
-        <code
-          className="relative rounded bg-selection px-[0.3rem] py-[0.2rem] font-mono text-[0.85em] font-bold text-heading"
-          {...props}
-        />
-      );
-    }
-    return <code {...props} />;
-  },
+  // code: (props: any) => {
+  //   const isInline = !props["data-theme"] && !props["data-language"];
+  //   if (isInline) {
+  //     return (
+  //       <code
+  //         className="relative rounded bg-selection px-[0.3rem] py-[0.2rem] font-mono text-[0.85em] font-bold text-heading"
+  //         {...props}
+  //       />
+  //     );
+  //   }
+  //   return <code {...props} />;
+  // },
 
   hr: (props: HTMLAttributes<HTMLHRElement>) => (
     <hr className="my-8 border-border" {...props} />
@@ -140,6 +138,8 @@ const components = {
       )}
     </span>
   ),
+
+  pre: PreWithCopy,
 
   Callout,
 };

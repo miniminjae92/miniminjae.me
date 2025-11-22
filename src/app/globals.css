@@ -32,6 +32,10 @@
 
   --selection: hsla(0, 0%, 0%, 0.045);
   --border: hsla(0, 0%, 0%, 0.09);
+
+  --code-bg: var(--gray-100);
+  --code-fg: var(--gray-800);
+  --code-scrollbar: var(--gray-200);
 }
 
 .dark {
@@ -60,6 +64,10 @@
 
   --selection: hsla(0, 0%, 100%, 0.077);
   --border: hsla(0, 0%, 100%, 0.2);
+
+  --code-bg: var(--gray-100);
+  --code-fg: var(--gray-800);
+  --code-scrollbar: var(--gray-400);
 }
 
 @theme inline {
@@ -95,6 +103,9 @@
   --text-2xs: 0.7rem;
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+
+  --color-code-bg: var(--code-bg);
+  --color-code-fg: var(--code-fg);
 }
 
 body {
@@ -128,4 +139,53 @@ body {
   margin-inline: auto;
   padding-left: var(--body-margin-left);
   padding-right: var(--body-margin-right);
+}
+
+/* 전체 컨테이너 */
+figure[data-rehype-pretty-code-figure] {
+  position: relative;
+  margin: 2rem 0;
+}
+
+/* 실제 코드 박스 (pre) */
+figure[data-rehype-pretty-code-figure] pre {
+  position: relative;
+  padding: 2.5rem 2.5rem;
+  border-radius: 18px;
+  background-color: var(--gray-100) !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+  overflow: visible !important;
+  /* font-family: var(--font-mono); */
+  font-size: 0.8rem;
+  line-height: 1.7;
+}
+
+/* 우측 상단 언어 이름 */
+figure[data-rehype-pretty-code-figure] pre[data-language]::after {
+  content: attr(data-language);
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  padding: 8px 8px;
+  font-size: 0.75rem;
+  color: var(--gray-600);
+}
+
+code[data-theme*=" "],
+code[data-theme*=" "] span {
+  color: var(--shiki-light);
+}
+
+.dark code[data-theme*=" "],
+.dark code[data-theme*=" "] span {
+  color: var(--shiki-dark);
+}
+
+:not(pre) > code {
+  background-color: var(--selection);
+  padding: 0.1rem 0.1rem;
+  border-radius: 0.25rem;
+  font-family: var(--font-mono);
+  font-weight: 500;
+  color: var(--heading);
 }
