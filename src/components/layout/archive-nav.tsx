@@ -31,14 +31,14 @@ export function ArchiveNav() {
             key={item.href}
             href={item.href}
             className={cn(
-              "flex items-baseline gap-x-0.5 transition",
+              "flex items-baseline gap-x-0.5 transition mt-1.5",
               "text-[12px] whitespace-nowrap px-1.5 py-1 rounded-md",
 
               isActive
-                ? "text-heading font-medium"
-                : "text-body hover:text-heading",
+                ? "text-heading font-semibold"
+                : "text-body font-semibold hover:text-heading",
 
-              isActive ? "bg-gray-200" : "hover:bg-gray-200",
+              isActive ? "bg-selection" : "hover:bg-selection",
             )}
           >
             <item.icon className="w-4 h-4" />
