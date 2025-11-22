@@ -1,0 +1,229 @@
+---
+title: "순열과 조합"
+slug: permute-combine
+date: 2025-10-29 18:58
+description: "순열과 조합 접근방법을 담은 의사코드입니다."
+tags:
+  - code
+  - permutation
+  - combination
+---
+
+# nPr, nCr 참고
+
+## 순열 의사코드
+
+```
+function permute(남은문자, 현재단어, r):
+    if length(현재단어) == r:
+        print(현재단어)
+        return
+
+    for each 문자 in 남은문자:
+        새남은문자 = 남은문자에서 문자 하나 제거
+        새단어 = 현재단어 + 문자
+        permute(새남은문자, 새단어, r)
+
+```
+
+## 조합 의사코드
+
+```
+function combine(전체문자열, startIndex, 현재단어, r):
+    if length(현재단어) == r:
+        print(현재단어)
+        return
+
+    for i from startIndex to 전체문자열의 끝:
+        새단어 = 현재단어 + 전체문자열[i]
+        combine(전체문자열, i + 1, 새단어, r)
+```
+
+## C version
+
+```c
+#include <stdio.h>
+#include <string.h>
+
+// ---------- 수학 유틸 ----------
+
+long factorial(int n) {
+    if (n <= 1) return 1;
+    return n * factorial(n - 1);
+}
+
+long nPr(int n, int r) {
+    if (r > n) return 0;
+    return factorial(n) / factorial(n - r);
+}
+
+long nCr(int n, int r) {
+    if (r > n) return 0;
+    return factorial(n) / (factorial(r) * factorial(n - r));
+}
+
+// ---------- 순열 (permutation) 출력 ----------
+// remaining: 아직 안 쓴 문자들
+// current: 지금까지 만든 문자열
+// r: 목표 길이
+void print_permute(const char *remaining, const char *current, int r) {
+    if ((int)strlen(current) == r) {
+        printf("%s\n", current);
+        return;
+    }
+
+    int len = (int)strlen(remaining);
+
+    for (int i = 0; i < len; i++) {
+        char next_remaining[64];
+        char next_current[64];
+
+        // next_remaining = remaining에서 i번째 문자 제거
+        // 예: remaining="ABC", i=1 -> "AC"
+        // 앞부분 복사
+        strncpy(next_remaining, remaining, i);
+        // 뒷부분 복사
+        strcpy(next_remaining + i, remaining + i + 1);
+
+        // next_current = current + remaining[i]
+        strcpy(next_current, current);
+        int cur_len = (int)strlen(next_current);
+        next_current[cur_len] = remaining[i];
+        next_current[cur_len + 1] = '\0';
+
+        print_permute(next_remaining, next_current, r);
+    }
+}
+
+// ---------- 조합 (combination) 출력 ----------
+// str: 전체 문자열
+// start: 이번에 고를 위치 시작 인덱스
+// current: 지금까지 고른 문자들
+// r: 목표 길이
+void print_combine(const char *str, int start, const char *current, int r) {
+    if ((int)strlen(current) == r) {
+        printf("%s\n", current);
+        return;
+    }
+
+    int n = (int)strlen(str);
+
+    for (int i = start; i < n; i++) {
+        char next_current[64];
+
+        // next_current = current + str[i]
+        strcpy(next_current, current);
+        int cur_len = (int)strlen(next_current);
+        next_current[cur_len] = str[i];
+        next_current[cur_len + 1] = '\0';
+
+        // 다음은 i+1부터 (앞에서 쓴 건 다시 안 쓰기 위해)
+        print_combine(str, i + 1, next_current, r);
+    }
+}
+
+int main() {
+    char str[64];
+    int r;
+
+    printf("문자열 입력: ");
+    scanf("%63s", str);
+
+    printf("r 입력: ");
+    scanf("%d", &r);
+
+    int n = (int)strlen(str);
+
+    printf("\n--- 순열 개수 (nPr) ---\n");
+    printf("%ld\n", nPr(n, r));
+
+    printf("\n--- 조합 개수 (nCr) ---\n");
+    printf("%ld\n", nCr(n, r));
+
+    printf("\n--- 순열 문자열 (permutations, order matters) ---\n");
+    print_permute(str, "", r);
+
+    printf("\n--- 조합 문자열 (combinations, order doesn't matter) ---\n");
+    print_combine(str, 0, "", r);
+
+    return 0;
+}
+
+```
+
+## Java version
+
+```java
+import java.util.*;
+
+public class PermutationCombination {
+
+    // ✅ 팩토리얼 함수
+    static long factorial(int n) {
+        if (n <= 1) return 1;
+        return n * factorial(n - 1);
+    }
+
+    // ✅ 순열 nPr
+    static long nPr(int n, int r) {
+        if (r > n) return 0;
+        return factorial(n) / factorial(n - r);
+    }
+
+    // ✅ 조합 nCr
+    static long nCr(int n, int r) {
+        if (r > n) return 0;
+        return factorial(n) / (factorial(r) * factorial(n - r));
+    }
+
+    // ✅ 문자열 순열
+    static void permute(String remaining, String current, int r) {
+        if (current.length() == r) {
+            System.out.println(current);
+            return;
+        }
+
+        for (int i = 0; i < remaining.length(); i++) {
+            String nextRemaining = remaining.substring(0, i) + remaining.substring(i + 1);
+            permute(nextRemaining, current + remaining.charAt(i), r);
+        }
+    }
+
+    // ✅ 문자열 조합
+    static void combine(String str, int start, String current, int r) {
+        if (current.length() == r) {
+            System.out.println(current);
+            return;
+        }
+
+        for (int i = start; i < str.length(); i++) {
+            combine(str, i + 1, current + str.charAt(i), r);
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("문자열 입력: ");
+        String str = sc.next();
+        int n = str.length();
+
+        System.out.print("r 입력: ");
+        int r = sc.nextInt();
+
+        System.out.println("\n--- 순열 개수 (nPr) ---");
+        System.out.println(nPr(n, r));
+
+        System.out.println("\n--- 조합 개수 (nCr) ---");
+        System.out.println(nCr(n, r));
+
+        System.out.println("\n--- 순열 문자열 ---");
+        permute(str, "", r);
+
+        System.out.println("\n--- 조합 문자열 ---");
+        combine(str, 0, "", r);
+    }
+}
+
+```
+

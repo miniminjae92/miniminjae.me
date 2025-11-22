@@ -1,0 +1,53 @@
+---
+title: Git ssh-key settings
+slug: git-ssh-key-settings
+date: 2025-05-04 22:44
+description: ssh-key 생성 및 github 세팅
+tags:
+  - ssh-key
+---
+
+# git ssh-key settings
+
+**ssh-keygen** — SSH 공개 키·개인 키 쌍을 만드는 명령
+(SSH (Secure Shell)에서 “비밀번호 없이 안전한 로그인”용)
+
+핵심 옵션 기능(한 줄) 예시
+
+| 옵션         | 설명                                  | 예시 값          |
+| ------------ | ------------------------------------- | ---------------- |
+| -t type      | 알고리즘 지정 (rsa, ed25519 권장)     | -t ed25519       |
+| -C "comment" | 키에 메모(이메일 등) 추가             | -C "minjae@mac"  |
+| -f path      | 파일명 지정 (~/.ssh/id_ed25519 기본)  | -f ~/.ssh/id_git |
+| -N ""        | 패스프레이즈(암호) 없음               | -N ""            |
+| -o           | 최신 OpenSSH 형식(보안 강화)으로 저장 | 기본값(8.8 ↑)    |
+
+```bash
+# 1. 키 생성
+
+ssh-keygen -t ed25519 -C "minjae@mac" -f ~/.ssh/id_ed25519 -N ""
+
+# 2. 서버에 공개키 복사
+
+ssh-copy-id -i ~/.ssh/id_ed25519.pub user@server_ip
+
+# 3. 접속 테스트 (비밀번호 없이)
+
+ssh -i ~/.ssh/id_ed25519 user@server_ip
+
+```
+
+`공개 키(public key)` .pub 파일만 서버에 복사,
+`개인 키(private key)` 는 절대 외부에 공개 금지!
+
+## 왜 `ed25519`?
+
+- 짧은 키 길이로도 RSA 보다 강한 보안
+- 생성·인증 속도 빠름
+- OpenSSH 6.5+ 지원 (대부분 42 서버 OK)
+
+## 기억할 포인트
+
+1. ~/.ssh 권한은 700, 키 파일은 600 유지.
+2. 여러 서버·용도별로 -f 옵션으로 다른 키 쌍을 만들어 사용.
+3. 깃허브는 Settings → SSH Keys에 .pub 내용을 붙여넣기만 하면 끝.

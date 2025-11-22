@@ -1,0 +1,193 @@
+---
+title: "[우아한테크코스 8기] BE 1주차 회고"
+slug: ww-8th-week-1
+date: 2025-10-27 19:01
+description: "프리코스 8기 1주차 회고입니다."
+tags:
+  - 프리코스
+---
+
+<div class="mx-auto max-w-xl">
+  ![](2025-11-22-19-03-02.png)  
+</div>
+
+# 좋았던 점, 배운 점
+
+## 1. Tools, 컨벤션
+
+아래의 Tools과 컨벤션에 대해서 공부하게 되어서 개인의 생산성과 협업 시 유리할 수 있는 이점을 알 수 있어 좋았습니다.
+개인적으로 neovim 편집기를 사용하는 것을 좋아했는데 이번 우테코 미션을 진행하면서 ideavim을 알게 됐고 기본 IntelliJ 기능과 vim 기능을 함께 사용하면서 많은 시간이 소모되었지만 유의미한 생산성 향상이 느껴져서 뜻깊은 시간이 됐습니다.
+저의 환경설정을 참고 하셔서 도움이 되신다면 저 또한 기쁘기때문에 궁금하신 분들을 위해서 링크를 남기겠습니다.
+
+- Lazygit
+- IntelliJ + Ideavim
+- Git + Java 컨벤션
+
+[링크: my dotfiles](https://github.com/miniminjae92/dotfiles)
+
+## 2. 객체지향 방법론에 대한 독서
+  
+1주차를 진행하면서 객체지향적 사고를 위해 여러 책들을 참고를 했습니다.
+특히 '객체지향의 사실과 오해' 추천서를 다시 읽으면서 시스템, 책임, 협력, 역할, 객체, 클래스, 메세지 등 여러가지 개념들을 정리하면서 객체지향 세계에 재미를 들일 수 있었습니다.
+
+예를 들어서 시스템이란 어떤 목적이 있고 그것을 이루기 위한, 공통된 목적을 가진 객체들로 구성된다고 상상을 해봤습니다. 시스템의 목적을 효율적으로 달성하는 협력이 중요하다고 느꼈습니다. 그러기 위해서 책임들이 분리가 되고 그 책임을 수행할 수 있는 역할이 존재하므로 해당 책임을 완벽하게 수행할 수 있다면 어떤 객체든 대체 가능하다고 생각했습니다. 제가 앞으로 함께 깊이 공감하고 해결하고 싶은 문제를 가진 회사를 찾고 백엔드 개발자 역할을 찾고 있다면 그 백엔드 역할을 수행할 수 있는 책임을 파악하고 해당 책임을 수행할 수 있는 능력을 키운다면 직무를 시작할 수 있겠다는 구체적인 생각도 할 수 있는 계기가 됐습니다.
+
+## 3. Code
+
+### Test Code에서 배운 점
+
+1. assertThat(result).isEqualTo(List.of());
+2. @CsvSource, value = {}, delimiter = '
+3. @MethodSource
+
+
+```
+
+  // assertThat(result).isEqualTo(List.of());의 발견
+
+  @ParameterizedTest // @CsvSource의 발견
+  @CsvSource( 
+      value = {"1,2|1:2", "1,2,3|1:2:3", "1,2:3|1:2:3"},
+      delimiter = '|')
+  void 쉼표가_포함된_문자열이_들어올경우_구분한다(String input, String expected) {
+	...
+  }
+
+  @ParameterizedTest
+  @CsvSource(
+      value = {
+        "'//;\\n1;2;3'|1:2:3",
+        "'//;\\n1;2;3;'|1:2:3",
+        "'//;\\n1;2,3:4;'|1:2:3:4",
+        "'//abc\\n1abc2,3:4abc'|1:2:3:4",
+      },
+      delimiter = '|')
+  void 커스텀구분자가_있는경우_구분한다(String input, String expected) {
+	...
+  }
+}
+
+public class ConverterTest {
+
+    private final Converter converter = new Converter();
+
+    private static Stream<Arguments> nomalConversionProvider() {
+        return Stream.of(
+                Arguments.of(List.of("1", "2", "3"), List.of(1, 2, 3)),
+                Arguments.of(List.of("5", "10"), List.of(5, 10)),
+                Arguments.of(List.of("7"), List.of(7)),
+                Arguments.of(List.of("0", "100"), List.of(0, 100)),
+                Arguments.of(List.of("2147483647", "1"), List.of(2147483647, 1))
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource("nomalConversionProvider") // @MethodSource의 발견
+    void 정상적인_변환_테스트(List<String> input, List<Integer> expected) {
+        List<Integer> result = converter.convertPositiveNumbers(input);
+        assertThat(result).isEqualTo(expected);
+    }
+
+    @Test
+    void 숫자가_아닐경우_예외를_반환한다() {
+        List<String> invalid = List.of("1", "a", "2");
+
+        assertThatThrownBy(() -> {
+            converter.convertPositiveNumbers(invalid);
+        }).isInstanceOf(IllegalArgumentException.class);
+    }
+
+
+// assertThatThrownBy(() -> {run}).isInstanceOf(Exception.class)의 발견
+        assertThatThrownBy(() -> {
+            converter.convertPositiveNumbers(negative);
+        }).isInstanceOf(IllegalArgumentException.class);
+    }
+
+}
+```
+
+### Src Code에서 배운점
+
+1. `Pattern 패턴객체 = Pattern.compile(정규표현식);`
+`Matcher 매처객체 = 패턴객체.matcher(검사문자열)`
+if (매처객체.find()) 활용, 정규표현식 () group 활용법
+2. `this.delimiters = new HashSet<>(DEFAULT_DELIMITERS);`
+`new HashSet<>(Set<String>)`으로 새로운 `Set<String>`만드는 법
+3. `stream().map(Pattern::quote).collect(Collectors.joining("|"));`
+4. `stream().map(this::parseToken).map(this::validatePositive)`
+5. `stream().mapToLong(Integer::longValue).sum();`
+
+```
+	private static final Set<String> DEFAULT_DELIMITERS = Set.of(",", ":");
+    private static final Pattern CUSTOM_DELIMITER = Pattern.compile(REGEX_CUSTOM);
+    private final Set<String> delimiters;
+
+    public Delimiter() {
+        this.delimiters = new HashSet<>(DEFAULT_DELIMITERS);
+    }
+
+
+	...
+  
+  	delimiters.stream().map(Pattern::quote).collect(Collectors.joining("|"));
+        return Stream.of(payLoad.split(regex))
+                .filter(s -> !s.isEmpty())
+                .collect(Collectors.toList());
+    }
+
+    private String checkCustomDelimiter(String string) {
+        Matcher matcher = CUSTOM_DELIMITER.matcher(string);
+        if (matcher.find()) {
+            String customDelimiter = matcher.group(1);
+            String payLoad = matcher.group(2);
+            if (customDelimiter.isEmpty()) {
+                return payLoad;
+            }
+            delimiters.add(customDelimiter);
+            return payLoad;
+        }
+        return string;
+    }
+
+}
+  
+  public class Converter {
+
+    public List<Integer> convertPositiveNumbers(List<String> payLoad) {
+		...
+        return payLoad.stream()
+                .map(this::parseToken)
+                .map(this::validatePositive)
+                .collect(Collectors.toList());
+    }
+
+    private int parseToken(String token) {
+	...
+    }
+
+    private int validatePositive(int number) {
+	...
+    }
+}
+```
+
+## 4. 에러사항
+
+Delimiter 클래스를 구현하면서 정규표현식에 대해서 어려움을 느꼈습니다.
+정규표현식에서 `\,` 백슬래시 기호가 escape로 취급되어 `"\\\\n"`로 표현해야하는 점에 있어서 여러 차례 try가 발생했습니다.
+정규표현식에서 사용하는 특수문자들과 예외 케이스들에 대해서 생각을 못했습니다.
+다음에는 신경을 쓰면 좋을 것 같다고 생각하여 코드리뷰처럼 다양한 관점을 볼 수 있는 기회가 중요하다고 더욱 느꼈습니다.
+  
+### 참고
+
+>본문: `. ^ $ * + ? ( ) [ ] {} | \`는 기본적으로 이스케이프 대상.
+  컨텍스트(문자클래스, 확장모드, 치환문자열, 언어 문자열)에 따라 추가 문자``(] - ^ / # 공백 $ \)``도 이스케이프 필요.
+  길면 `\Q...\E`로 한 번에 리터럴화.
+
+## 5. 마무리
+
+* 기본 자료형, 객체 참조 자료형, 컬렉션, 스트림에 대해서 반복적으로 학습을 해서 구현력을 올려야겠다고 생각이 들었습니다.
+* 새로운 IDE, 세팅에 맞춰서 단축키와 기능들에 대해서 적응하는 연습이 필요하다고 느꼈습니다.
+* 동료들의 코드들을 읽어보고 디스코드의 좋은 자료들을 읽고 생각하고 사용하는 연습을 하면서 발전해야겠다고 생각했습니다.
+* 남은 미션들도 진행하면서 많이 배울 수 있으면 좋겠고 멘탈 관리, 건강 관리!! 화이팅
