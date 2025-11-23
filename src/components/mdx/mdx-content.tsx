@@ -122,7 +122,7 @@ const components = {
   ),
 
   img: (props: any) => (
-    <span className="my-8 block overflow-hidden rounded-lg border border-border bg-page">
+    <span className="my-4 block overflow-hidden rounded-lg border border-border bg-page">
       <Image
         src={props.src}
         alt={props.alt || ""}
