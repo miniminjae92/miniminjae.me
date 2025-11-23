@@ -56,3 +56,5 @@ public/pagefind
 *.ipr
 
 ./src/content/.drafts/
+
+imoji.mdx
