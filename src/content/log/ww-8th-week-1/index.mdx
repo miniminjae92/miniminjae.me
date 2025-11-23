@@ -41,7 +41,7 @@ tags:
 3. @MethodSource
 
 
-```
+```java
 
   // assertThat(result).isEqualTo(List.of());의 발견
 
@@ -118,7 +118,7 @@ if (매처객체.find()) 활용, 정규표현식 () group 활용법
 4. `stream().map(this::parseToken).map(this::validatePositive)`
 5. `stream().mapToLong(Integer::longValue).sum();`
 
-```
+```java
 	private static final Set<String> DEFAULT_DELIMITERS = Set.of(",", ":");
     private static final Pattern CUSTOM_DELIMITER = Pattern.compile(REGEX_CUSTOM);
     private final Set<String> delimiters;
