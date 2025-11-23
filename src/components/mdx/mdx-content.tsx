@@ -5,22 +5,23 @@ import Link from "next/link";
 import Image from "next/image";
 import { Callout } from "@/components/mdx/callout";
 import { PreWithCopy } from "./pre-with-copy";
+import { Spacer } from "./spacer";
 
 const components = {
   h1: (props: HTMLAttributes<HTMLHeadingElement>) => (
-    <h1 className="mt-20 mb-4 font-bold text-heading scroll-m-20" {...props} />
+    <h1 className="mt-18 mb-5 font-bold text-heading scroll-m-20" {...props} />
   ),
   h2: (props: HTMLAttributes<HTMLHeadingElement>) => (
-    <h2 className="mt-20 mb-3 font-bold text-heading scroll-m-20" {...props} />
+    <h2 className="mt-18 mb-5 font-bold text-heading scroll-m-20" {...props} />
   ),
   h3: (props: HTMLAttributes<HTMLHeadingElement>) => (
-    <h3 className="mt-20 mb-2 font-bold text-heading scroll-m-20" {...props} />
+    <h3 className="mt-18 mb-5 font-bold text-heading scroll-m-20" {...props} />
   ),
   h4: (props: HTMLAttributes<HTMLHeadingElement>) => (
-    <h4 className="mt-20 mb-2 font-bold text-heading" {...props} />
+    <h4 className="mt-18 mb-5 font-bold text-heading" {...props} />
   ),
   p: (props: HTMLAttributes<HTMLParagraphElement>) => (
-    <p className="leading-7 [&:not(:first-child)]:mt-5" {...props} />
+    <p className="leading-7 [&:not(:first-child)]:mb-5" {...props} />
   ),
 
   strong: (props: HTMLAttributes<HTMLElement>) => (
@@ -28,10 +29,10 @@ const components = {
   ),
 
   ul: (props: HTMLAttributes<HTMLUListElement>) => (
-    <ul className="ml-6 list-disc [&>li]:mt-1" {...props} />
+    <ul className="ml-6 mt-4 mb-4 list-disc [&>li]:mt-1" {...props} />
   ),
   ol: (props: HTMLAttributes<HTMLOListElement>) => (
-    <ol className="ml-6 list-decimal [&>li]:mt-1" {...props} />
+    <ol className="ml-6 mt-4 mb-4 list-decimal [&>li]:mt-1" {...props} />
   ),
   li: (props: HTMLAttributes<HTMLLIElement>) => (
     <li className="leading-7 my-1" {...props} />
@@ -39,7 +40,7 @@ const components = {
 
   blockquote: (props: HTMLAttributes<HTMLQuoteElement>) => (
     <blockquote
-      className="mt-4 mb-4 border-l-4 border-border pl-6 italic"
+      className="mt-8 mb-8 border-l-4 border-border pl-6 italic"
       {...props}
     />
   ),
@@ -142,6 +143,8 @@ const components = {
   pre: PreWithCopy,
 
   Callout,
+
+  Spacer,
 };
 
 function createMdxComponent(code: string) {
