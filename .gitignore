@@ -55,6 +55,6 @@ public/pagefind
 *.iml
 *.ipr
 
-./src/content/.drafts/
+src/content/.drafts/
 
 imoji.mdx
