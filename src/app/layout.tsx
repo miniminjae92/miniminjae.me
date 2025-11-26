@@ -7,7 +7,7 @@ import { HomeCursor } from "@/components/effects/home-cursor";
 import { PageShell } from "@/components/layout/page-shell";
 import { SiteHeader } from "@/components/layout/site-header";
 import { SiteFooter } from "@/components/layout/site-footer";
-import { Analytics } from "@vercel/analytics/react";
+import { Analytics } from "@vercel/analytics/next";
 
 export const metadata: Metadata = siteMetadata;
 
