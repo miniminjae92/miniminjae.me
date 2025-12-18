@@ -1,0 +1,116 @@
+---
+title: "MacOS default settings"
+slug: macos-settings
+date: 2025-12-18 13:25
+description: "답답한 맥북 애니메이션 끄기 & 반응 속도 최적화 가이드"
+tags:
+  - MacOS
+---
+
+# 트랙패드(및 마우스) 이동 속도
+
+시스템 설정의 슬라이더는 보통 3.0이 최대치입니다. 터미널을 통해 그 이상의 값을 줄 수 있습니다.
+
+현재 속도 확인:
+
+```Bash
+
+defaults read -g com.apple.trackpad.scaling
+
+
+```
+
+속도 변경 (예: 5.0으로 설정):
+
+(숫자가 높을수록 빨라집니다. 마우스도 바꾸고 싶다면 com.apple.mouse.scaling을 사용하세요.)
+
+```Bash
+
+defaults write -g com.apple.trackpad.scaling 5.0
+
+
+```
+
+적용 방법: 설정 후 재부팅하거나 로그아웃해야 완전히 반영됩니다.
+
+
+# 키보드 입력 속도 (반복 및 반응 속도)
+
+코딩을 하거나 문서 작업을 할 때 커서 이동 속도를 극대화하고 싶을 때 유용합니다.
+
+KeyRepeat (키 반복 속도): 키를 누르고 있을 때 문자가 입력되는 속도입니다.
+
+기본값: 2 (시스템 최댓값)
+
+더 빠르게 (추천값: 1):
+
+```Bash
+
+defaults write -g KeyRepeat -int 1
+
+
+```
+
+InitialKeyRepeat (반복 시작 대기 시간): 키를 처음 눌렀을 때 반복이 시작되기까지 걸리는 시간입니다.
+
+기본값: 15 (시스템 최단값)
+
+더 빠르게 (추천값: 10~12):
+
+```Bash
+
+defaults write -g InitialKeyRepeat -int 10
+
+
+```
+
+혹시 설정이 너무 빨라 불편하다면 아래 명령어로 초기화할 수 있습니다. 
+
+```Bash
+defaults delete -g KeyRepeat
+```
+
+# 키를 누르고 있을 때 '특수문자 팝업' 끄기
+
+키보드 반복 속도를 아무리 빠르게 해도, a를 꾹 눌렀을 때 à, á 같은 특수문자 선택창이 뜨면 반복 입력이 안 됩니다. 이를 끄고 바로 반복되게 만듭니다.
+
+특수문자 팝업 끄기:
+
+```Bash
+
+defaults write -g ApplePressAndHoldEnabled -bool false
+
+```
+
+적용 확인: 터미널 명령어를 치고 나서 반드시 로그아웃 후 다시 로그인해야 변경된 속도를 체감할 수 있습니다.
+
+# No Bouncing 방법
+
+```Bash
+
+defaults write com.apple.dock no-bouncing -bool TRUE && killall Dock
+
+```
+
+# 내 설정 값 확인
+
+```Bash
+echo "--- 현재 설정 확인 ---"
+echo "Dock 바운스 방지: $(defaults read com.apple.dock no-bouncing 2>/dev/null || echo '설정 없음 (기본값 사용)')"
+echo "트랙패드 속도: $(defaults read -g com.apple.trackpad.scaling 2>/dev/null || echo '설정 없음 (기본값 사용)')"
+echo "키 반복 속도: $(defaults read -g KeyRepeat 2>/dev/null || echo '설정 없음 (기본값 사용)')"
+echo "반복 시작 대기: $(defaults read -g InitialKeyRepeat 2>/dev/null || echo '설정 없음 (기본값 사용)')"
+echo "특수문자 팝업: $(defaults read -g ApplePressAndHoldEnabled 2>/dev/null || echo '설정 없음 (기본값 사용)')"
+echo "----------------------"
+
+```
+
+```Bash
+--- 현재 My Macbook 설정 확인 ---
+Dock 바운스 방지: 1
+트랙패드 속도: 1
+키 반복 속도: 2
+반복 시작 대기: 15
+특수문자 팝업: 0
+----------------------
+```
