@@ -1,5 +1,12 @@
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css");
+@font-face {
+  font-family: "GounBatang";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/GowunBatang-Regular.woff")
+    format("woff");
+  font-weight: normal;
+  font-display: swap;
+}
 @import "tailwindcss";
-
 @custom-variant dark (&:is(.dark *));
 
 :root {
@@ -101,7 +108,10 @@
   --spacing-half-page: var(--page-half-top);
 
   --text-2xs: 0.7rem;
-  --font-sans: var(--font-geist-sans);
+  --font-goun: "GounBatang", serif;
+  --font-pretendard: "Pretendard Variable", sans-serif;
+
+  --font-sans: var(--font-goun);
   --font-mono: var(--font-geist-mono);
 
   --color-code-bg: var(--code-bg);
@@ -112,6 +122,11 @@ body {
   @apply m-0 min-h-screen p-0;
   @apply font-sans text-base leading-7 tracking-normal antialiased;
   @apply bg-page text-second;
+}
+
+.prose-content {
+  font-family: var(--font-pretendard);
+  font-weight: 400;
 }
 
 ::selection {

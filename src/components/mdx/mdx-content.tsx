@@ -164,5 +164,9 @@ export function MDXContent({
   components: userComponents,
 }: MDXContentProps) {
   const Component = createMdxComponent(code);
-  return <Component components={{ ...components, ...userComponents }} />;
+  return (
+    <div className="prose-content">
+      <Component components={{ ...components, ...userComponents }} />
+    </div>
+  );
 }
