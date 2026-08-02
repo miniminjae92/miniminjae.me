@@ -1,0 +1,57 @@
+---
+title: minjae.log
+slug: minjae-log
+date: 2024-10-04
+summary: "TODO: 한 줄 결과 문장. 예) 글을 쓰는 마찰을 없애려고 직접 만든 기록 공간."
+role: 개인 · 설계 및 구현
+visibility: public
+stack:
+  - Next.js
+  - TypeScript
+  - Tailwind CSS
+  - Velite
+  - MDX
+  - Vercel
+tags:
+  - Next.js
+  - MDX
+problem: |
+  TODO: 무엇이 문제였는지. "블로그를 만들고 싶었다"는 문제가 아닙니다.
+  기존 플랫폼에서 무엇이 막혔는지 — 수식이 안 써졌는지, 코드 블록이 마음에
+  안 들었는지, 글과 이미지가 따로 놀았는지 — 구체적인 마찰을 쓰세요.
+judgment:
+  - "TODO: 왜 Velite인가. Contentlayer / next-mdx-remote 대신 고른 이유와 버린 것."
+  - "TODO: 왜 색을 쓰지 않는가. 명도 4단계만으로 위계를 만든 이유."
+  - "TODO: 세 번째 판단"
+metrics: []
+writings:
+  - optimize-img-video-workflow
+  - mdx-special-characters
+links:
+  - label: Repository
+    href: https://github.com/miniminjae92/miniminjae.me
+---
+
+{/*
+  1단계 초안.
+
+  이 항목이 세 개 중 특별한 이유:
+  `writings`에 실제로 연결되는 글이 있는 유일한 항목입니다.
+  - optimize-img-video-workflow — 이 블로그에 이미지/비디오 넣는 워크플로
+  - mdx-special-characters — 이 블로그 MDX 작업 중 나온 메모
+  두 글의 상세 페이지 하단에 "이 글은 〈minjae.log〉 작업 중 나온 기록입니다 →"가
+  자동으로 붙습니다. 양방향 링크가 실제로 작동하는 걸 여기서 확인할 수 있습니다.
+
+  markdown-style-test는 넣지 않았습니다. 테스트 픽스처라 포트폴리오
+  근거가 못 됩니다. (그 글 자체를 .drafts/로 옮길지도 확인 대상입니다.)
+
+  stack은 실제 package.json 기준입니다. 확인하고 빼거나 더하세요.
+*/}
+
+TODO: 본문. 숫자로 안 잡히는 결과와 지금 상태.
+
+쓸 거리 후보 (실제로 이 저장소에 있는 것들):
+- velite 스키마로 frontmatter를 검증해서 깨진 글이 빌드를 통과하지 못하게 한 것
+- rehype-pretty-code 듀얼 테마로 라이트/다크 코드 블록을 한 벌로 관리한 것
+- 글마다 다른 OG 이미지를 edge에서 생성하는 `/api/og`
+- 색 없이 명도 4단계(heading/body/second/disabled)만으로 만든 위계

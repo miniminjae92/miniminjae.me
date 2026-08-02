@@ -3,6 +3,18 @@ import type { Metadata } from "next";
 export const SITE_URL = "https://minjae-log.vercel.app";
 export const SITE_NAME = "minjae.log";
 
+/**
+ * 정체성 상수. here.tsx 와 author-profile.tsx 에 각각 하드코딩돼 있던 것을
+ * 한곳으로 모은다. /about 이 같은 값을 세 번째로 복제하지 않도록.
+ */
+export const PROFILE = {
+  name: "강민재",
+  nameEn: "Minjae Kang",
+  email: "miniminjae92@gmail.com",
+  github: "https://github.com/miniminjae92",
+  linkedin: "https://www.linkedin.com/in/miniminjae92",
+} as const;
+
 export const siteMetadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {

@@ -55,6 +55,7 @@ export async function GET(request: Request) {
                             color: "#A1A1AA",
                             lineHeight: 1.4,
                             maxWidth: "80%",
+                            wordBreak: "keep-all",
                         }}
                     >
                         {description}

@@ -5,7 +5,7 @@ import { getAllPostsDesc } from "@/lib/posts";
 export default function sitemap(): MetadataRoute.Sitemap {
   const posts = getAllPostsDesc();
 
-  const routes = ["", "/insight", "/memo", "/log"].map((route) => ({
+  const routes = ["", "/about", "/insight", "/memo", "/log"].map((route) => ({
     url: `${SITE_URL}${route}`,
     lastModified: new Date().toISOString().split("T")[0],
   }));

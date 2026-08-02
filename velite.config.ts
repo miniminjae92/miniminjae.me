@@ -35,6 +35,38 @@ export default defineConfig({
   },
 
   collections: {
+    /**
+     * 자기소개서. 문서 하나뿐이라 single: true.
+     *
+     * 스키마가 콘텐츠보다 먼저 만들어지지 않았다는 점이 중요하다.
+     * src/content/about/index.mdx 를 먼저 쓰고 그 모양에 맞춰 여기를 채웠다.
+     * timeline 이 구조체인 것도 글을 쓰다가 드러난 사실이지 미리 정한 게 아니다.
+     */
+    about: {
+      name: "About",
+      pattern: "about/index.mdx",
+      single: true,
+      schema: s.object({
+        headline: s.string(),
+        role: s.string(),
+        now: s.array(s.string()).default([]),
+        stack: s.array(s.string()).default([]),
+        timeline: s
+          .array(
+            s.object({
+              label: s.string(),
+              start: s.isodate(),
+              // 없으면 "진행 중"
+              end: s.isodate().optional(),
+              note: s.string().optional(),
+            }),
+          )
+          .default([]),
+        updated: s.isodate(),
+        code: s.mdx(),
+      }),
+    },
+
     insights: {
       name: "Insight",
       pattern: "insight/**/*.mdx",
