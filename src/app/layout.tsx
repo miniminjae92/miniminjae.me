@@ -18,12 +18,17 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ko" suppressHydrationWarning>
-      <body className="antialiased bg-page text-body page-shell">
+      <body className="antialiased bg-page text-body">
         <ThemeProvider attribute="class" defaultTheme="system">
           <HomeCursor />
+          <a className="skip-link" href="#content">
+            본문으로 건너뛰기
+          </a>
           <PageShell>
             <SiteHeader />
-            <main className="flex-1">{children}</main>
+            <main id="content" className="flex-1">
+              {children}
+            </main>
             <SiteFooter />
           </PageShell>
           <Analytics />

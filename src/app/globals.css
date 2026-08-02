@@ -17,6 +17,13 @@
   --body-margin-left: max(24px, env(safe-area-inset-left));
   --body-margin-right: max(24px, env(safe-area-inset-right));
 
+  /* 등뼈(rail) — 사이트 전체를 관통하는 좌표축.
+     50rem 셸에서 좌우 24px을 빼면 752px, 거기서 본문 608px(--content-width)을
+     빼면 144px이 남는다. 136px을 거터로 쓰고 8px을 여유로 둔다.
+     임의값이 아니라 기존 두 토큰에서 유도된 값이다. */
+  --rail-gutter: 8.5rem;
+  --rail-gap: 1.25rem;
+
   --gray-50: #ffffff;
   --gray-75: #fdfdfd;
   --gray-100: #f8f8f8;
@@ -122,6 +129,12 @@ body {
   @apply m-0 min-h-screen p-0;
   @apply font-sans text-base leading-7 tracking-normal antialiased;
   @apply bg-page text-second;
+
+  /* 한국어는 어절 중간에서 끊으면 안 읽힌다. keep-all 이 기본이고,
+     끊을 데가 없는 긴 영문 토큰(URL 등)만 anywhere 가 구제한다.
+     코드 블록은 아래에서 break-all 로 따로 덮는다. */
+  word-break: keep-all;
+  overflow-wrap: anywhere;
 }
 
 .prose-content {
@@ -145,6 +158,8 @@ body {
     --page-half-top: 48px;
     --body-margin-left: max(16px, env(safe-area-inset-left));
     --body-margin-right: max(16px, env(safe-area-inset-right));
+    --rail-gutter: 0rem;
+    --rail-gap: 0rem;
   }
 }
 
@@ -154,6 +169,81 @@ body {
   margin-inline: auto;
   padding-left: var(--body-margin-left);
   padding-right: var(--body-margin-right);
+}
+
+/* ── 등뼈 ──────────────────────────────────────────────────────
+   .rail 이 세로선을 소유한다. 섹션마다 따로 그리지 않는 이유는
+   선이 끊기면 좌표축으로 안 읽히기 때문이다. 섹션 사이에 구분선이나
+   배경 전환을 넣지 않고, 거터의 라벨만 바뀌게 한다. */
+.rail {
+  position: relative;
+  margin-left: var(--rail-gutter);
+  padding-left: var(--rail-gap);
+  border-left: 1px solid var(--border);
+}
+
+.rail-label {
+  position: absolute;
+  left: calc(-1 * (var(--rail-gutter) + var(--rail-gap)));
+  width: var(--rail-gutter);
+  padding-right: 0.75rem;
+  text-align: right;
+  text-wrap: balance;
+}
+
+/* 모바일에서는 세로선만 살리고 라벨은 본문 위 인라인으로 내린다.
+   항목 3개짜리에 별도 내비게이션을 만들지 않는 것과 같은 판단이다. */
+@media (max-width: 768px) {
+  .rail {
+    padding-left: 1rem;
+  }
+
+  .rail-label {
+    position: static;
+    display: block;
+    width: auto;
+    padding-right: 0;
+    margin-bottom: 0.5rem;
+    text-align: left;
+  }
+}
+
+/* 설계 문서가 요구하는데 지금까지 한 줄도 없던 항목.
+   장식 애니메이션은 전부 무력화한다. WebGL 커서는 CSS로 못 막으므로
+   home-cursor.tsx 에서 matchMedia 로 따로 게이팅한다. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* 현재 포커스 스타일이 전무하다. 자기소개서는 키보드로 넘겨보거나
+   스크린리더로 읽힐 가능성이 실재한다. 기존 --heading 을 재사용하므로
+   팔레트에 아무것도 더하지 않는다. */
+:focus-visible {
+  outline: 2px solid var(--heading);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 999;
+}
+
+.skip-link:focus-visible {
+  left: var(--body-margin-left);
+  top: 0.75rem;
+  padding: 0.5rem 0.75rem;
+  background: var(--page-background);
+  border: 1px solid var(--border);
 }
 
 /* 전체 컨테이너 */
