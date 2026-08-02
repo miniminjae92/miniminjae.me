@@ -7,6 +7,7 @@ import {
   getPostsByTypeDesc,
   getRelatedPosts,
 } from "@/lib/posts";
+import { SITE_URL } from "@/config/site-metadata";
 
 const allPosts = getAllPostsDesc();
 const sortedLogs = getPostsByTypeDesc("log");
@@ -23,7 +24,7 @@ export async function generateMetadata({ params }: BasePageProps) {
     return {};
   }
 
-  const ogUrl = new URL("https://miniminjae.vercel.app");
+  const ogUrl = new URL("/api/og", SITE_URL);
   ogUrl.searchParams.set("title", post.title);
   ogUrl.searchParams.set("date", post.date);
   if (post.description) {

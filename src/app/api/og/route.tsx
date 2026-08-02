@@ -1,14 +1,11 @@
 import { ImageResponse } from "next/og";
-import { siteMetadata } from "@/config/site-metadata";
+import { SITE_NAME } from "@/config/site-metadata";
 
 export const runtime = "edge";
 
 export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
-    const title =
-        searchParams.get("title") ||
-        (siteMetadata.title as any)?.default ||
-        siteMetadata.title;
+    const title = searchParams.get("title") || SITE_NAME;
     const description = searchParams.get("description");
     const date = searchParams.get("date");
 
