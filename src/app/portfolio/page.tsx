@@ -22,8 +22,8 @@ export default function PortfolioPage() {
   const projects = getAllProjectsDesc();
 
   return (
-    <Rail className="space-y-half-page pt-10 pb-page">
-      <RailSection label="만든 것" sublabel="Portfolio">
+    <Rail className="space-y-half-page">
+      <RailSection label="Portfolio">
         <p className="max-w-[38ch] text-sm text-balance text-second">
           {DESCRIPTION}
         </p>

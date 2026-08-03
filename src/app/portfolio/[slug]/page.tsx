@@ -66,7 +66,7 @@ export default async function ProjectDetailPage({ params }: BasePageProps) {
   const { prevProject, nextProject } = getProjectNeighbors(slug);
 
   return (
-    <Rail className="space-y-half-page pt-10 pb-page">
+    <Rail className="space-y-half-page">
       <RailSection className="space-y-3">
         <h1 className="text-lg text-balance text-heading">{project.title}</h1>
         <p className="max-w-[38ch] text-balance text-body">{project.summary}</p>
@@ -104,12 +104,12 @@ export default async function ProjectDetailPage({ params }: BasePageProps) {
         ) : null}
       </RailSection>
 
-      <RailSection label="문제" sublabel="Problem">
+      <RailSection label="Problem">
         <p className="whitespace-pre-line text-body">{project.problem}</p>
       </RailSection>
 
       {project.judgment.length > 0 ? (
-        <RailSection label="판단" sublabel="Decision">
+        <RailSection label="Decision">
           <ol className="space-y-5">
             {project.judgment.map((item, index) => (
               <li key={item} className="flex gap-4">
@@ -126,7 +126,7 @@ export default async function ProjectDetailPage({ params }: BasePageProps) {
         </RailSection>
       ) : null}
 
-      <RailSection label="결과" sublabel="Result">
+      <RailSection label="Result">
         <MetricList metrics={project.metrics} />
         <div className="prose max-w-none text-base text-second">
           <MDXContent code={project.code} />
@@ -134,7 +134,7 @@ export default async function ProjectDetailPage({ params }: BasePageProps) {
       </RailSection>
 
       {writings.length > 0 ? (
-        <RailSection label="관련 기록" sublabel="Writing">
+        <RailSection label="Writing">
           <ul className="group/list">
             {writings.map((post) => (
               <li

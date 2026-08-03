@@ -24,8 +24,8 @@ export default function WritingPage() {
   const items = getPostSummaries();
 
   return (
-    <Rail className="space-y-half-page pt-10 pb-page">
-      <RailSection label="쓴 것" sublabel="Writing">
+    <Rail className="space-y-half-page">
+      <RailSection label="Writing">
         <p className="max-w-[38ch] text-sm text-balance text-second">
           {DESCRIPTION}
         </p>

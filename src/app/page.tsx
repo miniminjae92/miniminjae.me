@@ -30,13 +30,13 @@ export default function HomePage() {
   ) as Record<string, PostContent[]>;
 
   return (
-    <Rail className="space-y-half-page pt-10 pb-page">
+    <Rail className="space-y-half-page">
       <RailSection>
         <HomeHero />
       </RailSection>
 
       {projects.length > 0 ? (
-        <RailSection label="만든 것" sublabel="Portfolio">
+        <RailSection label="Portfolio">
           <ProjectList projects={projects.slice(0, 3)} />
           <p className="mt-4 text-right">
             <Link
@@ -49,7 +49,7 @@ export default function HomePage() {
         </RailSection>
       ) : null}
 
-      <RailSection label="쓴 것" sublabel="Writing">
+      <RailSection label="Writing">
         <HomeWriting postsByLens={postsByLens} />
         <p className="mt-6 text-right">
           <Link
@@ -61,7 +61,7 @@ export default function HomePage() {
         </p>
       </RailSection>
 
-      <RailSection label="연락" sublabel="Contact">
+      <RailSection label="Contact">
         <SocialLinks
           email={PROFILE.email}
           github={PROFILE.github}

@@ -19,8 +19,8 @@ export default function TagsPage() {
   const tags = getAllTags();
 
   return (
-    <Rail className="space-y-half-page pt-10 pb-page">
-      <RailSection label="태그" sublabel="Tags">
+    <Rail className="space-y-half-page">
+      <RailSection label="Tags">
         <p className="text-sm text-second">{DESCRIPTION}</p>
       </RailSection>
 

@@ -247,6 +247,13 @@ body {
 .rail {
   position: relative;
   margin-left: var(--rail-gutter);
+  /* 세로 여백을 패딩이 아니라 마진으로 갖는다.
+     border-left 는 패딩 박스까지 덮으므로, 페이지가 pt-10 pb-page 를 주면
+     그 여백이 선의 일부가 된다. 실측 결과 헤더 하단과 선 시작 사이 간격이
+     정확히 0px 이었고, 아래로는 마지막 콘텐츠보다 128px 더 내려가 허공에서
+     끊겼다. 시작도 끝도 아무것에도 붙지 않은 선은 지각적 속성이 길이 하나만
+     남는다 — 사용자가 "너무 길다"고 한 것이 이것이다. */
+  margin-block: var(--page-half-top) var(--page-top);
   padding-left: var(--rail-gap);
   border-left: 1px solid var(--border);
 }

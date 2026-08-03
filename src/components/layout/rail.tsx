@@ -22,10 +22,14 @@ export function Rail({ children, className }: RailProps) {
 }
 
 interface RailSectionProps {
-  /** 거터에 놓이는 좌표. 한글 라벨. */
+  /**
+   * 거터에 놓이는 좌표. 영문 단독으로 쓴다.
+   *
+   * 한글+영문 병기를 쓰다가 영문만 남겼다. 거터는 좌표를 놓는 자리이지
+   * 읽는 자리가 아니라, 한 칸에 두 줄이 들어가면 좌표가 아니라 캡션이 된다.
+   * 라틴만 남으니 tracking 을 조금 벌려야 같은 크기에서 읽힌다.
+   */
   label?: ReactNode;
-  /** 영문 보조 라벨. 라틴/숫자라 한 단계 작게 둔다. */
-  sublabel?: ReactNode;
   children: ReactNode;
   className?: string;
 }
@@ -37,22 +41,12 @@ interface RailSectionProps {
  * 왼쪽 열만 세로로 훑으면 목차를 다 읽은 것이 된다. 타입 스케일이
  * text-lg에서 멈춰 있는 채로 스캔 가능성을 얻는 방법이다.
  */
-export function RailSection({
-  label,
-  sublabel,
-  children,
-  className,
-}: RailSectionProps) {
+export function RailSection({ label, children, className }: RailSectionProps) {
   return (
     <section className={cn("relative", className)}>
       {label ? (
-        <p className="rail-label text-xs leading-6 text-disabled">
+        <p className="rail-label text-xs leading-6 tracking-wide text-disabled">
           {label}
-          {sublabel ? (
-            <span className="block text-2xs tracking-wide uppercase">
-              {sublabel}
-            </span>
-          ) : null}
         </p>
       ) : null}
       {children}
