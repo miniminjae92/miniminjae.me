@@ -1,6 +1,20 @@
 // src/components/about/about-timeline.tsx
 import { formatPeriod } from "@/lib/date";
-import { TimelineEntry } from "@/types/content";
+import { TimelineEntry, TimelineKind } from "@/types/content";
+
+/**
+ * 항목 종류. 자격증이 사는 자리가 여기다.
+ *
+ * 키는 영문, 표시는 한글이다 — config/lens.ts 와 같은 규칙. 종류가 섞인
+ * 타임라인은 경력 전환자에게 흔한 모양이고, 마커가 없으면 교육과 자격과
+ * 경력이 한 덩어리로 읽힌다.
+ */
+const KIND_LABEL: Record<TimelineKind, string> = {
+  education: "교육",
+  certification: "자격",
+  work: "경력",
+  project: "프로젝트",
+};
 
 /**
  * 시간축은 이 사이트에서 유일하게 살아남은 "진짜 시각화"다.
@@ -43,7 +57,14 @@ export function AboutTimeline({ items }: { items: TimelineEntry[] }) {
               className="transition-opacity duration-300 group-hover/list:opacity-40 hover:!opacity-100"
             >
               <div className="flex items-baseline justify-between gap-4">
-                <p className="text-body">{entry.label}</p>
+                <p className="flex flex-wrap items-baseline gap-x-2 text-body">
+                  <span>{entry.label}</span>
+                  {entry.kind ? (
+                    <span className="text-2xs text-disabled">
+                      {KIND_LABEL[entry.kind]}
+                    </span>
+                  ) : null}
+                </p>
                 <p className="shrink-0 text-xs text-second tabular-nums">
                   {formatPeriod(entry.start, entry.end)}
                 </p>

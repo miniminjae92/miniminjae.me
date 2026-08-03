@@ -4,21 +4,47 @@ role: 백엔드 개발자 · 서울
 now:
   - "TODO: 지금 무엇을 하고 있는지 한 줄"
   - "TODO: 지금 무엇을 파고 있는지 한 줄"
+
+# 증거로 가는 입구. 검토자는 글 18편을 훑지 않는다.
+# ref 는 글 또는 프로젝트의 bare slug 다 (permalink 아님).
+# 없는 slug 을 적으면 pnpm build 가 위치를 짚고 실패한다.
+# 2~3개가 상한선이다. 늘리면 큐레이션이 아니라 목록이 된다.
+selected:
+  - ref: agent-os
+    why: "TODO: 왜 이걸 먼저 봐야 하는가. 무엇을 만들었는지가 아니라 무엇을 판단했는지."
+  - ref: preview-docker-k8s-kernel
+    why: "TODO: 이 글이 보여 주는 사고 방식 한 줄."
+  - ref: ww-8th-final-test
+    why: "TODO: 이 기록이 보여 주는 것 한 줄."
+
+# 두 그룹으로 나눈다. primary 는 짧을수록 신뢰가 간다.
 stack:
-  - "TODO: 실제로 손에 익은 것만. 나열이 길수록 신뢰가 떨어진다"
+  primary:
+    - "TODO: 손에 익은 것만. 3~5개."
+  familiar:
+    - "TODO: 써 봤지만 주력은 아닌 것."
+
+# 자격증은 stack 이 아니라 여기다. stack 은 "무엇으로 만드는가"이고
+# 자격증은 도구가 아니라 날짜가 있는 끝난 노력이라 타임라인의 모양과 맞는다.
+# kind: education | certification | work | project
 timeline:
   - label: "TODO: 현재 진행 중인 항목"
     start: "2026-02-01"
     note: "TODO: 한 줄 설명 (선택)"
+  - label: "TODO: 정보처리기사 — 취득했으면 남기고 아니면 지우세요"
+    start: "2025-04-17"
+    kind: certification
   - label: "[우아한테크코스 8기] BE"
     start: "2025-10-27"
     end: "2026-01-19"
+    kind: education
     note: 1주차 회고부터 최종 코딩 테스트까지 기록으로 남김
   - label: "[우아한테크코스 7기] BE 프리코스"
     start: "2024-10-30"
     end: "2024-12-19"
+    kind: education
     note: 프리코스 4주 + 최종 코딩 테스트
-updated: "2026-08-02"
+updated: "2026-08-03"
 ---
 
 {/*
