@@ -8,8 +8,10 @@ import { PreWithCopy } from "./pre-with-copy";
 import { Spacer } from "./spacer";
 
 const components = {
+  // 페이지의 h1은 글 제목이 갖는다. 본문의 `#` 는 섹션 제목이므로 h2로 내린다.
+  // h1~h3가 원래 같은 클래스를 쓰고 있어서 시각적 변화는 없고 문서 구조만 바로잡힌다.
   h1: (props: HTMLAttributes<HTMLHeadingElement>) => (
-    <h1 className="mt-18 mb-5 font-bold text-heading scroll-m-20" {...props} />
+    <h2 className="mt-18 mb-5 font-bold text-heading scroll-m-20" {...props} />
   ),
   h2: (props: HTMLAttributes<HTMLHeadingElement>) => (
     <h2 className="mt-18 mb-5 font-bold text-heading scroll-m-20" {...props} />

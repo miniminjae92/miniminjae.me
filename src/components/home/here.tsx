@@ -1,5 +1,6 @@
 // src/components/home/home-hero.tsx
 import { SocialLinks } from "@/components/ui/social-links";
+import { PROFILE } from "@/config/site-metadata";
 
 export function HomeHero() {
   return (
@@ -16,9 +17,9 @@ export function HomeHero() {
       </p>
 
       <SocialLinks
-        email="miniminjae92@gmail.com"
-        github="https://github.com/miniminjae92"
-        linkedin="https://www.linkedin.com/in/miniminjae92"
+        email={PROFILE.email}
+        github={PROFILE.github}
+        linkedin={PROFILE.linkedin}
       />
     </header>
   );
