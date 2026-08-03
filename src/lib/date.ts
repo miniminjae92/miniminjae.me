@@ -24,6 +24,15 @@ export function formatArchiveDate(date: string | Date): string {
   return formatDate(date, "MM. dd.");
 }
 
+/** 기간: "25.10 – 26.01", 끝나지 않았으면 "25.10 –" */
+export function formatPeriod(
+  start: string | Date,
+  end?: string | Date | null,
+): string {
+  const from = formatDate(start, "yy.MM");
+  return end ? `${from} – ${formatDate(end, "yy.MM")}` : `${from} –`;
+}
+
 /** 푸터 시계용: "yyyy. MM. dd. HH:mm:ss" */
 export function formatClock(date: Date = new Date()): string {
   return format(date, "yyyy. MM. dd. HH:mm:ss");

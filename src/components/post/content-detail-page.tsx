@@ -1,7 +1,8 @@
 import { MDXContent } from "@/components/mdx/mdx-content";
 import { ArchiveNav } from "@/components/layout/archive-nav";
-import { PostContent } from "@/types/content";
+import { PostContent, ProjectContent } from "@/types/content";
 import AuthorProfile from "./author-profile";
+import { FromProjects } from "./from-projects";
 import PostLicense from "./post-license";
 import PostPagination from "./post-pagination";
 import { RelatedPosts } from "./related-posts";
@@ -13,6 +14,8 @@ interface ContentDetailPageProps {
   prevPost?: PostContent | null;
   nextPost?: PostContent | null;
   relatedPosts?: PostContent[];
+  /** 이 글이 나온 프로젝트. 데이터 조회는 라우트가, 렌더는 여기가 한다. */
+  fromProjects?: ProjectContent[];
 }
 
 export default function ContentDetailPage({
@@ -20,6 +23,7 @@ export default function ContentDetailPage({
   prevPost,
   nextPost,
   relatedPosts = [],
+  fromProjects = [],
 }: ContentDetailPageProps) {
   return (
     <article className="space-y-6">
@@ -44,6 +48,7 @@ export default function ContentDetailPage({
       </div>
 
       <footer className="py-10 mb-5 space-y-2">
+        <FromProjects projects={fromProjects} />
         <PostLicense />
         <AuthorProfile />
         {(prevPost || nextPost) && (

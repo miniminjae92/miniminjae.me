@@ -8,6 +8,7 @@ import {
   getRelatedPosts,
 } from "@/lib/posts";
 import { SITE_URL } from "@/config/site-metadata";
+import { getProjectsForPost } from "@/lib/projects";
 
 const allPosts = getAllPostsDesc();
 const sortedMemos = getPostsByTypeDesc("memo");
@@ -76,6 +77,8 @@ export default async function MemoDetailPage({ params }: BasePageProps) {
       prevPost={prev}
       nextPost={next}
       relatedPosts={relatedPosts}
+
+      fromProjects={getProjectsForPost(post)}
     />
   );
 }

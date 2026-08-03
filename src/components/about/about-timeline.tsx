@@ -1,5 +1,5 @@
 // src/components/about/about-timeline.tsx
-import { formatDate } from "@/lib/date";
+import { formatPeriod } from "@/lib/date";
 import { TimelineEntry } from "@/types/content";
 
 /**
@@ -11,11 +11,6 @@ import { TimelineEntry } from "@/types/content";
  *
  * 연도 마커를 반드시 그린다. 눈금 없는 축은 축으로 읽히지 않는다.
  */
-function formatRange(entry: TimelineEntry): string {
-  const start = formatDate(entry.start, "yy.MM");
-  return entry.end ? `${start} – ${formatDate(entry.end, "yy.MM")}` : `${start} –`;
-}
-
 function groupByYear(items: TimelineEntry[]): [string, TimelineEntry[]][] {
   const sorted = [...items].sort((a, b) => b.start.localeCompare(a.start));
   const groups = new Map<string, TimelineEntry[]>();
@@ -50,7 +45,7 @@ export function AboutTimeline({ items }: { items: TimelineEntry[] }) {
               <div className="flex items-baseline justify-between gap-4">
                 <p className="text-body">{entry.label}</p>
                 <p className="shrink-0 text-xs text-second tabular-nums">
-                  {formatRange(entry)}
+                  {formatPeriod(entry.start, entry.end)}
                 </p>
               </div>
               {entry.note ? (
