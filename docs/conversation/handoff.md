@@ -1,109 +1,116 @@
 # Agent Handoff
 
+이전 핸드오프(2026-07-25, 프로토타입 6종 거절 기록)는 `ebe6c33` 커밋에 남아 있다. 그 내용의 실질은 `docs/design/living-personal-site.md`와 `docs/adr/0001`로 승격됐다.
+
 ## Context
 
-- Date: 2026-07-25
+- Date: 2026-08-03
 - Repository: `miniminjae92/miniminjae.me`
-- Branch: `main`
-- User goal: 기존 Next.js 블로그를 `자기소개 + Writing + Portfolio`가 연결된 개인 사이트로 확장한다. 세계수·마법의 도서관·우주 같은 세계관을 원하지만 첫 화면은 자기소개가 주인공이어야 한다.
-- Latest user judgment: 이번 세션에서 만든 프로토타입은 **전부 마음에 들지 않음**. 다음 세션에서는 기존 안을 다듬지 말고 시각 방향부터 새로 시작한다.
+- Branch: `feat/living-personal-site` (main 기준 커밋 7개, **푸시 안 함**)
+- User goal (원문): "자기소개서, 블로깅, 포트폴리오 시각화 이렇게 세가지를 다 나타낼 수 있는 공간들을 만들려는데 하나의 페이지에 넣지마? 하나의 웹 사이트에서 모두 표현 가능한게 좋지 않아?"
+- 사용자가 세션 중 답한 것:
+  - 자기소개서 1차 독자 — 둘 다. **지원용이 더 급함.** 기존 홈 카피 톤은 계승
+  - 포트폴리오 실체 — **Agent OS, dref, 이 블로그.** 우테코 미션 회고는 아님
+  - 구조 — About·Portfolio **전부 분리**(새 라우트 + 헤더 nav 신설)
 
 ## Current State
 
-- What is already done:
-  - OG URL과 사이트 URL 정본 문제를 수정했다.
-  - 사이트 세계관과 공개/비공개 경계를 `CONTEXT.md`와 설계 문서에 기록했다.
-  - 기존 `/prototype/world-tree` A/B/C와 새 `/prototype/living-system` A/B/C가 존재한다.
-  - 두 프로토타입 묶음은 모두 사용자에게 선택받지 못했다. 프로덕션 후보로 간주하지 않는다.
-- What is intentionally not changed:
-  - 실제 홈페이지 `/`와 기존 콘텐츠 구조는 변경하지 않았다.
-  - 실제 Agent OS Monitor, dref, Tailscale 주소나 데이터는 연결하지 않았다.
-  - 커밋과 push는 하지 않았다.
-  - 거절된 프로토타입 파일은 삭제 권한을 받지 않았으므로 그대로 보존했다.
-- Important assumptions:
-  - 다음에도 유지할 개념은 `첫 화면 자기소개 중심`, `Writing=나무`, `Portfolio=별자리`, `Roots=비공개 기반 시스템`이다.
-  - 이번 프로토타입의 색감, 레이아웃, 세계수 표현 방식은 폐기 대상으로 본다.
+What is already done:
 
-## Key Decisions
+- `/about`, `/portfolio`, `/portfolio/[slug]`, `/writing` 신설. 헤더·푸터 내비게이션 신설
+- 등뼈(Rail) 레이아웃 토큰과 컴포넌트. `/`, `/about`, `/portfolio/*`, `/writing`, `/tags`에 적용
+- velite 컬렉션 2개 추가(`about` single, `projects`), 기존 3개 컬렉션에 `lens` 필드 추가
+- 양방향 링크(프로젝트 ⇄ 글). 정방향은 frontmatter `writings`, 역방향은 빌드 타임 역인덱스
+- 거절된 `src/app/prototype/**` 삭제(사용자 승인). `ArchiveNav`, `ContentIndexPage`, `PostArchiveList`, `category-links` 삭제
+- 기존 결함 수정: 클라이언트 번들 544KB(글 본문 전량), `page-shell` 이중 적용, 글 제목 미렌더, `ArchiveNav` 이중 렌더, `prefers-reduced-motion`·`:focus-visible`·skip link 부재, 한글 어절 중간 줄바꿈, OG 한글 폰트 미임베드
 
-- Decision: 첫 화면의 주인공은 세계수가 아니라 강민재의 자기소개다.
-  Reason: 방문자는 세계관보다 먼저 “이 사람이 누구이며 무엇을 하는가”를 이해해야 한다.
-- Decision: Writing의 관점은 `Understand / Solve / Reflect`다.
-  Reason: 글의 형식보다 독자에게 제공하는 가치로 분류한다.
-- Decision: Portfolio 항목은 고립된 카드보다 문제, 판단, 결과, 관련 Writing이 연결된 `Constellation`으로 본다.
-  Reason: 작업의 완성품뿐 아니라 과정과 연결 관계를 보여주기 위해서다.
-- Decision: `Roots`는 Agent OS 한 개가 아니라 dref 등을 포함하는 private-first 기반 시스템 전체다.
-  Reason: 공개 활동을 지속시키는 개인 시스템이라는 공통 역할을 갖는다.
-- Decision: Roots의 실제 인터페이스는 추후 Tailscale Serve를 고려하되 공개 사이트와 분리한다.
-  Reason: 공개 사이트에는 실제 데이터, 상태, 내부 주소, 인증 정보를 포함하지 않는다. Funnel은 사용하지 않는다.
-- Decision: 새 시각 작업은 기존 A/B/C 개선이 아니라 아트디렉션 탐색부터 다시 시작한다.
-  Reason: 사용자가 이번 프로토타입 전체를 명확히 거절했다.
+What is intentionally not changed:
+
+- **기존 글 18개 permalink** (`/insight/:slug`, `/memo/:slug`, `/log/:slug`). RSS `guid`, sitemap, Giscus 스레드가 전부 여기 묶여 있다. 인덱스 3개만 308
+- `SITE_URL`은 `minjae-log.vercel.app` 유지 (커스텀 도메인 미결)
+- 린트 문제 12건. 전부 이번 세션이 건드리지 않은 기존 파일(`theme-toggle`, `real-time-clock`, `mdx-content`, `splash-cursor-core`, `scripts/optimize-images.js`)
+- `src/content/memo/markdown-style-test/` — 테스트 픽스처가 RSS·sitemap에 공개된 상태 그대로
+
+Important assumptions:
+
+- 사용자가 우테코 8기 1차 심사에 합격한 사실은 글 본문에 있으나, 이후 결과나 현재 소속은 **모름**. `about/index.mdx`의 `now`와 `timeline` 첫 항목은 TODO로 비워 뒀다
+- Agent OS·dref의 구체 내용은 사용자 소유 정보라 초안에 채우지 않았다. 구조와 프롬프트만 넣었다
+
+## Decisions (cite, do not restate)
+
+- 확정: `docs/adr/0001-portfolio-absorbs-roots.md` — Portfolio가 Roots를 흡수한다. 최상위는 About/Portfolio/Writing 셋.
+- 확정(용어 정본): `CONTEXT.md` — `Rail`, `Visibility` 항목 신설, `Roots`·`Living Tree` 갱신.
+- 미결: **라우트 분리 구조 자체** — 구현돼 있고 `docs/design/living-personal-site.md`에 서술돼 있으나 ADR 번호 없음. 설계 문서는 이 repo의 결정 정본이 아니다(`AGENTS.md`: 정본은 `CONTEXT.md` + `docs/adr/`).
+- 미결: **글 URL 마이그레이션 연기** (`/insight/:slug` → `/writing/:slug`). Lens를 라벨로만 덧입힌 상태. 나중에 옮기려면 velite `permalink` 한 줄 + `next.config.ts` 와일드카드 3줄.
+- 미결: **시각화 판정** — 관계 그래프·월별 활동 밀도·스킬 게이지를 만들지 않고 시간축만 채택. 근거는 실데이터(태그 8개 중 `프리코스` 하나가 8편, 18개월 중 8개월 공백).
+- 미결: **홈 섹션 순서** `About → Portfolio → Writing`. 설계 문서 원안(`About → Writing → Portfolio`)과 다르다.
+- 미결: **글 상세 페이지에 레일을 쓰지 않는다.** 실제 적용 후 거터가 빈 여백으로 읽혀 원복했다.
+
+> 위 `미결` 항목은 이 노트의 서술일 뿐 확정 결정이 아니다. 다음 세션은 인용하지 말고 그 자리에서 판단하거나, 승격할 값이 있으면 `docs/adr/`에 번호를 신설할 것.
 
 ## Files To Read First
 
-- `CONTEXT.md`: About, Writing Lens, Constellation, Roots, Root System, Private Interface 정본 용어.
-- `docs/design/living-personal-site.md`: 현재 정보 구조와 보안 경계. `이번 프로토타입` 절의 A/B/C는 거절된 안이므로 다음 세션에서 갱신 필요.
-- `src/app/prototype/living-system/`: 최신이지만 거절된 자기소개 중심 프로토타입 3종.
-- `src/app/prototype/world-tree/`: 이전에 만든 세계수·도서관·룬 프로토타입 3종. 이것도 선택받지 못함.
-- `docs/conversation/handoff.md`: 이 문서.
+- `docs/adr/0001-portfolio-absorbs-roots.md`: 유일한 확정 결정. Portfolio/Roots 경계
+- `CONTEXT.md`: 용어 정본. `Rail`, `Visibility`, `Writing Lens`
+- `docs/design/living-personal-site.md`: IA, 채택한 시각 방향(등뼈), 시각화 판정 근거
+- `src/app/globals.css`: 디자인 시스템 전부. `--rail-gutter` 유도 근거가 주석에 있음
+- `velite.config.ts`: 컬렉션 5개. 스키마를 콘텐츠보다 먼저 만들지 않았다는 점이 주석에 있음
+- `src/lib/projects.ts`: 역인덱스 + **미해결 slug면 모듈 초기화 시 throw**
+- `src/content/about/index.mdx`, `src/content/portfolio/*/index.mdx`: TODO가 남은 초안
 
 ## Work In Progress
 
-- Modified, uncommitted OG/metadata files:
-  - `src/config/site-metadata.ts`
-  - `src/app/api/og/route.tsx`
-  - `src/app/insight/[slug]/page.tsx`
-  - `src/app/log/[slug]/page.tsx`
-  - `src/app/memo/[slug]/page.tsx`
-  - `src/app/sitemap.ts`
-  - `src/app/robots.ts`
-  - `src/app/rss.xml/route.ts`
-- New/untracked project files:
-  - `AGENTS.md`
-  - `CONTEXT.md`
-  - `docs/`
-  - `src/app/prototype/`
+- Changed files: 없음. 작업 트리 깨끗, 커밋 7개 전부 브랜치에 있음
+- Untracked files: 없음
 - Known dirty state that should not be reverted:
-  - OG/metadata 변경은 앞선 사용자 요청으로 구현하고 검증한 작업이다.
-  - `AGENTS.md`와 기존 `docs/`는 사용자 소유 파일이 포함되어 있다.
-  - 프로토타입은 거절됐지만 삭제 요청은 없었다. 삭제 전 반드시 사용자에게 확인한다.
-- External records (mimir 볼트 기준 상대 경로):
-  - `40 Reviews/Runs/2026-07-25-blog-og-metadata-fix.md`
-  - `40 Reviews/Runs/2026-07-25-living-personal-site-prototype.md`
-  - `40 Reviews/Periodic/2026-07-25-browser-visual-qa-friction-review.md`
+  - main의 `c447d0b`, `ebe6c33` 두 커밋은 이전 세션 작업을 정리한 것. 되돌리지 말 것
+  - 브랜치는 **푸시되지 않았다.** 푸시·머지는 사용자 승인 필요
 
 ## Verification
 
-- Command: `pnpm exec eslint src/app/prototype/living-system/page.tsx src/app/prototype/living-system/living-system-prototype.tsx`
-  Result: 통과.
 - Command: `pnpm build`
-  Result: 통과. `/prototype/living-system`과 `/prototype/world-tree` 정적 경로 생성 확인.
-- Command: A/B/C 각각 `curl http://127.0.0.1:3000/prototype/living-system?variant=<A|B|C>`
-  Result: 모두 HTTP 200.
-- Command: `git diff --check`
-  Result: 통과.
-- Visual verification:
-  Result: 수행하지 못함. 인앱 브라우저 초기화가 `Cannot redefine property: process`로 실패했다. 빌드와 HTTP 검증은 시각 QA를 대체하지 않는다.
-- Earlier OG verification:
-  Result: 대상 lint와 `pnpm build` 통과, `/api/og`, sitemap, metadata 런타임 확인 완료.
-- Whole-repo lint:
-  Result: 이번 작업에서는 재실행하지 않음. 앞선 실행에서 `scripts/optimize-images.js`, splash cursor, clock, MDX, theme toggle의 기존 오류가 남아 있었다.
+  Result: 통과. 32개 정적 페이지 생성. `/portfolio/{agent-os,dref,minjae-log}` SSG 확인
+
+- Command: 라우트 33개 HTTP 체크 (`pnpm start` 후 curl)
+  Result: 통과 33 / 실패 0. 글 18개 전부 200, 인덱스 3개 308, 신규 라우트 전부 200
+
+- Command: RSS·sitemap 항목 수
+  Result: RSS 18개(변화 없음), sitemap 26개(정적 5 + 글 18 + 프로젝트 3)
+
+- Command: `writings`에 오타 slug 주입 후 `pnpm build`
+  Result: **의도대로 빌드 실패.** 메시지가 `minjae-log → "mdx-special-charactersXX"`로 위치를 짚음. 원복 완료
+
+- Command: 양방향 링크 렌더 여부 확인
+  Result: `writings`에 등록된 2편만 "이 글은 〈minjae.log〉…" 표시, 나머지 16편은 미표시
+
+- Command: `grep -rl "<글 본문 문자열>" .next/static/chunks/`
+  Result: 수정 전 544KB 청크에서 검출 → 수정 후 미검출. 최대 청크 544K → 212K
+
+- Command: `pnpm exec eslint`
+  Result: 12 problems (10 errors, 2 warnings). **전부 이번 세션이 건드리지 않은 기존 파일.** 세션 중 새로 만든 1건은 `useSyncExternalStore`로 해소
+
+- 테스트: **자동화 테스트 없음.** 이 repo에 테스트 러너가 설정돼 있지 않다. 검증은 빌드·린트·HTTP 체크·육안 확인으로 대체
+
+- 육안 확인(데스크톱): `/`, `/about`, `/portfolio/minjae-log`, `/log/ww-8th-final-test`, OG 카드. 라이트·다크 모두
+- 육안 확인(모바일): **하지 못함.** 브라우저 창 리사이즈가 두 번 다 스크린샷에 반영되지 않았다. 미디어쿼리와 `sm:hidden` 분기는 코드로만 확인
 
 ## Next Steps
 
-1. 기존 프로토타입을 열거나 개선하지 말고, 먼저 사용자가 싫었던 지점과 원하는 감각을 시각 언어로 좁힌다.
-2. 저장된 승인 레퍼런스는 dref의 `토스 홈` 하나이며 취향 주석은 “한국어 카피와 모션의 밀도”다. rejected 레퍼런스는 긍정 근거로 사용하지 않는다.
-3. 아트디렉션 2~3개를 작은 한 장면으로 비교한 뒤 하나를 고른다. 전체 장문 페이지 3종을 먼저 만들지 않는다.
-4. 방향이 선택된 뒤에만 새 프로토타입을 만들고, 거절된 프로토타입 처리 여부를 사용자에게 확인한다.
-5. 실제 구현 단계에서는 기존 MDX 콘텐츠를 보존하고 About, Writing, Portfolio를 점진적으로 연결한다.
-6. Roots의 Private Interface는 사이트 디자인 확정 이후 별도 작업으로 다룬다.
+1. **사용자 작업** — `src/content/about/index.mdx`와 `src/content/portfolio/{agent-os,dref,minjae-log}/index.mdx`의 TODO 채우기. 구조·실데이터·근거 링크는 이미 있음
+2. 모바일 육안 확인 (≤768px). 헤더 2줄 접힘, 레일 거터 라벨의 인라인 이동
+3. Vercel 배포 후 **OG 카드 한글 렌더 확인**. 로컬 성공이 Edge 성공을 보장하지 않음
+4. 커스텀 도메인 연결 여부 판단. 지원서 링크로 쓸 거면 `SITE_URL` 갱신 필요
+5. `src/content/memo/markdown-style-test/` 처리 판단 (`.drafts/` 이동 또는 유지)
+6. `미결` 항목 중 승격할 것 선별해 `docs/adr/`에 번호 신설
+7. 브랜치 머지·푸시 판단
 
 ## Watch Outs
 
-- 이번 A/B/C를 “초안이니 조금 고치면 된다”고 전제하지 않는다. 사용자의 판정은 전체 거절이다.
-- 세계관을 첫 화면에서 자기소개보다 크게 만들지 않는다.
-- `Learn / Build / ?`의 과거 세 번째 단어는 기록에서 복구되지 않았다. `Learn / Build / Share`는 라이프사이클 후보일 뿐 Writing Lens 정본이 아니다.
-- 실제 `.ts.net` 호스트명, 세션 제목, 로컬 경로, 비용, 사용량, 계정 정보는 공개 코드나 문서에 넣지 않는다.
-- 숨겨진 링크나 난해한 URL은 인증 수단이 아니다.
-- GitHub Pages 이전은 권고하지 않는다. 현재 Vercel 배포를 유지하며 커스텀 도메인은 추후 결정한다.
-- 사용자 승인 없이 commit, push, 파일 삭제를 하지 않는다.
+- **`"use client"` 컴포넌트에서 `#site/content`(또는 `@/lib/posts`, `@/lib/tags`)를 직접 import 하지 말 것.** 함수가 필드를 걸러도 모듈 자체가 번들에 들어간다. 544KB 청크의 원인이었다. 데이터는 서버에서 만들어 `PostSummary` props로 내려보낼 것
+- **글 18개 permalink를 건드리지 말 것.** RSS `guid isPermaLink="true"`, sitemap, Giscus 스레드가 묶여 있다
+- 포트폴리오 `writings`는 **bare slug**다. permalink를 넣으면 URL 마이그레이션 때 죽는다
+- `metrics`는 조건/분모(`note`)를 못 적으면 싣지 않는다. 근거 없는 정밀함이 자기소개서에서 신뢰를 가장 빨리 깎는다
+- 거절된 프로토타입 방향(손으로 그린 세계수 SVG, 장식 키프레임, 자체 팔레트)을 되살리지 말 것. 거절의 진짜 원인은 시각 방향이 아니라 **구조를 콘텐츠보다 먼저 만든 순서**였다
+- `docs/adr/`가 결정 정본이다. 이 노트나 `docs/design/`의 서술을 확정 결정으로 인용하지 말 것 (D-015)
+- 공개 저장소다. 로컬 절대 경로, `.ts.net` 호스트명, 세션 제목, 비용·사용량, 계정 정보를 커밋에 넣지 말 것
+- 이 환경에서 브라우저 창 리사이즈가 동작하지 않는다. 반응형 육안 확인은 다른 수단이 필요하다
