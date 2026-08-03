@@ -3,7 +3,6 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { ArchiveNav } from "@/components/layout/archive-nav";
 import { getAllTags } from "@/lib/tags";
 
 export default function TagsPage() {
@@ -20,7 +19,6 @@ export default function TagsPage() {
         <p className="text-sm text-second">
           전체 글에서 태그를 모아 한 번에 볼 수 있습니다.
         </p>
-        <ArchiveNav />
       </header>
 
       {/* 태그 리스트 */}

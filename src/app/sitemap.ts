@@ -7,18 +7,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const posts = getAllPostsDesc();
   const projects = getAllProjectsDesc();
 
-  const routes = [
-    "",
-    "/about",
-    "/portfolio",
-    "/insight",
-    "/memo",
-    "/log",
-    "/tags",
-  ].map((route) => ({
-    url: `${SITE_URL}${route}`,
-    lastModified: new Date().toISOString().split("T")[0],
-  }));
+  // /insight, /memo, /log 인덱스는 /writing 으로 308 리다이렉트되므로 뺀다.
+  // 개별 글 permalink 는 postRoutes 에 그대로 남는다.
+  const routes = ["", "/about", "/portfolio", "/writing", "/tags"].map(
+    (route) => ({
+      url: `${SITE_URL}${route}`,
+      lastModified: new Date().toISOString().split("T")[0],
+    }),
+  );
 
   const postRoutes = posts.map((post) => ({
     url: `${SITE_URL}${post.permalink}`,

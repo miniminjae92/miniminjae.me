@@ -1,5 +1,4 @@
 import { MDXContent } from "@/components/mdx/mdx-content";
-import { ArchiveNav } from "@/components/layout/archive-nav";
 import { PostContent, ProjectContent } from "@/types/content";
 import AuthorProfile from "./author-profile";
 import { FromProjects } from "./from-projects";
@@ -28,11 +27,9 @@ export default function ContentDetailPage({
   return (
     <article className="space-y-6">
       <header className="space-y-4">
-        <ArchiveNav />
-
         {/* 지금까지 frontmatter title 이 화면에 전혀 나오지 않았고 본문의 첫
             `#` 가 제목 역할을 대신하고 있었다. 페이지의 h1을 제자리로 돌린다. */}
-        <div className="space-y-2 pt-4">
+        <div className="space-y-2">
           <p className="text-sm text-second tabular-nums">
             {formatPostDate(post.date)}
           </p>

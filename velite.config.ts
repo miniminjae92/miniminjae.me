@@ -140,6 +140,7 @@ export default defineConfig({
           ...entry,
           permalink: `/insight/${entry.slug}`,
           type: "insight" as const,
+          lens: "understand" as const,
         })),
     },
 
@@ -159,6 +160,7 @@ export default defineConfig({
           ...entry,
           permalink: `/memo/${entry.slug}`,
           type: "memo" as const,
+          lens: "solve" as const,
         })),
     },
 
@@ -178,6 +180,7 @@ export default defineConfig({
           ...entry,
           permalink: `/log/${entry.slug}`,
           type: "log" as const,
+          lens: "reflect" as const,
         })),
     },
   },
