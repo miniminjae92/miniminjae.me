@@ -8,6 +8,7 @@ import { PageShell } from "@/components/layout/page-shell";
 import { SiteHeader } from "@/components/layout/site-header";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { Analytics } from "@vercel/analytics/next";
+import { getPostSummaries } from "@/lib/posts";
 
 export const metadata: Metadata = siteMetadata;
 
@@ -25,7 +26,10 @@ export default function RootLayout({
             본문으로 건너뛰기
           </a>
           <PageShell>
-            <SiteHeader />
+            {/* 검색 인덱스를 서버에서 만들어 내려보낸다. 헤더가 클라이언트
+                컴포넌트라 여기서 직접 import 하면 컴파일된 MDX 가 전부
+                번들에 실린다(실측 544KB). */}
+            <SiteHeader searchIndex={getPostSummaries()} />
             <main id="content" className="flex-1">
               {children}
             </main>

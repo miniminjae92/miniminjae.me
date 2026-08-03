@@ -5,7 +5,7 @@ import Link from "next/link";
 import { LENSES, WritingLens } from "@/config/lens";
 import { formatArchiveDate } from "@/lib/date";
 import { cn } from "@/lib/utils";
-import { WritingListItem } from "@/types/content";
+import { PostSummary } from "@/types/content";
 
 /**
  * 렌즈 필터.
@@ -16,8 +16,8 @@ import { WritingListItem } from "@/types/content";
  */
 type Filter = WritingLens | "all";
 
-function groupByYear(items: WritingListItem[]): [string, WritingListItem[]][] {
-  const groups = new Map<string, WritingListItem[]>();
+function groupByYear(items: PostSummary[]): [string, PostSummary[]][] {
+  const groups = new Map<string, PostSummary[]>();
 
   for (const item of items) {
     const year = item.date.slice(0, 4);
@@ -29,7 +29,7 @@ function groupByYear(items: WritingListItem[]): [string, WritingListItem[]][] {
   return [...groups.entries()];
 }
 
-export function WritingIndex({ items }: { items: WritingListItem[] }) {
+export function WritingIndex({ items }: { items: PostSummary[] }) {
   const [filter, setFilter] = useState<Filter>("all");
 
   const counts = useMemo(() => {

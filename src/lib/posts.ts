@@ -1,5 +1,6 @@
 // src/lib/posts.ts
-import { PostContent } from "@/types/content";
+import { PostContent, PostSummary } from "@/types/content";
+import { WritingLens } from "@/config/lens";
 import { insightPosts, memoPosts, logPosts, allPosts } from "./content";
 
 export type AnyPost = PostContent;
@@ -32,6 +33,16 @@ export function getPostsByTypeDesc(type: PostType): PostContent[] {
 }
 
 /**
+ * 렌즈별 포스트 목록 (날짜 내림차순).
+ *
+ * lens 는 라벨이라 URL 을 따라가지 않는다. 지금은 type 과 1:1 이지만
+ * 나중에 한 컬렉션 안에서 렌즈가 갈릴 수 있으므로 lens 로 직접 거른다.
+ */
+export function getPostsByLens(lens: WritingLens): PostContent[] {
+  return allPosts.filter((post) => post.lens === lens).sort(sortByDateDesc);
+}
+
+/**
  * 모든 포스트(정렬 X)
  */
 export function getAllPosts(): AnyPost[] {
@@ -43,6 +54,25 @@ export function getAllPosts(): AnyPost[] {
  */
 export function getAllPostsDesc(): AnyPost[] {
   return getAllPosts().sort(sortByDateDesc);
+}
+
+/**
+ * 클라이언트로 넘길 경량 배열. code 를 떨어뜨린다.
+ *
+ * 클라이언트 컴포넌트가 PostContent 를 직접 import 하면 컴파일된 MDX 가
+ * 통째로 번들에 실린다. 데이터는 서버에서 만들어 props 로 내려보낸다.
+ */
+export function getPostSummaries(): PostSummary[] {
+  return getAllPostsDesc().map((post) => ({
+    title: post.title,
+    slug: post.slug,
+    permalink: post.permalink,
+    date: post.date,
+    tags: post.tags,
+    description: post.description,
+    lens: post.lens,
+    type: post.type,
+  }));
 }
 
 /**

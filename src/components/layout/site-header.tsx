@@ -8,6 +8,7 @@ import { SearchDialog } from "../features/search-dialog";
 import { TagsButton } from "../ui/tags-button";
 import { isNavItemActive, NAV_ITEMS } from "@/config/navigation";
 import { cn } from "@/lib/utils";
+import { PostSummary } from "@/types/content";
 
 /**
  * 헤더가 섹션 내비게이션의 유일한 주인이다.
@@ -18,7 +19,7 @@ import { cn } from "@/lib/utils";
  * 항목이 세 개뿐이라 모바일에서 drawer 를 만들지 않는다. 두 줄로 접는다.
  * 재사용할 만한 메뉴 프리미티브도 저장소에 없다.
  */
-export function SiteHeader() {
+export function SiteHeader({ searchIndex }: { searchIndex: PostSummary[] }) {
   const pathname = usePathname();
 
   return (
@@ -55,7 +56,7 @@ export function SiteHeader() {
         </nav>
 
         <div className="flex shrink-0 items-center gap-2">
-          <SearchDialog />
+          <SearchDialog items={searchIndex} />
           <TagsButton />
           <ThemeToggle />
         </div>

@@ -14,17 +14,21 @@ export interface PostContent {
 }
 
 /**
- * 클라이언트로 넘기는 경량 표현.
+ * 클라이언트로 넘기는 경량 표현. code 가 없다는 게 핵심이다.
  *
- * PostContent 를 그대로 넘기면 컴파일된 MDX code 까지 번들에 실린다.
- * tags/page.tsx 와 search-dialog.tsx 가 지금 그러고 있고(.velite JSON 507KB),
- * 그 패턴을 복제하지 않기 위한 타입이다.
+ * PostContent 를 클라이언트 컴포넌트에서 그대로 import 하면 컴파일된 MDX 가
+ * 전부 번들에 실린다. 실제로 544KB 청크가 만들어지고 있었고, 검색 다이얼로그가
+ * 헤더에 있어서 모든 페이지가 그 비용을 냈다.
  */
-export interface WritingListItem {
+export interface PostSummary {
   title: string;
+  slug: string;
   permalink: string;
   date: string;
+  tags: string[];
+  description?: string;
   lens: import("@/config/lens").WritingLens;
+  type: "insight" | "memo" | "log";
 }
 
 export interface ProjectMetric {

@@ -4,9 +4,7 @@
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { FiSearch } from "react-icons/fi";
-import { getAllPostsDesc } from "@/lib/posts";
-
-const allPosts = getAllPostsDesc();
+import { PostSummary } from "@/types/content";
 
 const searchStyles = {
   // Trigger button
@@ -59,7 +57,7 @@ const searchStyles = {
     "flex justify-end px-4 py-2 border-t border-border text-[10px] text-second",
 };
 
-export function SearchDialog() {
+export function SearchDialog({ items }: { items: PostSummary[] }) {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
 
@@ -91,12 +89,12 @@ export function SearchDialog() {
     const q = query.trim().toLowerCase();
     if (!q) return [];
 
-    return allPosts.filter((post) => {
+    return items.filter((post) => {
       const text =
         `${post.title} ${post.description ?? ""} ${post.tags.join(" ")}`.toLowerCase();
       return text.includes(q);
     });
-  }, [query]);
+  }, [query, items]);
 
   return (
     <>

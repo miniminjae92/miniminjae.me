@@ -21,8 +21,10 @@ export const siteMetadata: Metadata = {
     default: SITE_NAME,
     template: `%s | ${SITE_NAME}`,
   },
+  // 이 도메인이 지원서에 붙이는 링크가 된다. 미리보기 카드는 블로그가 아니라
+  // 사람을 소개해야 한다. src/content/about/index.mdx 의 headline 과 맞춘다.
   description:
-    "호기심으로 본질을 탐구하고, 복잡함을 단순하게 정돈합니다. 개발자 강민재의 기록을 담는 공간입니다.",
+    "복잡한 것을 이해하고, 다음 사람이 쓸 수 있는 모양으로 남깁니다. 백엔드 개발자 강민재의 자기소개와 기록.",
   authors: [{ name: "Minjae Kang" }],
 
   creator: "Minjae Kang",
@@ -48,7 +50,8 @@ export const siteMetadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: SITE_NAME,
-    description: "개발 지식을 정리하고 일상을 기록하는 공간입니다.",
+    description:
+      "복잡한 것을 이해하고, 다음 사람이 쓸 수 있는 모양으로 남깁니다.",
     images: ["/og-image.png"],
   },
 
