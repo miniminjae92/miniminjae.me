@@ -142,6 +142,63 @@ body {
   font-weight: 400;
 }
 
+/* ── Studio 미리보기 ───────────────────────────────────────────
+   개발 전용 도구(/studio)의 오른쪽 패널.
+
+   사이트 본문은 헤딩·문단 스타일을 CSS 가 아니라 MDX 컴포넌트
+   (components/mdx/mdx-content.tsx)에서 받는다. 미리보기는 그 컴포넌트를
+   거치지 않은 순수 HTML 이라 같은 클래스를 여기서 다시 준다.
+
+   .prose-content 에 직접 쓰지 않고 별도 클래스로 감싸는 이유는, 실제 글
+   페이지에서 컴포넌트 클래스와 이중 적용되지 않게 하기 위해서다.
+   코드 블록은 figure[data-rehype-pretty-code-figure] 전역 규칙이 이미
+   담당하므로 여기서 건드리지 않는다. */
+.studio-preview :is(h1, h2, h3) {
+  @apply mt-18 mb-5 font-bold text-heading;
+}
+.studio-preview h4 {
+  @apply mt-18 mb-5 font-bold text-heading;
+}
+.studio-preview p {
+  @apply leading-7;
+}
+.studio-preview p:not(:first-child) {
+  @apply mb-5;
+}
+.studio-preview strong {
+  @apply font-medium text-heading;
+}
+.studio-preview ul {
+  @apply mt-4 mb-4 ml-6 list-disc;
+}
+.studio-preview ol {
+  @apply mt-4 mb-4 ml-6 list-decimal;
+}
+.studio-preview li {
+  @apply my-1 leading-7;
+}
+.studio-preview blockquote {
+  @apply mt-8 mb-8 border-l-4 border-border pl-6 italic;
+}
+.studio-preview table {
+  @apply my-6 w-full border-collapse border border-border;
+}
+.studio-preview th {
+  @apply border border-border px-4 py-2 text-left font-bold text-heading;
+}
+.studio-preview td {
+  @apply border border-border px-4 py-2 text-body;
+}
+.studio-preview a {
+  @apply font-medium text-heading underline decoration-border underline-offset-4;
+}
+.studio-preview img {
+  @apply my-4 max-w-full rounded;
+}
+.studio-preview hr {
+  @apply my-8 border-border;
+}
+
 ::selection {
   @apply bg-selection shadow-none;
 }
