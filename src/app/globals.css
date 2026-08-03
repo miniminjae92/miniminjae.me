@@ -38,11 +38,19 @@
   --gray-900: #000000;
   --gray-950: #000000;
 
-  --page-background: var(--gray-50);
-  --heading: var(--gray-800);
-  --text-body: var(--gray-700);
-  --text-second: var(--gray-600);
-  --text-disabled: var(--gray-400);
+  /* 본문 색은 13단계 회색 스케일을 참조하지 않고 직접 지정한다.
+     읽기 편안함을 위해 고른 값들이 스케일 위에 없기 때문이다(#fcfcfc,
+     #747474). 스케일은 테두리·코드·표면이 계속 쓰므로 그대로 둔다.
+     블라스트 반경을 이 다섯 줄로 묶어 두는 것이 목적이다.
+
+     교체 전 --text-disabled 는 #b1b1b1 로 흰 배경에서 2.14:1 이었다.
+     WCAG AA(4.5:1) 미달이고, 레일 거터 라벨·날짜·태그 카운트 등 22곳에
+     쓰이고 있었다. */
+  --page-background: #fcfcfc; /* 순백의 눈부심을 한 단계 낮춘다 */
+  --heading: #1f1f1f; /* 16.07:1 AAA */
+  --text-body: #414141; /*  9.95:1 AAA */
+  --text-second: #6a6a6a; /*  5.27:1 AA  */
+  --text-disabled: #747474; /*  4.56:1 AA  ← 2.14:1 에서 교정 */
 
   --selection: hsla(0, 0%, 0%, 0.045);
   --border: hsla(0, 0%, 0%, 0.09);
@@ -70,11 +78,15 @@
   --gray-900: #fff;
   --gray-950: #fff;
 
-  --page-background: var(--gray-75);
-  --heading: var(--gray-750);
-  --text-body: var(--gray-700);
-  --text-second: var(--gray-500);
-  --text-disabled: var(--gray-350);
+  /* 다크는 기준 미달이 아니라 과대비가 문제였다. 본문 11.94:1 은 다크
+     모드로는 강해서 OLED 에서 글자 가장자리가 번진다(헤일레이션).
+     배경을 한 단계 올리고 본문을 한 단계 내려 10.29:1 로 맞춘다.
+     보조·메타는 오히려 또렷해진다. */
+  --page-background: #181818; /* #141414 에서 한 단계 위 */
+  --heading: #e2e2e2; /* 13.71:1 AAA */
+  --text-body: #c5c5c5; /* 10.29:1 AAA ← 11.94:1 에서 완화 */
+  --text-second: #949494; /*  5.85:1 AA  */
+  --text-disabled: #888888; /*  5.01:1 AA  */
 
   --selection: hsla(0, 0%, 100%, 0.077);
   --border: hsla(0, 0%, 100%, 0.2);
