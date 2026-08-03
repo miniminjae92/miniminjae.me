@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
 
+// 도메인은 아직 minjae.space 를 확보하지 않았다. 확보 전에 여기를 바꾸면
+// canonical, OG 이미지 절대경로, RSS guid 가 전부 없는 주소를 가리킨다.
+// 워드마크(SITE_NAME)와 도메인(SITE_URL)은 따로 움직인다.
 export const SITE_URL = "https://minjae-log.vercel.app";
-export const SITE_NAME = "minjae.log";
+export const SITE_NAME = "minjae.space";
 
 /**
  * 정체성 상수. here.tsx 와 author-profile.tsx 에 각각 하드코딩돼 있던 것을
@@ -42,7 +45,7 @@ export const siteMetadata: Metadata = {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "minjae.log - 호기심과 본질을 탐구하는 개발 블로그",
+        alt: `${SITE_NAME} — 백엔드 개발자 강민재의 자기소개와 기록`,
       },
     ],
   },

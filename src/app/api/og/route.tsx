@@ -69,7 +69,7 @@ export async function GET(request: Request) {
             letterSpacing: "0.05em",
           }}
         >
-          {date ? date : "minjae.log"}
+          {date ? date : SITE_NAME}
         </div>
         <div
           style={{
@@ -105,7 +105,7 @@ export async function GET(request: Request) {
             color: "#EDEDED",
           }}
         >
-          minjae.log
+          {SITE_NAME}
         </div>
       </div>
     ),

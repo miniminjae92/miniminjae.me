@@ -7,6 +7,7 @@ import { ThemeToggle } from "../ui/theme-toggle";
 import { SearchDialog } from "../features/search-dialog";
 import { TagsButton } from "../ui/tags-button";
 import { isNavItemActive, NAV_ITEMS } from "@/config/navigation";
+import { SITE_NAME } from "@/config/site-metadata";
 import { cn } from "@/lib/utils";
 import { PostSummary } from "@/types/content";
 
@@ -29,7 +30,7 @@ export function SiteHeader({ searchIndex }: { searchIndex: PostSummary[] }) {
           href="/"
           className="shrink-0 text-base font-semibold tracking-tight text-heading"
         >
-          minjae.log
+          {SITE_NAME}
         </Link>
 
         <nav aria-label="주요 메뉴" className="hidden sm:block">

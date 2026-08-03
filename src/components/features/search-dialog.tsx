@@ -5,6 +5,7 @@ import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { FiSearch } from "react-icons/fi";
 import { PostSummary } from "@/types/content";
+import { SITE_NAME } from "@/config/site-metadata";
 
 const searchStyles = {
   // Trigger button
@@ -177,7 +178,7 @@ export function SearchDialog({ items }: { items: PostSummary[] }) {
               </div>
 
               {/* footer */}
-              <div className={searchStyles.footer}>Search by minjae.log</div>
+              <div className={searchStyles.footer}>Search by {SITE_NAME}</div>
             </div>
           </div>
         </>
