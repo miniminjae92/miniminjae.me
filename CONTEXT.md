@@ -37,8 +37,12 @@ _Avoid_: Projects, Showcase
 _Avoid_: Project Card, Star
 
 **Roots**:
-공개 활동을 지속시키는 비공개 기반 시스템들의 영역. 공개 사이트에서는 존재와 의미만 표현하며 실제 데이터나 접속 정보를 제공하지 않는다.
+공개 활동을 지속시키는 비공개 기반 시스템들. 별도 영역이 아니라 Portfolio 항목으로 다룬다(ADR-0001). 설계와 판단은 공개하고 인터페이스와 데이터는 공개하지 않는다.
 _Avoid_: Dashboard, Agent OS Monitor
+
+**Visibility**:
+Portfolio 항목의 소스와 인터페이스가 공개되어 있는지를 나타내는 값. `public` 또는 `private`. `private`이어도 문제, 판단, 결과는 공개한다. 링크 목록이 비어 있는 것이 정상 상태다.
+_Avoid_: Secret, Hidden
 
 **Root System**:
 생각하고 기록하고 만드는 일을 지속적으로 축적시키는 private-first 시스템. Agent OS와 dref가 이에 해당한다.
@@ -49,5 +53,9 @@ Root System을 관찰하거나 사용하는 비공개 화면. Tailscale 같은 �
 _Avoid_: Public Dashboard, Root
 
 **Living Tree**:
-About을 줄기, Writing을 가지와 잎, Roots를 뿌리로 연결하는 사이트의 중심 은유.
+About을 줄기, Portfolio를 마디, Writing을 가지와 잎으로 연결하는 사이트의 중심 은유. 일러스트로 그리지 않고 레이아웃으로 구현한다. [[Rail]] 참고.
 _Avoid_: Site Map, Menu Tree
+
+**Rail**:
+사이트 전체를 관통하는 고정 x좌표의 세로선. 왼쪽 거터에는 섹션 라벨, 연도, 날짜 같은 좌표만 놓고 오른쪽에 본문을 둔다. 라우트가 나뉘어도 좌표계가 바뀌지 않으므로 하나의 사이트로 읽힌다. 좌표가 하나뿐인 면(글 상세)에는 쓰지 않는다 — 거터가 빈 여백이 된다.
+_Avoid_: Sidebar, Gutter Nav
