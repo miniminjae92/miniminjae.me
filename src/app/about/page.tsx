@@ -1,13 +1,11 @@
 import type { Metadata } from "next";
 import { AboutTimeline } from "@/components/about/about-timeline";
-import { SelectedList } from "@/components/about/selected-list";
-import { Rail, RailSection } from "@/components/layout/rail";
-import { MDXContent } from "@/components/mdx/mdx-content";
-import { SocialLinks } from "@/components/ui/social-links";
 import { PROFILE, SITE_URL } from "@/config/site-metadata";
-import { getSelected } from "@/lib/about";
-import { aboutDoc } from "@/lib/content";
+import { aboutDoc, allPosts } from "@/lib/content";
 import { formatDate } from "@/lib/date";
+import { getAllPostsDesc } from "@/lib/posts";
+import { getAllProjectsDesc } from "@/lib/projects";
+import Link from "next/link";
 
 export function generateMetadata(): Metadata {
   // 기존 /api/og 라우트를 그대로 재사용한다. 신규 인프라 0.
@@ -36,113 +34,222 @@ export function generateMetadata(): Metadata {
   };
 }
 
+/** 대표를 몇 개까지 보여줄지. 늘리면 큐레이션이 아니라 목록이 된다. */
+const FEATURED_COUNT = 3;
+
+/**
+ * 섹션 제목은 영문 단독이다 — 거터 라벨을 영문 단독으로 통일한 것과 같은
+ * 판단. 구획은 열 사이 세로선 하나가 맡는다(구획 시안 A) — 사이트의
+ * 정체성인 세로 레일과 같은 언어를 다른 위치에서 말하는 셈이다.
+ */
+function SectionHeading({ children }: { children: React.ReactNode }) {
+  return <h2 className="text-xl leading-tight text-heading">{children}</h2>;
+}
+
+const SECTION_FRAME = "min-w-0 space-y-6";
+
 export default function AboutPage() {
   const about = aboutDoc;
-  const selected = getSelected();
+  const certifications = about.timeline.filter(
+    (entry) => entry.kind === "certification",
+  );
+  const timeline = about.timeline.filter(
+    (entry) => entry.kind !== "certification",
+  );
+  const projects = getAllProjectsDesc();
+  const recentPosts = getAllPostsDesc().slice(0, FEATURED_COUNT);
+
+  const contact = [
+    { href: `mailto:${PROFILE.email}`, label: PROFILE.email },
+    { href: PROFILE.github, label: PROFILE.github.replace("https://", "") },
+    { href: PROFILE.linkedin, label: PROFILE.linkedin.replace("https://", "") },
+  ];
 
   return (
-    <Rail className="space-y-half-page">
-      <RailSection className="space-y-5">
-        <h1 className="max-w-[30ch] text-lg leading-9 text-balance text-heading">
-          {about.headline}
-        </h1>
+    <article className="mt-8 mb-page">
+      {/* 이력서형 헤더 밴드 — 사진 · 이름 · 철학 요약.
+          첫 화면이 사람(이름)과 주장(헤드라인·일하는 방식)을 함께 보여준다.
+          contact 는 페이지 맨 아래로 — 읽기를 마친 사람이 찾는 정보다.
+          영문 이름은 동일 무게 병기가 아니라 작은 자간 넓은 라벨이다. */}
+      <header className="flex flex-wrap items-end gap-x-8 gap-y-6 border-b border-border pb-9">
+        {/* TODO: 실제 사진으로 교체. 3:4 세로 사진. */}
+        <div
+          aria-hidden
+          className="flex aspect-[3/4] w-48 shrink-0 items-center justify-center border border-border text-2xs text-disabled"
+        >
+          사진 자리 3:4
+        </div>
 
-        <p className="text-sm text-second">
-          {PROFILE.name} · {about.role}
-        </p>
+        <div className="min-w-0">
+          <h1 className="text-4xl leading-tight text-heading">
+            {PROFILE.name}
+          </h1>
+          <p className="mt-1.5 text-xs tracking-[0.18em] text-disabled uppercase">
+            {PROFILE.nameEn}
+          </p>
+          <p className="mt-3 text-sm text-second">{about.role}</p>
+        </div>
 
-        <SocialLinks
-          email={PROFILE.email}
-          github={PROFILE.github}
-          linkedin={PROFILE.linkedin}
+        {/* grow + max-w 로 블록의 오른쪽 모서리를 밴드 끝선에 붙인다.
+            shrink-to-fit 이면 가장 긴 행 기준으로 오른쪽에 어정쩡한 틈이
+            남아 붕 떠 보인다. 이름과의 중앙 여백은 의도된 간격이라
+            폭은 조금씩만 늘린다 — 중앙 여백을 다 먹으면 밴드가 답답해진다. */}
+        <div className="ml-auto min-w-0 grow basis-0 self-end space-y-5 max-w-[38ch]">
+          <p className="text-base leading-8 text-balance text-heading">
+            {about.headline}
+          </p>
+          {about.philosophy.length > 0 ? (
+            <ul className="space-y-1.5">
+              {about.philosophy.map((line) => (
+                <li key={line} className="text-sm text-body">
+                  {line}
+                </li>
+              ))}
+            </ul>
+          ) : null}
+          {about.now.length > 0 ? (
+            <div className="space-y-1">
+              {about.now.map((line) => (
+                <p key={line} className="text-sm text-second">
+                  {line}
+                </p>
+              ))}
+            </div>
+          ) : null}
+        </div>
+      </header>
+
+      {/* 여섯 섹션이 하나의 4:3 그리드를 공유한다.
+          행마다 그리드를 따로 만들면 열 경계가 행 사이에서 어긋난다 —
+          세로 기준선이 페이지 전체를 관통해야 좌표로 읽힌다.
+          왼쪽(넓은 열): Timeline · Writing · Skills / 오른쪽: 자격·작업·연락. */}
+      <div className="relative mt-11 grid gap-x-14 gap-y-12 md:grid-cols-[4fr_3fr]">
+        {/* 열 사이 세로선. 4fr:3fr 경계의 거터 한가운데 —
+            (전체 폭 − 거터 3.5rem) × 4/7 + 거터 절반. 행이 늘어도
+            컨테이너 높이를 따라 자란다. 모바일 1열에서는 숨긴다. */}
+        <span
+          aria-hidden
+          className="absolute top-1 bottom-1 hidden w-px bg-border md:block"
+          style={{ left: "calc((100% - 3.5rem) * 4 / 7 + 1.75rem)" }}
         />
-      </RailSection>
+        {timeline.length > 0 ? (
+          <section className={SECTION_FRAME}>
+            <SectionHeading>Timeline</SectionHeading>
+            <AboutTimeline items={timeline} />
+          </section>
+        ) : null}
 
-      {about.now.length > 0 ? (
-        <RailSection label="Now">
-          <ul className="space-y-1">
-            {about.now.map((line) => (
-              <li key={line} className="text-body">
-                {line}
+        {certifications.length > 0 ? (
+          <section className={SECTION_FRAME}>
+            <SectionHeading>Certifications</SectionHeading>
+            {/* 섹션 이름이 이미 종류를 말하므로 kind 마커는 중복이다. */}
+            <AboutTimeline items={certifications} showKind={false} />
+          </section>
+        ) : null}
+
+        {/* 대표를 보여준다 — 갯수는 정보가 없고, 검토자가 타고 들어갈
+            입구가 필요하다. 타이틀 옆 부가설명은 있으면 싣고 없으면
+            비운다 — dref 같은 고유명사는 이름만으로 아무것도 말하지 않는다. */}
+        <section className={SECTION_FRAME}>
+          <SectionHeading>Writing</SectionHeading>
+          <ul className="space-y-2.5">
+            {recentPosts.map((post) => (
+              <li key={post.slug} className="text-sm">
+                <Link
+                  className="text-body hover:text-heading"
+                  href={post.permalink}
+                >
+                  {post.title}
+                </Link>
+                {post.description ? (
+                  <span className="ml-2 text-xs text-disabled">
+                    {post.description}
+                  </span>
+                ) : null}
               </li>
             ))}
           </ul>
-        </RailSection>
-      ) : null}
+          <p className="text-sm">
+            <Link className="text-second hover:text-heading" href="/writing">
+              글 {allPosts.length}편 · 전체 보기 →
+            </Link>
+          </p>
+        </section>
 
-      {/* 증거가 철학보다 먼저 온다.
-          읽는 사람이 아직 물건을 못 본 상태에서 읽는 가치관은 구호로 읽힌다.
-          경력 전환자는 회사 이름이 없어 기본값이 "증거 없음"이라 더 그렇다. */}
-      {selected.length > 0 ? (
-        <RailSection label="Selected">
-          <SelectedList items={selected} />
-        </RailSection>
-      ) : null}
+        <section className={SECTION_FRAME}>
+          <SectionHeading>Projects</SectionHeading>
+          <ul className="space-y-2.5">
+            {projects.slice(0, FEATURED_COUNT).map((project) => (
+              <li key={project.slug} className="text-sm">
+                <Link
+                  className="text-body hover:text-heading"
+                  href={project.permalink}
+                >
+                  {project.title}
+                </Link>
+                <span className="ml-2 text-xs text-disabled">
+                  {project.summary}
+                </span>
+              </li>
+            ))}
+          </ul>
+          <p className="text-sm">
+            <Link className="text-second hover:text-heading" href="/portfolio">
+              공개된 작업 {projects.length}건 · 전체 보기 →
+            </Link>
+          </p>
+        </section>
 
-      {about.timeline.length > 0 ? (
-        <RailSection label="Timeline">
-          <AboutTimeline items={about.timeline} />
-        </RailSection>
-      ) : null}
+        {about.stack.primary.length + about.stack.familiar.length > 0 ? (
+          <section className={SECTION_FRAME}>
+            <SectionHeading>Skills</SectionHeading>
+            {/* 뱃지도 게이지도 쓰지 않는다. 분모 없는 수치는 신뢰를 깎는다.
+                라벨은 구어체("~것") 대신 명사 한 단어 — 이력서형의 톤.
+                dd 는 라벨 오른쪽 열 안에서만 줄바꿈한다(행잉 인덴트) —
+                두 줄이 되어도 라벨 밑으로 흘러내리지 않는다. */}
+            <dl className="space-y-4 text-sm">
+              {about.stack.primary.length > 0 ? (
+                <div className="flex items-baseline gap-x-4">
+                  <dt className="w-16 shrink-0 text-xs text-disabled">주력</dt>
+                  <dd className="min-w-0 flex-1 text-body">
+                    {about.stack.primary.join(" · ")}
+                  </dd>
+                </div>
+              ) : null}
+              {about.stack.familiar.length > 0 ? (
+                <div className="flex items-baseline gap-x-4">
+                  <dt className="w-16 shrink-0 text-xs text-disabled">경험</dt>
+                  <dd className="min-w-0 flex-1 text-second">
+                    {about.stack.familiar.join(" · ")}
+                  </dd>
+                </div>
+              ) : null}
+            </dl>
+          </section>
+        ) : null}
 
-      <RailSection label="How I work">
-        <div className="max-w-none text-base text-body">
-          <MDXContent code={about.code} />
-        </div>
-      </RailSection>
-
-      {about.stack.primary.length + about.stack.familiar.length > 0 ? (
-        <RailSection label="Stack">
-          {/* 뱃지도 게이지도 쓰지 않는다. 분모 없는 수치는 신뢰를 깎는다.
-              대신 두 그룹으로 나눈다 — 평평한 나열은 읽는 사람에게 키워드
-              대조를 시키고, 스스로 깊이를 갈라 놓은 것 자체가 신호가 된다. */}
-          <dl className="space-y-3 text-sm">
-            {about.stack.primary.length > 0 ? (
-              <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1">
-                <dt className="w-24 shrink-0 text-xs text-disabled">
-                  주로 쓰는 것
-                </dt>
-                <dd className="text-body">
-                  {about.stack.primary.join(" · ")}
-                </dd>
-              </div>
-            ) : null}
-            {about.stack.familiar.length > 0 ? (
-              <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1">
-                <dt className="w-24 shrink-0 text-xs text-disabled">
-                  써 본 것
-                </dt>
-                <dd className="text-second">
-                  {about.stack.familiar.join(" · ")}
-                </dd>
-              </div>
-            ) : null}
-          </dl>
-        </RailSection>
-      ) : null}
-
-      <RailSection label="Contact">
-        <ul className="space-y-1 text-sm">
-          <li>
-            <a className="text-body hover:text-heading" href={`mailto:${PROFILE.email}`}>
-              {PROFILE.email}
-            </a>
-          </li>
-          <li>
-            <a className="text-body hover:text-heading" href={PROFILE.github}>
-              {PROFILE.github.replace("https://", "")}
-            </a>
-          </li>
-          <li>
-            <a className="text-body hover:text-heading" href={PROFILE.linkedin}>
-              {PROFILE.linkedin.replace("https://", "")}
-            </a>
-          </li>
-        </ul>
-        <p className="mt-6 text-2xs text-disabled tabular-nums">
-          최종 수정 {formatDate(about.updated, "yyyy. MM. dd.")}
-        </p>
-      </RailSection>
-    </Rail>
+        <section className={SECTION_FRAME}>
+          <SectionHeading>Contact</SectionHeading>
+          {/* 아이콘이 아니라 텍스트다 — 이력서에서 주소는 장식이 아니라
+              복사·검색되는 정보다. 긴 URL 은 anywhere 로 줄바꿈을 허용해
+              min-content 폭이 페이지를 밀지 않게 한다. */}
+          <ul className="space-y-1.5 text-sm [overflow-wrap:anywhere]">
+            {contact.map((item) => (
+              <li key={item.href}>
+                <a
+                  className="text-body hover:text-heading"
+                  href={item.href}
+                >
+                  {item.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+          <p className="text-2xs text-disabled tabular-nums">
+            최종 수정 {formatDate(about.updated, "yyyy. MM. dd.")}
+          </p>
+        </section>
+      </div>
+    </article>
   );
 }
