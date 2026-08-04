@@ -54,11 +54,11 @@ Node 버전은 `.nvmrc`를 따릅니다.
 
 ## 🗺️ 정보 구조
 
-최상위는 셋입니다. Roots는 별도 영역이 아니라 Portfolio 항목으로 다룹니다([ADR-0001](docs/adr/0001-portfolio-absorbs-roots.md)).
+최상위는 셋입니다. Roots는 별도 영역이 아니라 Projects 항목으로 다룹니다([ADR-0001](docs/adr/0001-portfolio-absorbs-roots.md)).
 
 ```text
 /about       About       자기소개, 지금 하는 일, 관점, 타임라인
-/portfolio   Portfolio   Constellation — 문제, 판단, 결과, 관련 Writing의 연결
+/portfolio   Projects    문제, 판단, 결과, 관련 Writing의 연결
 /writing     Writing     Understand / Solve / Reflect 세 렌즈로 묶인 글
 ```
 
@@ -66,9 +66,9 @@ Node 버전은 `.nvmrc`를 따릅니다.
 
 | 경로 | 종류 | 내용 |
 | --- | --- | --- |
-| `/` | Static | About 요약 → Portfolio → Writing → 연락 |
-| `/about` | Static | 자기소개 전문 |
-| `/portfolio` | Static | Constellation 목록 |
+| `/` | Static | 주장(카피) → Projects → Writing |
+| `/about` | Static | 자기소개 전문 (이력서형) |
+| `/portfolio` | Static | Projects 목록 |
 | `/portfolio/[slug]` | SSG | 개별 프로젝트 |
 | `/writing` | Static | 글 통합 인덱스 |
 | `/insight/[slug]` | SSG | 개별 글 — permalink 고정 |
@@ -82,11 +82,12 @@ Node 버전은 `.nvmrc`를 따릅니다.
 **Writing Lens는 폴더가 결정합니다.** `insight/`→`understand`, `memo/`→`solve`, `log/`→`reflect`.
 프론트매터에 적지 않습니다. 기존 글의 permalink는 그대로 두고 렌즈만 라벨로 덧입혔습니다.
 
-### 등뼈 (Rail)
+### 디테일 문법
 
-사이트 전체를 관통하는 고정 x좌표의 세로선입니다. 왼쪽 거터(`--rail-gutter: 8.5rem`)에는
-섹션 라벨·연도·날짜 같은 **좌표만** 놓고 오른쪽에 본문을 둡니다. 라우트가 나뉘어도 좌표계가
-바뀌지 않아 하나의 사이트로 읽힙니다. 좌표가 하나뿐인 글 상세 페이지에는 쓰지 않습니다.
+페이지들은 하나의 은유로 묶지 않고 각자의 성격에 맞는 레이아웃을 가집니다
+([ADR-0002](docs/adr/0002-drop-world-tree-metaphor.md)). 공통점은 디테일 문법입니다 —
+1px 헤어라인 구획, 영문 단독 섹션 제목, 점 표기 날짜(`yyyy. MM. dd.`) + `tabular-nums`,
+형제를 흐리는 리스트 호버.
 
 ## 🏗️ 데이터 흐름
 
@@ -130,7 +131,7 @@ src/content/**/*.mdx          원본 — 여기만 편집한다
 ├── src/
 │   ├── app/            App Router 라우트
 │   ├── components/
-│   │   ├── layout/     Rail, 헤더, 푸터, page-shell
+│   │   ├── layout/     헤더, 푸터, page-shell
 │   │   ├── home/       홈 전용 섹션
 │   │   ├── about/      타임라인
 │   │   ├── portfolio/  프로젝트 목록, metric 목록
