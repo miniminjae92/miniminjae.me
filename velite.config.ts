@@ -111,6 +111,13 @@ export default defineConfig({
             }),
           )
           .default([]),
+        /**
+         * 일하는 방식의 한 줄 요약들. 헤더 밴드 우측에 올라간다.
+         *
+         * 본문(code)의 소제목과 같은 문장을 쓴다 — 밴드는 요약을, 본문은
+         * 근거를 맡는 관계라 둘이 어긋나면 다른 사람처럼 읽힌다.
+         */
+        philosophy: s.array(s.string()).default([]),
         updated: s.isodate(),
         code: s.mdx(),
       }),

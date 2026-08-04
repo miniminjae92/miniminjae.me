@@ -116,6 +116,8 @@ export interface AboutContent {
   selected: SelectedEntry[];
   stack: AboutStack;
   timeline: TimelineEntry[];
+  /** 일하는 방식의 한 줄 요약들. 본문 소제목과 같은 문장을 쓴다. */
+  philosophy: string[];
   updated: string;
   code: string;
 }
