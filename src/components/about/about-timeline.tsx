@@ -1,5 +1,5 @@
 // src/components/about/about-timeline.tsx
-import { formatPeriod } from "@/lib/date";
+import { formatDate } from "@/lib/date";
 import { TimelineEntry, TimelineKind } from "@/types/content";
 
 /**
@@ -16,64 +16,68 @@ const KIND_LABEL: Record<TimelineKind, string> = {
   project: "프로젝트",
 };
 
+/* 날짜 열 너비. 축과 점의 가로 위치가 전부 이 값에서 파생되므로
+   상수 하나로 묶는다 — "2025. 10" 이 꼭 맞게 들어가는 폭. 날짜가 왼쪽
+   정렬이 되면서 열이 넓으면 날짜와 축 사이가 벌어져 따로 논다. */
+const DATE_COL = "3.5rem";
+
 /**
- * 시간축은 이 사이트에서 유일하게 살아남은 "진짜 시각화"다.
+ * 날짜 · 축 · 내용.
  *
- * 관계 그래프는 노드가 모자라 비어 보이고, 활동 밀도 스트립은 공백 개월을
- * 정밀하게 렌더링하고, 스킬 게이지는 분모가 없다. 반면 날짜는 모든 항목에
- * 있고 스키마로 검증되고 쓸수록 좋아진다.
- *
- * 연도 마커를 반드시 그린다. 눈금 없는 축은 축으로 읽히지 않는다.
+ * 축은 1px 헤어라인, 점은 5px 채운 원이다. 크고 속 빈 원은 장식으로
+ * 읽혀서 기각됐다 — 구조 요소는 유지하되 가늘고 작게가 이 사이트의 결이다.
+ * 날짜는 사이트 표기 규칙(yyyy. MM.)을 재사용한다. 새 규칙을 만들지 않는다.
  */
-function groupByYear(items: TimelineEntry[]): [string, TimelineEntry[]][] {
-  const sorted = [...items].sort((a, b) => b.start.localeCompare(a.start));
-  const groups = new Map<string, TimelineEntry[]>();
-
-  for (const item of sorted) {
-    const year = item.start.slice(0, 4);
-    const bucket = groups.get(year);
-    if (bucket) bucket.push(item);
-    else groups.set(year, [item]);
-  }
-
-  return [...groups.entries()];
-}
-
-export function AboutTimeline({ items }: { items: TimelineEntry[] }) {
+export function AboutTimeline({
+  items,
+  showKind = true,
+}: {
+  items: TimelineEntry[];
+  /** 섹션 이름이 이미 종류를 말하면(예: Certifications) 끈다. */
+  showKind?: boolean;
+}) {
   if (items.length === 0) return null;
 
-  return (
-    <div className="group/list space-y-8">
-      {groupByYear(items).map(([year, entries]) => (
-        <div key={year} className="space-y-3">
-          <div className="flex items-center gap-3">
-            <span className="text-xs text-disabled tabular-nums">{year}</span>
-            <span aria-hidden className="h-px flex-1 bg-border" />
-          </div>
+  const sorted = [...items].sort((a, b) => b.start.localeCompare(a.start));
 
-          {entries.map((entry) => (
-            <div
-              key={`${year}-${entry.label}-${entry.start}`}
-              className="transition-opacity duration-300 group-hover/list:opacity-40 hover:!opacity-100"
-            >
-              <div className="flex items-baseline justify-between gap-4">
-                <p className="flex flex-wrap items-baseline gap-x-2 text-body">
-                  <span>{entry.label}</span>
-                  {entry.kind ? (
-                    <span className="text-2xs text-disabled">
-                      {KIND_LABEL[entry.kind]}
-                    </span>
-                  ) : null}
-                </p>
-                <p className="shrink-0 text-xs text-second tabular-nums">
-                  {formatPeriod(entry.start, entry.end)}
-                </p>
-              </div>
-              {entry.note ? (
-                <p className="text-sm text-second">{entry.note}</p>
+  return (
+    <div className="group/list relative flex flex-col gap-6">
+      <span
+        aria-hidden
+        className="absolute top-[5px] bottom-[5px] w-px bg-border"
+        style={{ left: `calc(${DATE_COL} + 16px)` }}
+      />
+
+      {sorted.map((entry) => (
+        <div
+          key={`${entry.label}-${entry.start}`}
+          className="relative grid grid-cols-[3.5rem_1fr] items-baseline gap-x-10 transition-opacity duration-300 group-hover/list:opacity-40 hover:!opacity-100"
+        >
+          <span
+            aria-hidden
+            className="absolute top-[6px] size-[5px] rounded-full bg-disabled"
+            style={{ left: `calc(${DATE_COL} + 14px)` }}
+          />
+
+          {/* 날짜는 섹션 왼쪽 기준선에 붙인다 — 제목·본문과 시작선을
+              공유해야 열로 읽힌다. 축까지의 간격은 열 폭이 흡수한다. */}
+          <span className="text-xs text-disabled tabular-nums">
+            {formatDate(entry.start, "yyyy. MM")}
+          </span>
+
+          <div className="min-w-0">
+            <p className="flex flex-wrap items-baseline gap-x-2 text-body">
+              <span>{entry.label}</span>
+              {showKind && entry.kind ? (
+                <span className="text-2xs text-disabled">
+                  {KIND_LABEL[entry.kind]}
+                </span>
               ) : null}
-            </div>
-          ))}
+            </p>
+            {entry.note ? (
+              <p className="text-sm text-second">{entry.note}</p>
+            ) : null}
+          </div>
         </div>
       ))}
     </div>
