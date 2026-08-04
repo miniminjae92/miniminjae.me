@@ -1,165 +1,91 @@
 # Agent Handoff
 
-이전 핸드오프(2026-08-03 오전, 브랜치 커밋 8개 시점)는 `05b99d3` 커밋에 남아 있다.
-이 노트는 그 이후의 작업을 다룬다. 세션 끝에 8개 커밋으로 정리해 푸시했다(브랜치 총 16개).
+이전 핸드오프(2026-08-03, 79편 수집·교정 세션)는 `7da0e0b` 커밋에 남아 있다.
+이 노트는 2026-08-04 /about 이력서형 개편 세션을 다룬다.
 
 ## Context
 
-- Date: 2026-08-03
+- Date: 2026-08-04
 - Repository: `miniminjae92/miniminjae.me` (**public**)
-- Branch: `feat/living-personal-site` (main 기준 커밋 16개, **푸시됨. 머지는 안 함**)
-- User goal (원문, 세션 순서대로):
-  1. "간단한 가이드가 필요해, 어떻게 개발 실행해서 볼지, 그리고 최종 진행 사항"
-  2. "README도 현재 구조에 맞게 갱신해줘" + "글 작성을 mdview 내 프로그램에 만들어서… 아니면 따로 블로그에만 글쓰기 붙일수도있나?"
-  3. "나만 보이는 폴더? 분류도 하나 있으면 좋겠어"
-  4. "understand, solve, reflect, 그리고 나만보기 가능한 한가지 분류 추가해서 위의 모든 글들 지금 프로젝트에 일원화해줘"
-  5. "발행글이 아예 없어도 좋아 모두 나만보기로 가도 좋아 우선은"
-  6. "글자 색? 채도?를 가식성 기준으로 조금 추천안을… 밝기모드에 따라서 두가지 모두 선택"
-  7. "세로 선이 너무 길게 헤더 밑에 바로 있는 느낌" → 디자인 전문가 검토 요청
-  8. "자기소개서의 본질이 무엇이고 그러면 꼭 필요한 구성들이 무엇들이고… 안에 내용은 내가 바꾸면 되니깐"
-  9. "쓴것, writing 같이 한글 영어 두개 사용하는것보다 영어로만 통일해서 해"
+- Branch: `feat/living-personal-site` (이번 세션 커밋 4개: `17ddccf`..`7857b80`, **푸시 안 함**)
+- User goal: /about 을 이력서형으로 개편. dref annotate(핀 첨삭) ↔ 구현 루프를 5라운드 돌려 수렴.
+  **다음 세션 목표(사용자 원문)**: "다른 부분들과 위화감이 심해서 우선은 자유롭게 만져볼래?
+  수석 디자이너의 감으로" — /about 은 이 정도로 마무리, 나머지 페이지들을 /about 과 결이 맞게
+  자유 재량으로 다듬는 것. 사용자가 "이어서"라고 하면 시작.
 
 ## Current State
 
-What is already done (전부 워킹 트리, 커밋 안 됨):
+What is already done (전부 커밋됨, 워킹 트리 깨끗):
 
-- **나만보기 경계** — `src/content/.drafts/`. `.gitignore:58`에 이미 있던 항목을 정본으로 채택.
-  velite 글롭 5개 중 어느 것도 `.drafts/`를 매치할 수 없어 **구조적으로** 공개 빌드 유출 불가.
-- **외부 블로그 79편 수집** — Velog 22 · Tistory 38 · Naver 19. 전부 `lens: private`.
-  GitHub `miniminjae92.github.io/docs/_posts`는 **실제 글 0편**(70개 전부 Minimal Mistakes 테마 데모)이라 제외.
-- **79편 교정 완료** — 손 교정 7편(코드 펜스·이스케이프·들여쓰기), 파일럿 5편, 스크립트 67편.
-  데이터 손상 2건 복원: `karabiner`의 `com.apple.keylayout.ABC`(티스토리 자동 링크가 쪼갬),
-  `프리코스 2주차 회고`의 `List<String>`(티스토리가 `<String>`을 태그로 보고 삭제, Velog판에서 추론 복원 — 편집자 주에 명시).
-- **스크립트 3종** — `scripts/new-post.mjs`(`pnpm new`), `scripts/import-blogs.mjs`, `scripts/annotate-drafts.mjs`.
-- **Studio** — `/studio` dev 전용 에디터. CodeMirror 6 + `@replit/codemirror-vim`. 목록·편집·저장·렌즈 이동(=발행)·삭제·실시간 미리보기.
-- **본문 색 재조정** — 라이트 `--text-disabled` 2.14:1(WCAG AA 미달) → 4.56:1. 다크 본문 11.94:1 → 10.29:1(헤일레이션 완화).
-- **워드마크** `minjae.log` → `minjae.space`. 하드코딩 4곳을 `SITE_NAME` 참조로 통일.
-- **레일** 안 A만 적용 — 세로 여백을 패딩에서 마진으로. 헤더↔선 간격 0px → 64px.
-- **거터 라벨 영어 단독** — 15곳. `RailSection`의 `sublabel` 프로퍼티 제거.
-- **`/about` 재구성** — `Selected` 신설(증거 입구), `How I work`를 3번째→5번째로 이동, `Stack` 그룹형(`primary`/`familiar`), `Timeline`에 `kind` 추가(자격증 자리).
-- **의존성 추가** — `turndown`, `turndown-plugin-gfm`, `@types/turndown`(dev) / `codemirror`, `@codemirror/*`, `@replit/codemirror-vim`, `unified`, `remark-parse`, `remark-rehype`, `rehype-stringify`.
+- **/about 전면 개편** (`src/app/about/page.tsx`) — 최종 구조:
+  1. 헤더 밴드: 사진 플레이스홀더(w-48, 3:4) | 강민재(text-4xl) + MINJAE KANG(스몰캡스
+     tracking 0.18em) + 직함 | 우측 About me(헤드라인 + philosophy 3줄 + Now, `grow basis-0
+     max-w-[38ch]`로 우측 끝 정렬). 밴드 하단 선은 border-border 헤어라인.
+  2. 단일 4:3 그리드 6섹션: 좌 Timeline·Writing·Skills / 우 Certifications·Projects·Contact.
+     열 사이 절대배치 세로 헤어라인 하나가 전 행 관통(구획 A안, `calc((100% - 3.5rem)*4/7 + 1.75rem)`).
+  3. Projects/Writing 은 대표 3개 타이틀 + summary/description 부가설명 + "전체 보기 →".
+- **타임라인 컴포넌트** (`src/components/about/about-timeline.tsx`) — 날짜(3.5rem, 좌측 정렬,
+  "yyyy. MM") | 1px 축 + 5px 채운 점 | 내용. `showKind` prop(Certifications 에서 false).
+- **philosophy frontmatter 필드 신설** — `velite.config.ts` + `src/types/content.d.ts` +
+  `src/content/about/index.mdx`. 본문 소제목 3개와 같은 문장 유지가 규칙.
+- Rail/RailSection 은 /about 에서만 제거됨(다른 페이지는 그대로).
 
 What is intentionally not changed:
 
-- **기존 글 18개 permalink** — RSS `guid`, sitemap, Giscus 스레드가 묶여 있다.
-- **`SITE_URL`** — `minjae-log.vercel.app` 유지. `minjae.space` 도메인 미확보. 먼저 바꾸면 canonical·OG 절대경로·RSS guid가 없는 주소를 가리킨다.
-- **`How I work`의 `text-second` → `text-body`** — 사용자가 보류. 위치만 옮겼다.
-- **레일 안 B/C/D** — 사용자가 "현재 유지" 선택.
-- **포트폴리오 구조** — 시각화 추가 안 함. 사용자 질문에 "필요 없다"로 답했고 구조 변경 없음.
-- **포트폴리오 slug `minjae-log`** — 제목만 `minjae.space`로 바꾸고 slug은 유지.
-- **과거 글 `ww-open-mission`의 `[minjae.log](...)` 링크** — 2025년에 쓸 때는 실제 그 이름이었다.
-- **린트 12건** — 전부 이번 세션이 건드리지 않은 기존 파일. 신규 파일은 0건.
+- `index.mdx` 의 '일하는 방식' 본문(### 3개)은 파일에 남아 있지만 **현재 페이지에서 렌더링 안 함**
+  (philosophy 요약이 밴드에서 대신함). 지우지 말 것 — 사용자가 내용 채운 뒤 재사용 여지.
+- Selected 섹션·`SelectedList`·`getSelected()` — 페이지에서 제거됐지만 컴포넌트·데이터·빌드 검증은
+  남아 있음. 대표작 입구는 Projects/Writing 리스트가 대체.
+- 타임라인 기간 표기(`formatPeriod`) → 시작 날짜만 표기로 변경됨(end 데이터는 frontmatter 에 유지).
 
 Important assumptions:
 
-- 사용자는 **경력 전환자**로 보인다(2022 네이버 일기 "31세 직장인", 2023 C언어 입문, 2024~2026 우테코). `/about` IA를 이 전제로 설계했다. **확인 필요.**
-- 정보처리기사는 티스토리 글 "정보처리기사 실기공부중"(2025-04-17)만 근거다. **취득 여부 모름.** 타임라인에 TODO로 자리만 잡아 뒀다.
-- `selected` 기본값 3건(`agent-os`, `preview-docker-k8s-kernel`, `ww-8th-final-test`)은 내가 고른 것이다. 사용자 선택 아님.
+- 사용자와의 첨삭 루프: dref item `20260804-1640-about-이력서형-시안-c안-헤더-밴드-2열-그리드`
+  (`http://127.0.0.1:4180/annotate?item=<id>`). 구현이 바뀌면 스크린샷(shot.jpg)을 로컬 빌드
+  렌더로 교체해 왔다(headless Chrome, `--enable-unsafe-swiftshader` 필요 — WebGL 커서 때문).
+- 시안 아티팩트: 이력서형 4안 `eb56afd8-…`, 구획 4종 `7b9c95a5-…` (claude.ai/code/artifact).
 
 ## Decisions (cite, do not restate)
 
-- 확정: `docs/adr/0001-portfolio-absorbs-roots.md` — Portfolio가 Roots를 흡수한다.
-- 확정(용어 정본): `CONTEXT.md` — `Rail`, `Visibility`, `Writing Lens`.
-- 미결: **나만보기 경계를 `src/content/.drafts/` + gitignore로 둔다** — 구현돼 있으나 ADR 번호 없음. 공개 저장소라는 제약과 직결되므로 승격 1순위.
-- 미결: **워드마크 `minjae.space`** — 사용자가 선택지에서 고름. 도메인 미확보 상태라 워드마크와 `SITE_URL`이 분리돼 있다.
-- 미결: **본문 색 스킴 B** — 시맨틱 토큰 5개를 회색 스케일 참조에서 직접 hex로 바꿨다. 스케일 indirection을 여기서만 깬 것이 판단.
-- 미결: **거터 라벨 영어 단독**.
-- 미결: **`/about` IA** — `주장 → Now → Selected → Timeline → How I work → Stack → Contact`. 근거는 "증거가 철학보다 먼저 온다".
-- 미결: **자격증은 Stack이 아니라 Timeline `kind`** 로 다룬다.
-- 미결: **레일은 안 A만** — 헤더 간격 결함만 고치고 B(눈금)·C(좌표 회수)·D(밴드)는 미적용. 디자인 에이전트 추천은 C였다.
-- 미결: **포트폴리오에 시각화를 넣지 않는다** — `docs/design/living-personal-site.md`의 "시각화에 대한 판정"에 서술돼 있으나 ADR 번호 없음.
-
-> 위 `미결`은 이 노트의 서술일 뿐 확정 결정이 아니다 (D-015). 다음 세션은 인용하지 말고 그 자리에서 판단하거나, 승격할 값이 있으면 `docs/adr/`에 번호를 신설할 것.
+- 확정(정본): 이 repo 의 ADR 은 `docs/adr/0001` 하나뿐. 이번 세션 결정들은 D-번호 없음.
+- 미결(노트 초안 — 확정 인용 금지): 섹션 제목 영문 단독 / 이름만 국·영 병기(영문은 스몰캡스
+  라벨) / 구획은 열 사이 세로선 하나(A안) / Skills 라벨 "주력·경험" / 날짜 "yyyy. MM." 점 표기.
+  전 세션 메모리 `site-design-taste`(사용자 취향: 세련·정제, 중복 제거, 헤어라인 디테일)도 참고.
 
 ## Files To Read First
 
-- `docs/adr/0001-portfolio-absorbs-roots.md`: 유일한 확정 결정
-- `CONTEXT.md`: 용어 정본
-- `docs/design/living-personal-site.md`: 시각화 판정, 거절된 프로토타입 6종과 사유
-- `src/lib/studio.ts`: Studio의 경계 강제(`assertDev`, `resolveDocPath`). 파일 쓰기 API의 안전 장치 전부
-- `src/lib/about.ts`: `selected` ref 해석 + **모듈 초기화 시 throw**
-- `src/lib/projects.ts`: 같은 패턴의 선행 사례(`writings` 검증)
-- `src/app/globals.css`: 색 토큰 5개(라이트/다크) + `.rail` + `.studio-preview`
-- `velite.config.ts`: `about` 스키마에 `selected`·`stack.primary/familiar`·`timeline.kind` 추가됨
-- `scripts/import-blogs.mjs`: 재수집이 필요할 때. 출처별 추출 경로가 주석에 있다
+- `src/app/about/page.tsx`: 개편 결과 전체. 주석에 각 결정의 이유가 있음.
+- `src/components/about/about-timeline.tsx`: 축 타임라인. DATE_COL 상수에서 위치 파생.
+- `src/content/about/index.mdx`: TODO 천지 — 콘텐츠는 사용자 몫.
+- `src/app/globals.css`: rail·팔레트·spacing 토큰. 다른 페이지 위화감 작업의 기준.
 
 ## Work In Progress
 
-- 위 워킹 트리(21 modified + 9 untracked)는 **8개 커밋으로 나뉘어 커밋·푸시됐다.**
-  스크립트 / Studio / 색 대비 / 레일 / `/about` / 워드마크 / 커서 / 문서 순.
-  `src/app/globals.css`는 세 갈래(색 토큰·`.studio-preview`·`.rail`)라 hunk 단위로 쪼개 세 커밋에 나눠 넣었다.
-- 커밋 과정에서 바꾼 것 하나: `scripts/import-blogs.mjs`의 블로그 계정 식별자 3개를
-  `process.env`(`VELOG_USER`/`TISTORY_HOST`/`NAVER_BLOG_ID`)로 뺐다. 공개 저장소라 히스토리에
-  영구히 남기 때문이다. 값은 `.env.local`에 있고 `pnpm import-blogs`가
-  `--env-file-if-exists`로 읽는다. 값이 비면 그 출처를 건너뛰고 무엇을 채울지 안내한다.
-- Known dirty state that should not be reverted:
-  - **`src/content/.drafts/` 79편은 gitignore 되어 `git status`에 안 보인다.** 존재하지만 추적되지 않는다.
-    원본은 아직 온라인에 있지만 **교정 내용은 디스크에만 있다. 백업 없음.**
-  - `.env.local`도 커밋되지 않는다. 다른 기기에서 `pnpm import-blogs`를 돌리려면 다시 채워야 한다.
+- Changed files: 없음 (커밋 4개로 정리 완료: `17ddccf` 스키마·타입, `a6e84cc` mdx,
+  `54b2a25` 타임라인, `7857b80` 페이지)
+- Untracked files: 없음
+- Known dirty state: 없음
 
 ## Verification
 
-- Command: `pnpm build`
-  Result: 통과. 정적 35개(이전 32 + `/studio`, `/api/studio`, `/api/studio/preview`).
-
-- Command: `pnpm exec eslint`
-  Result: 12 problems (10 errors, 2 warnings). **세션 시작 시점과 동일.** 신규 파일 5개는 0건.
-
-- Command: 프로덕션 게이트 검증 (`pnpm start` 후 curl)
-  Result: `/studio` 404 · `GET /api/studio` 404 · **쓰기 페이로드를 실은 `PUT /api/studio` 404이고 대상 파일 미변경.**
-
-- Command: `git check-ignore -v src/content/.drafts/`
-  Result: `.gitignore:58` 매치. `git status`에 초안 0건.
-
-- Command: `node scripts/import-blogs.mjs`
-  Result: 79/79 수집, 실패 0.
-
-- Command: `node scripts/annotate-drafts.mjs --dry-run` → 실제 실행
-  Result: 적용 67 · 이미 있음 12 · 손으로 봐야 0. 최종 79/79에 편집자 주.
-
-- Command: `about/index.mdx`의 `selected` ref에 오타(`agent-osXX`) 주입 후 `pnpm build`
-  Result: **의도대로 빌드 실패.** 메시지가 slug을 짚음. 원복 완료.
-
-- Command: 라우트 HTTP 체크 (dev)
-  Result: `/`, `/about`, `/portfolio`, `/writing`, `/tags`, `/studio` 전부 200. 인덱스 3개 308.
-
-- 테스트: **자동화 테스트 없음.** 이 repo에 테스트 러너가 설정돼 있지 않아 실행하지 않았다.
-  검증은 빌드·린트·HTTP 체크·컴파일된 CSS 확인·육안으로 대체.
-
-- 육안 확인(데스크톱, 라이트·다크): 홈, `/studio`, 색 재조정 전후. **`/about` 재구성 결과와 레일 안 A 적용 결과는 눈으로 못 봤다** — 브라우저 스크린샷 도구가 6회 연속 타임아웃. 대신 렌더된 HTML의 섹션 순서·Stack 그룹·Timeline `kind` 마커를 curl로 확인했다.
-- 육안 확인(모바일): **하지 못함.**
+- Command: `pnpm build` (velite + next)
+  Result: 통과 (세션 중 매 반영마다 실행)
+- Command: headless Chrome 스크린샷 1280px / 590px / 390px
+  Result: 데스크톱·중간 폭 정상. **390px 에서 사이트 전체 가로 넘침** — /writing 등 기존
+  페이지도 동일 재현이라 /about 무관 기존 이슈(실기기 확인 필요). 테스트 스위트는 없음(repo 에 테스트 부재).
 
 ## Next Steps
 
-1. **사용자 작업** — `src/content/about/index.mdx`의 TODO 14곳:
-   `selected[].why` ×3, `stack.primary`/`familiar`, `now` ×2, `timeline` 첫 항목,
-   **정보처리기사 취득 여부**(아니면 그 항목 삭제), `How I work` 본문 3개.
-2. **사용자 작업** — `src/content/portfolio/{agent-os,dref,minjae-log}/index.mdx` TODO 17곳.
-3. `.drafts/` 79편 검토 → 공개할 것 선별. Studio의 렌즈 버튼으로 옮기면 발행이다.
-   **중복 8편 처리 판단 필요**(Velog 7 + Tistory 1이 이미 공개된 글과 동일. 우테코 회고 5편 포함).
-4. Naver 19편은 일기·서평(부동산·니체·밀리의서재)이다. 나만보기가 맞는 자리인지 확인.
-5. 레일 안 B/C 적용 여부 판단. 디자인 에이전트 진단: `/writing` 거터 136px에 라벨 1개인데 본문 열에 좌표 21개.
-6. `How I work` 색·간격(보류 항목) 재개.
-7. `minjae.space` 도메인 확보 → `SITE_URL` 갱신 → Vercel 커스텀 도메인.
-8. 모바일 육안 확인 (≤768px). 특히 거터 0 분기와 Studio.
-9. Vercel 배포 후 **OG 카드 한글 렌더 확인**.
-10. `미결` 중 승격할 것 선별해 `docs/adr/`에 번호 신설. 1순위는 나만보기 경계.
-11. **main 머지 판단.** 푸시는 끝났고 PR·머지는 아직이다.
+1. 사용자 "이어서" 신호 후: /about 과 나머지 페이지(홈 `src/app/page.tsx`, /writing,
+   /portfolio, 글 상세)의 위화감을 수석 디자이너 재량으로 해소. 어디를 어떻게 만질지는
+   자유지만, /about 이 기준점(헤어라인·영문 라벨·점 표기·세로선 문법).
+2. 방향 잡히면 dref 첨삭 루프 재개(스크린샷 교체 → 핀 → 반영) 가능성 높음.
+3. 콘텐츠 TODO(사진·Now·철학 근거·Skills·프로젝트 summary)는 사용자 몫 — 재촉만.
 
 ## Watch Outs
 
-- **공개 저장소다.** `src/content/.drafts/` 79편에는 개인 일기(2022~2023 네이버)가 들어 있다.
-  gitignore가 유일한 방어선이다. `git add -f`, `.gitignore` 수정, `git clean -x` 전부 위험하다.
-- **`.drafts/`는 백업이 없다.** 교정한 79편은 디스크에만 있다. 원본은 온라인에 남아 있지만 교정 결과는 아니다.
-- **`"use client"` 컴포넌트에서 `#site/content` / `@/lib/posts` / `@/lib/tags`를 직접 import 하지 말 것.** 544KB 청크의 원인이었다.
-- **글 18개 permalink를 건드리지 말 것.**
-- **Studio는 파일을 쓴다.** 게이트가 라우트(`src/app/studio/page.tsx`)와 API(`src/app/api/studio/route.ts`) 양쪽에 있다. 한쪽만 지우면 다른 쪽이 살아남는다.
-  `next dev`는 LAN에도 바인딩된다(`Network: http://…:3000`). 같은 네트워크에서 쓰기 API에 도달 가능하다.
-- **`pnpm build`와 `pnpm dev`를 동시에 돌리지 말 것.** 이번 세션에서 dev가 3001로 밀리고 3000에 프로덕션이 떠 있어, `/studio` 404를 결함으로 오진할 뻔했다.
-- **pnpm 스토어 경로가 어긋나 있다.** 설치 시 `--store-dir /Users/miniminjae/projects/.pnpm-store` 필요.
-  `pnpm config set store-dir` 로 고정하면 해소된다.
-- **Node 버전 불일치** — `.nvmrc` v24.11.1 vs 설치된 v26.0.0.
-- 거절된 프로토타입 방향(손으로 그린 세계수 SVG, 장식 키프레임, 자체 팔레트)을 되살리지 말 것.
-- **편집자 주는 사실이어야 한다.** 교정 중 "코드를 한 글자도 안 바꿨다"고 썼다가 실제로는 들여쓰기를 복원한 것이어서 문구를 고쳤다. `annotate-drafts.mjs`가 펜스 밖 코드를 스스로 검사해 건너뛰는 것도 같은 이유다.
-- `docs/adr/`가 결정 정본이다. 이 노트나 `docs/design/`의 서술을 확정 결정으로 인용하지 말 것 (D-015).
-- 이 환경에서 브라우저 스크린샷 도구가 세션 후반 내내 실패했다. 반응형·시각 확인은 다른 수단이 필요하다.
+- 390px 가로 넘침은 기존 이슈 — /about 작업으로 오인해 되돌리지 말 것.
+- dref 서버(4180)·markup 라운드는 로컬 상태. 라운드 응답은
+  `~/.markup-blueprint/rounds/<id>/review-response.json` 직접 쓰기 + 핀 status PUT.
+- `git ai-commit` 은 plan → `apply --reviewed` 2단계(경고 시 기본 중단).
+- 브랜치 푸시 안 됨 — 푸시는 사용자 지시 필요.
