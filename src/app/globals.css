@@ -17,13 +17,6 @@
   --body-margin-left: max(24px, env(safe-area-inset-left));
   --body-margin-right: max(24px, env(safe-area-inset-right));
 
-  /* 등뼈(rail) — 사이트 전체를 관통하는 좌표축.
-     50rem 셸에서 좌우 24px을 빼면 752px, 거기서 본문 608px(--content-width)을
-     빼면 144px이 남는다. 136px을 거터로 쓰고 8px을 여유로 둔다.
-     임의값이 아니라 기존 두 토큰에서 유도된 값이다. */
-  --rail-gutter: 8.5rem;
-  --rail-gap: 1.25rem;
-
   --gray-50: #ffffff;
   --gray-75: #fdfdfd;
   --gray-100: #f8f8f8;
@@ -227,8 +220,6 @@ body {
     --page-half-top: 48px;
     --body-margin-left: max(16px, env(safe-area-inset-left));
     --body-margin-right: max(16px, env(safe-area-inset-right));
-    --rail-gutter: 0rem;
-    --rail-gap: 0rem;
   }
 }
 
@@ -238,50 +229,6 @@ body {
   margin-inline: auto;
   padding-left: var(--body-margin-left);
   padding-right: var(--body-margin-right);
-}
-
-/* ── 등뼈 ──────────────────────────────────────────────────────
-   .rail 이 세로선을 소유한다. 섹션마다 따로 그리지 않는 이유는
-   선이 끊기면 좌표축으로 안 읽히기 때문이다. 섹션 사이에 구분선이나
-   배경 전환을 넣지 않고, 거터의 라벨만 바뀌게 한다. */
-.rail {
-  position: relative;
-  margin-left: var(--rail-gutter);
-  /* 세로 여백을 패딩이 아니라 마진으로 갖는다.
-     border-left 는 패딩 박스까지 덮으므로, 페이지가 pt-10 pb-page 를 주면
-     그 여백이 선의 일부가 된다. 실측 결과 헤더 하단과 선 시작 사이 간격이
-     정확히 0px 이었고, 아래로는 마지막 콘텐츠보다 128px 더 내려가 허공에서
-     끊겼다. 시작도 끝도 아무것에도 붙지 않은 선은 지각적 속성이 길이 하나만
-     남는다 — 사용자가 "너무 길다"고 한 것이 이것이다. */
-  margin-block: var(--page-half-top) var(--page-top);
-  padding-left: var(--rail-gap);
-  border-left: 1px solid var(--border);
-}
-
-.rail-label {
-  position: absolute;
-  left: calc(-1 * (var(--rail-gutter) + var(--rail-gap)));
-  width: var(--rail-gutter);
-  padding-right: 0.75rem;
-  text-align: right;
-  text-wrap: balance;
-}
-
-/* 모바일에서는 세로선만 살리고 라벨은 본문 위 인라인으로 내린다.
-   항목 3개짜리에 별도 내비게이션을 만들지 않는 것과 같은 판단이다. */
-@media (max-width: 768px) {
-  .rail {
-    padding-left: 1rem;
-  }
-
-  .rail-label {
-    position: static;
-    display: block;
-    width: auto;
-    padding-right: 0;
-    margin-bottom: 0.5rem;
-    text-align: left;
-  }
 }
 
 /* 설계 문서가 요구하는데 지금까지 한 줄도 없던 항목.

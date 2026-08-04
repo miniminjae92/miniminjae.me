@@ -1,6 +1,5 @@
 // src/app/tags/page.tsx
 import type { Metadata } from "next";
-import { Rail, RailSection } from "@/components/layout/rail";
 import { TagCloud } from "@/components/features/tag-cloud";
 import { SITE_URL } from "@/config/site-metadata";
 import { getAllTags } from "@/lib/tags";
@@ -19,14 +18,15 @@ export default function TagsPage() {
   const tags = getAllTags();
 
   return (
-    <Rail className="space-y-half-page">
-      <RailSection label="Tags">
-        <p className="text-sm text-second">{DESCRIPTION}</p>
-      </RailSection>
+    <article className="mt-8 mb-page">
+      <header className="border-b border-border pb-7">
+        <h1 className="text-2xl leading-tight text-heading">Tags</h1>
+        <p className="mt-3 text-sm text-second">{DESCRIPTION}</p>
+      </header>
 
-      <RailSection>
+      <div className="mt-9">
         <TagCloud tags={tags} />
-      </RailSection>
-    </Rail>
+      </div>
+    </article>
   );
 }

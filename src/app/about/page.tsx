@@ -38,9 +38,9 @@ export function generateMetadata(): Metadata {
 const FEATURED_COUNT = 3;
 
 /**
- * 섹션 제목은 영문 단독이다 — 거터 라벨을 영문 단독으로 통일한 것과 같은
- * 판단. 구획은 열 사이 세로선 하나가 맡는다(구획 시안 A) — 사이트의
- * 정체성인 세로 레일과 같은 언어를 다른 위치에서 말하는 셈이다.
+ * 섹션 제목은 영문 단독이다 — 한글 병기는 한 칸에 두 줄을 만들어 제목이
+ * 캡션이 된다. 구획은 열 사이 세로선 하나가 맡는다(구획 시안 A).
+ * 이 문법(헤어라인·영문 제목·점 표기 날짜)이 다른 페이지들의 기준이다.
  */
 function SectionHeading({ children }: { children: React.ReactNode }) {
   return <h2 className="text-xl leading-tight text-heading">{children}</h2>;

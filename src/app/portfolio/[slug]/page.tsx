@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Rail, RailSection } from "@/components/layout/rail";
 import { MDXContent } from "@/components/mdx/mdx-content";
 import { MetricList } from "@/components/portfolio/metric-list";
 import { SITE_URL } from "@/config/site-metadata";
@@ -66,9 +65,13 @@ export default async function ProjectDetailPage({ params }: BasePageProps) {
   const { prevProject, nextProject } = getProjectNeighbors(slug);
 
   return (
-    <Rail className="space-y-half-page">
-      <RailSection className="space-y-3">
-        <h1 className="text-lg text-balance text-heading">{project.title}</h1>
+    <article className="mt-8 mb-page">
+      {/* 헤더는 인덱스 페이지들과 같은 문법 — 제목 + 요약 + 헤어라인.
+          본문 섹션 제목은 영문 단독(text-xl), /about 과 같은 위계다. */}
+      <header className="space-y-3 border-b border-border pb-8">
+        <h1 className="text-2xl leading-tight text-balance text-heading">
+          {project.title}
+        </h1>
         <p className="max-w-[38ch] text-balance text-body">{project.summary}</p>
 
         <p className="flex flex-wrap items-center gap-x-2 text-sm text-second">
@@ -102,15 +105,18 @@ export default async function ProjectDetailPage({ params }: BasePageProps) {
             ))}
           </ul>
         ) : null}
-      </RailSection>
+      </header>
 
-      <RailSection label="Problem">
-        <p className="whitespace-pre-line text-body">{project.problem}</p>
-      </RailSection>
+      <div className="mt-10 space-y-12">
+        <section className="space-y-4">
+          <h2 className="text-xl leading-tight text-heading">Problem</h2>
+          <p className="whitespace-pre-line text-body">{project.problem}</p>
+        </section>
 
-      {project.judgment.length > 0 ? (
-        <RailSection label="Decision">
-          <ol className="space-y-5">
+        {project.judgment.length > 0 ? (
+          <section className="space-y-4">
+            <h2 className="text-xl leading-tight text-heading">Decision</h2>
+            <ol className="space-y-5">
             {project.judgment.map((item, index) => (
               <li key={item} className="flex gap-4">
                 <span
@@ -122,20 +128,22 @@ export default async function ProjectDetailPage({ params }: BasePageProps) {
                 <span className="text-body">{item}</span>
               </li>
             ))}
-          </ol>
-        </RailSection>
-      ) : null}
+            </ol>
+          </section>
+        ) : null}
 
-      <RailSection label="Result">
-        <MetricList metrics={project.metrics} />
-        <div className="prose max-w-none text-base text-second">
-          <MDXContent code={project.code} />
-        </div>
-      </RailSection>
+        <section className="space-y-4">
+          <h2 className="text-xl leading-tight text-heading">Result</h2>
+          <MetricList metrics={project.metrics} />
+          <div className="prose max-w-none text-base text-second">
+            <MDXContent code={project.code} />
+          </div>
+        </section>
 
-      {writings.length > 0 ? (
-        <RailSection label="Writing">
-          <ul className="group/list">
+        {writings.length > 0 ? (
+          <section className="space-y-4">
+            <h2 className="text-xl leading-tight text-heading">Writing</h2>
+            <ul className="group/list">
             {writings.map((post) => (
               <li
                 key={post.slug}
@@ -154,12 +162,11 @@ export default async function ProjectDetailPage({ params }: BasePageProps) {
                 </Link>
               </li>
             ))}
-          </ul>
-        </RailSection>
-      ) : null}
+            </ul>
+          </section>
+        ) : null}
 
-      {prevProject || nextProject ? (
-        <RailSection>
+        {prevProject || nextProject ? (
           <nav className="flex justify-between gap-4 border-t border-border pt-6 text-sm">
             {prevProject ? (
               <Link
@@ -182,8 +189,8 @@ export default async function ProjectDetailPage({ params }: BasePageProps) {
               <span />
             )}
           </nav>
-        </RailSection>
-      ) : null}
-    </Rail>
+        ) : null}
+      </div>
+    </article>
   );
 }
