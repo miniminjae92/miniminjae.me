@@ -59,7 +59,7 @@ export function TagCloud({ tags }: { tags: [string, TagInfo][] }) {
               <li key={`${post.type}-${post.slug}`}>
                 <Link
                   href={post.permalink}
-                  className="flex items-baseline justify-between gap-3 py-1.5 text-sm transition-opacity duration-300 group-hover/list:opacity-40 hover:!opacity-100"
+                  className="flex items-baseline justify-between gap-3 py-1.5 text-sm transition-opacity duration-300 group-hover/list:opacity-(--dim) hover:!opacity-100"
                 >
                   <span className="flex-1 truncate text-body hover:text-heading">
                     {post.title}

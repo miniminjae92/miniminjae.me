@@ -96,7 +96,7 @@ export function WritingIndex({ items }: { items: PostSummary[] }) {
               <Link
                 key={item.permalink}
                 href={item.permalink}
-                className="flex items-baseline justify-between gap-4 py-1 transition-opacity duration-300 group-hover/list:opacity-40 hover:!opacity-100"
+                className="flex items-baseline justify-between gap-4 py-1 transition-opacity duration-300 group-hover/list:opacity-(--dim) hover:!opacity-100"
               >
                 <span className="text-body hover:text-heading">
                   {item.title}

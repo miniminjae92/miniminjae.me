@@ -51,7 +51,7 @@ export function AboutTimeline({
       {sorted.map((entry) => (
         <div
           key={`${entry.label}-${entry.start}`}
-          className="relative grid grid-cols-[3.5rem_1fr] items-baseline gap-x-10 transition-opacity duration-300 group-hover/list:opacity-40 hover:!opacity-100"
+          className="relative grid grid-cols-[3.5rem_1fr] items-baseline gap-x-10 transition-opacity duration-300 group-hover/list:opacity-(--dim) hover:!opacity-100"
         >
           <span
             aria-hidden

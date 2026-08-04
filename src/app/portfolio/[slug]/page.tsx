@@ -147,7 +147,7 @@ export default async function ProjectDetailPage({ params }: BasePageProps) {
             {writings.map((post) => (
               <li
                 key={post.slug}
-                className="transition-opacity duration-300 group-hover/list:opacity-40 hover:!opacity-100"
+                className="transition-opacity duration-300 group-hover/list:opacity-(--dim) hover:!opacity-100"
               >
                 <Link
                   href={post.permalink}

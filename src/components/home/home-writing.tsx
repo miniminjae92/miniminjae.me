@@ -25,7 +25,7 @@ export function HomeWriting({
         return (
           <div
             key={lens.key}
-            className="transition-opacity duration-300 group-hover/list:opacity-40 hover:!opacity-100"
+            className="transition-opacity duration-300 group-hover/list:opacity-(--dim) hover:!opacity-100"
           >
             <div className="flex items-baseline justify-between gap-4">
               <p className="text-heading">{lens.label}</p>

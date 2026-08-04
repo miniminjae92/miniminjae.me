@@ -19,7 +19,7 @@ export function SelectedList({ items }: { items: ResolvedSelected[] }) {
       {items.map((item) => (
         <li
           key={item.permalink}
-          className="border-b border-border/50 transition-opacity duration-300 group-hover/list:opacity-40 hover:!opacity-100"
+          className="border-b border-border/50 transition-opacity duration-300 group-hover/list:opacity-(--dim) hover:!opacity-100"
         >
           <Link href={item.permalink} className="block py-5">
             <div className="flex items-baseline justify-between gap-4">
