@@ -52,27 +52,6 @@ export default defineConfig({
         now: s.array(s.string()).default([]),
 
         /**
-         * 증거로 가는 입구. 이 페이지에 없던 유일한 구성이다.
-         *
-         * 포트폴리오가 별도 라우트라, /about 만 읽는 검토자는 물건을 한 번도
-         * 보지 못한 채 주장과 수강 이력만 읽고 나간다. 경력 전환자에게는
-         * 기본값이 "증거 없음"이라 그 구멍이 특히 크다.
-         *
-         * ref 는 글 slug 또는 프로젝트 slug 다. permalink 가 아니라 bare slug 를
-         * 쓰는 건 writings 와 같은 이유 — 나중에 URL 이 바뀌어도 살아남는다.
-         * 존재하지 않는 slug 는 lib/about.ts 가 빌드 타임에 잡는다.
-         */
-        selected: s
-          .array(
-            s.object({
-              ref: s.string(),
-              // 왜 이걸 먼저 읽어야 하는가. 목록이 아니라 안내가 되게 하는 값.
-              why: s.string(),
-            }),
-          )
-          .default([]),
-
-        /**
          * 두 그룹으로 나눈다.
          *
          * 평평한 나열은 검토자에게 키워드 대조를 시키고, 그건 경력 전환자가

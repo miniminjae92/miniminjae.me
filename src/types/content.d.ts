@@ -87,21 +87,6 @@ export interface TimelineEntry {
 }
 
 /** /about 이 가리키는 증거 한 건. ref 는 글 또는 프로젝트의 bare slug. */
-export interface SelectedEntry {
-  ref: string;
-  why: string;
-}
-
-/** ref 를 실제 글/프로젝트로 해석한 결과. lib/about.ts 가 만든다. */
-export interface ResolvedSelected {
-  title: string;
-  permalink: string;
-  why: string;
-  /** 무엇으로 해석됐는지. 목록에서 글과 프로젝트를 구분해 표시한다. */
-  kind: "post" | "project";
-  date: string;
-}
-
 export interface AboutStack {
   /** 손에 익은 것. 짧을수록 신뢰가 간다. */
   primary: string[];
@@ -113,7 +98,6 @@ export interface AboutContent {
   headline: string;
   role: string;
   now: string[];
-  selected: SelectedEntry[];
   stack: AboutStack;
   timeline: TimelineEntry[];
   /** 일하는 방식의 한 줄 요약들. 본문 소제목과 같은 문장을 쓴다. */
