@@ -14,10 +14,18 @@ import { ProjectMetric } from "@/types/content";
  * 3. metrics 가 비면 아무것도 렌더하지 않는다. 지금 세 항목 모두 비어 있고
  *    그게 정직한 상태다. 빈 3열 그리드를 보여주는 것보다 낫다.
  */
+/**
+ * 좁은 화면에서는 한 열로 쌓는다. 분기는 사이트의 모바일 기준인 `sm`.
+ *
+ * 세 항목 모두 metrics 가 비어 있는 동안에는 이 그리드가 렌더된 적이 없어
+ * 고정 3열의 문제가 드러나지 않았다. 첫 실제 metric 이 들어오자 390px 에서
+ * note(조건·분모)가 한 열에 6줄로 접혔다 — note 를 못 읽으면 value 는 광고가
+ * 되므로, 열을 줄이는 쪽이 맞다.
+ */
 const GRID_COLS: Record<number, string> = {
   1: "grid-cols-1",
-  2: "grid-cols-2",
-  3: "grid-cols-3",
+  2: "sm:grid-cols-2",
+  3: "sm:grid-cols-3",
 };
 
 export function MetricList({ metrics }: { metrics: ProjectMetric[] }) {
@@ -28,7 +36,7 @@ export function MetricList({ metrics }: { metrics: ProjectMetric[] }) {
   return (
     <dl
       className={cn(
-        "grid gap-x-6 gap-y-8 border-y border-border py-8",
+        "grid grid-cols-1 gap-x-6 gap-y-8 border-y border-border py-8",
         GRID_COLS[columns],
       )}
     >
