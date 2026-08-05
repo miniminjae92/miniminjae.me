@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { AboutTimeline } from "@/components/about/about-timeline";
 import { PROFILE, SITE_URL } from "@/config/site-metadata";
 import { aboutDoc, allPosts } from "@/lib/content";
@@ -72,13 +73,17 @@ export default function AboutPage() {
           contact 는 페이지 맨 아래로 — 읽기를 마친 사람이 찾는 정보다.
           영문 이름은 동일 무게 병기가 아니라 작은 자간 넓은 라벨이다. */}
       <header className="flex flex-wrap items-end gap-x-8 gap-y-6 border-b border-border pb-9">
-        {/* TODO: 실제 사진으로 교체. 3:4 세로 사진. */}
-        <div
-          aria-hidden
-          className="flex aspect-[3/4] w-48 shrink-0 items-center justify-center border border-border text-2xs text-disabled"
-        >
-          사진 자리 3:4
-        </div>
+        {/* 원본이 1086×1448 로 이미 정확히 3:4 라 잘라내지 않았다.
+            테두리는 자리표시자에서 그대로 가져온다 — 사진도 다른 구획과
+            같은 1px 헤어라인을 쓴다(ADR-0002). */}
+        <Image
+          src="/profile.webp"
+          alt="강민재와 아기, 강아지를 함께 그린 색연필 그림"
+          width={768}
+          height={1024}
+          priority
+          className="aspect-[3/4] w-48 shrink-0 border border-border object-cover"
+        />
 
         <div className="min-w-0">
           <h1 className="text-4xl leading-tight text-heading">
