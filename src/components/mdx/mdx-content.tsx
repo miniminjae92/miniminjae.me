@@ -22,8 +22,10 @@ const components = {
   h4: (props: HTMLAttributes<HTMLHeadingElement>) => (
     <h4 className="mt-18 mb-5 font-bold text-heading" {...props} />
   ),
+  // 아래 여백이므로 가드는 마지막 요소에 건다. `:not(:first-child)` 였을 때는
+  // 첫 문단만 mb 를 잃어 둘째 문단과 붙고, 대신 본문 끝에 빈 여백이 남았다.
   p: (props: HTMLAttributes<HTMLParagraphElement>) => (
-    <p className="leading-7 [&:not(:first-child)]:mb-5" {...props} />
+    <p className="leading-7 [&:not(:last-child)]:mb-5" {...props} />
   ),
 
   strong: (props: HTMLAttributes<HTMLElement>) => (
