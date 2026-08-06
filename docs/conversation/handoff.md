@@ -1,89 +1,115 @@
 # Agent Handoff
 
-이전 핸드오프(2026-08-04, /about 이력서형 개편 세션)는 `46f26f3` 커밋에 남아 있다.
-이 노트는 2026-08-04 세계수 폐기 + 전 페이지 재구성 + 라이트 모드 조정 세션을 다룬다.
+이전 핸드오프(2026-08-04, 세계수 폐기·전 페이지 재구성 세션)는 `64a1c53` 커밋에
+남아 있다. 이 노트는 2026-08-05~06 Projects·About 콘텐츠 채우기 세션을 다룬다.
 
 ## Context
 
-- Date: 2026-08-04
+- Date: 2026-08-06
 - Repository: `miniminjae92/miniminjae.me` (**public**)
-- Branch: `feat/living-personal-site` — `eee977e` 까지 **origin 에 푸시됨**
-- User goal(원문 요지): ① "각 카테고리에 맞는 것이 중요하다. 홈·Projects·Writing 은
-  각각을 최대한 잘 표현해야 한다. 세계수 정본은 없애버려라." ② "라이트 모드에서
-  호버(포커스) 차이가 잘 안 느껴지고 기본 채도도 다크보다 바래 보인다.
-  예민하게 만져 달라." — 둘 다 반영됐고 사용자가 확인·승인했다.
+- Branch: `feat/living-personal-site` — 이번 세션 8커밋
+- User goal(원문 요지): ① "Projects를 채우려고 한다. 우선순위 리스트업하고 하나씩
+  완성하자. 반복되는 부분은 기록해서 스킬화하자." ② 진행 중 추가: "일반인도
+  이해가 쉽도록 하는 것이 중요하다." ③ "private일 필요가 있나?" ④ "시각적으로
+  보여줄 부분은 무조건 있는 게 좋고 만들어내는 게 중요한가?" ⑤ "about도 진행,
+  개인 노트 볼트를 참고해도 좋다." ⑥ "42 경산, AI 국비교육 자료도 올려달라.
+  Writing에 임시글이 섞여 있어 고민된다."
+
+  ※ 이력의 출처는 개인 노트 볼트의 교육 요약 문서다. 볼트 위치는 이 저장소가
+  아니라 개인 에이전트 설정(AGENTS.md)에 있다 — 공개 저장소에 적지 않는다.
 
 ## Current State
 
-전부 커밋·푸시됨, 워킹 트리 깨끗:
+전부 커밋됨, 워킹 트리 깨끗:
 
-- **세계수 은유 전면 폐기 (ADR-0002)** — `docs/adr/0002-drop-world-tree-metaphor.md`.
-  - `rail.tsx` 삭제, `globals.css` 의 rail 토큰·규칙 삭제.
-  - CONTEXT.md: Living Tree / Rail / Constellation 삭제, Portfolio → **Projects**
-    개명(URL `/portfolio` 유지), 세계관 서사 제거.
-  - `docs/design/living-personal-site.md` 재작성, README 동기화.
-- **전 페이지를 /about 문법으로 재구성** (`8052327`):
-  - 홈: 히어로 + Projects + Writing (Contact 섹션 제거 — 히어로와 중복).
-  - `/writing` `/portfolio` `/tags`: 제목 + 한 문장 + 헤어라인 헤더.
-  - `/portfolio/[slug]`: 헤더 밴드 + Problem/Decision/Result/Writing 영문 섹션 제목.
-  - 내비 라벨 Portfolio → Projects, `project-list.tsx` 마지막 항목 `last:border-b-0`.
-- **라이트 모드 미세 조정** (`eee977e`), 사용자 확인 완료:
-  - 형제 흐림을 `--dim` 변수로 승격 — 라이트 28% / 다크 40%(기존값).
-    사용처 7곳이 `group-hover/list:opacity-(--dim)` 으로 통일됨.
-  - 라이트 텍스트 반 단계 진하게: body #3a3a3a(11.1:1), second #616161(6.1:1),
-    disabled #6e6e6e(5.0:1). 다크 토큰은 무변경.
-  - 라이트 헤어라인 알파 0.09 → 0.12.
+- **Projects 6건 완성 (TODO 0)** — Agent OS, minjae.space, dref, agent-notify,
+  Element to Markdown, 설명보따리. 모든 문장이 대상 저장소의 README·ADR·결정
+  기록·커밋에서 확인된 사실이다. 검증 못 한 서술과 `note` 없는 지표는 안 실었다.
+- **About 개편** — `role` 을 백엔드 개발자 → **AX 엔지니어**로. 이력 복원(42 경산,
+  성균관대 산학협력단 AI 과정, 우테코 8기 본과정 진행 중), 자격증 3종, 프로필 사진.
+- **Writing 18편 → 14편** — 얇은 메모 4편을 `.drafts/` 로 내림.
+- **죽은 파이프라인 제거** — `selected` 와 MDX 본문은 ADR-0002 재구성 때 화면에서
+  빠졌는데 배관만 남아 있었다. `src/lib/about.ts`·`SelectedList` 삭제.
+- **사이트 버그 2건** — 문단 아래 여백 가드(전 글 첫 문단이 둘째와 붙어 있었다),
+  결과 지표 그리드 반응형.
+- **스킬 신설** — `.claude/skills/portfolio-entry/SKILL.md` (저장소 로컬).
 
-의도적으로 안 바꾼 것:
+의도적으로 안 한 것:
 
-- `/portfolio` URL — Projects 는 라벨 교체(ADR-0002).
-- `pnpm lint` 기존 에러 12건(scripts/optimize-images.js require,
-  splash-cursor 인라인 class, theme-toggle set-state-in-effect) — 이번 작업과 무관.
-- 다크 모드 토큰·흐림 강도 전부.
+- `naon`·`hushaby`·`gh-mine`·`video-summary` 등 나머지 Projects 후보 — 6건이
+  서로 다른 능력을 맡도록 구성한 결과이지 누락이 아니다.
+- 시각 자료 — 아래 Watch Outs 참고.
+- `/about` 의 `selected`·본문 복원 — 사용자 판단으로 정리 쪽을 택했다.
 
 ## Decisions (cite, do not restate)
 
-- 확정: `ADR-0001` — Portfolio 가 Roots 를 흡수. `ADR-0002` — 세계수 은유·레일
-  폐기, 페이지별 표현 + 공통 디테일 문법, Projects 개명. 전문은 `docs/adr/`.
-- 미결(노트 초안 — 확정 인용 금지): 라이트 `--dim` 28%·헤어라인 0.12·텍스트
-  토큰 값은 이번 세션의 감각 조정 결과로 사용자가 승인했으나 ADR 은 아니다.
-  재조정 요청이 오면 `globals.css` 의 해당 변수만 움직인다.
+- 확정(ADR 아님, 이번 세션 사용자 승인):
+  - `role: AX 엔지니어`. 근거는 실측(스스로 만든 저장소에 Java 0, Swift/TS/JS/
+    Python 중심)과 여섯 항목의 관통선("AI 를 어디서 멈춰 세우는가").
+  - Agent OS `visibility: public`. dotfiles 가 public 저장소이고 결정 기록이 그
+    안에 있어 private 은 사실과 다르다.
+  - Writing 4편 하차. 삭제가 아니라 초안 이동.
+  - `/about` 의 `selected`·본문은 복원하지 않고 필드째 제거.
+- 미결(확정 인용 금지):
+  - 우테코 8기 본과정 시작일 `2026-03-01` 은 **추정치**다. 볼트 문서에 "2026.03"
+    까지만 있다. 정확한 날짜를 받으면 고친다.
+  - `dref`·`manual-library` 공개 전환. 막던 이유(남의 저작물·데이터)는 이미 없다 —
+    `dref/library/.gitignore` 가 이미지를 전부 제외하고, `manual-library` 는 데이터가
+    없다. 남은 관문은 시크릿 스캔(D-020)이고 `gitleaks` 가 아직 미설치다.
 
 ## Files To Read First
 
-- `docs/adr/0002-drop-world-tree-metaphor.md`: 이번 세션의 확정 결정과 근거.
-- `src/app/globals.css`: 팔레트·`--dim`·헤어라인 — 시각 조정의 단일 지점.
-- `src/app/about/page.tsx`: 공통 문법의 기준점(이전 세션 산출물).
+- `.claude/skills/portfolio-entry/SKILL.md`: 항목 작성 절차와 이 저장소 고유 함정.
+  Projects 를 손대기 전에 반드시 읽는다.
+- `src/content/portfolio/agent-os/index.mdx`: 문체와 눈높이의 기준점.
+- `~/.dotfiles/agent-os/DECISIONS.md`: Agent OS 항목의 근거(D-001~D-022).
 
 ## Work In Progress
 
-- Changed files: 없음 (전부 커밋·푸시: `8052327` 재구성, `1c75974` 정본,
-  `f7bdbfa` 인계 노트, `eee977e` 라이트 조정)
+- Changed files: 없음
 - Untracked files: 없음
 - Known dirty state: 없음
 
 ## Verification
 
 - Command: `pnpm build`
-  Result: 통과 (재구성 후, 라이트 조정 후 각각 실행)
-- Command: headless Chrome 1280px 스크린샷 (홈·/writing·/portfolio·/portfolio/dref)
-  Result: 정상. 이중 헤어라인 1건 발견 → `last:border-b-0` 로 수정.
-- Command: claude-in-chrome 으로 라이트/다크 호버 상태 실측
-  Result: 라이트 흐림 차이 뚜렷, 다크 무변화. 확인용 localStorage theme 은 원복함.
-- 테스트 스위트 없음(repo 에 테스트 부재). `pnpm lint` 는 기존 에러 12건으로
-  실패하나 이번 변경 파일은 무관.
+  Result: 통과. 최종 상태와 각 커밋 시점 모두.
+- Command: `git worktree add --detach <tmp> HEAD~2 && pnpm build`
+  Result: 통과. 커밋 순서를 빌드 기준으로 잡았다는 주장을 실제로 확인한 것 —
+  About 콘텐츠를 죽은 스키마 제거보다 먼저 넣지 않으면 중간 커밋이 깨진다.
+- Command: claude-in-chrome 실측 (1440px / 485px)
+  Result: 문단 여백 균일, 지표 그리드 데스크톱 3열·모바일 1열, 가로 넘침 0.
+- Command: `pnpm lint`
+  Result: 기존과 동일한 12건(10 errors, 2 warnings)으로 실패. 이번 변경이 추가한
+  것은 없다. `mdx-content.tsx` 의 2건은 이번에 고친 `p:` 규칙(25행)이 아니라
+  `MDXContent` 컴포넌트 팩토리(170·173행)다.
+- 테스트 스위트 없음(repo 에 테스트 부재).
 
 ## Next Steps
 
-1. 콘텐츠 TODO 채우기(사용자 몫): 프로젝트 summary/problem/result,
-   /about 사진·Now·Skills. 에이전트는 재촉만.
-2. 390px 가로 넘침 원인 조사 — /writing 등에서 재현되는 기존 이슈.
-3. 필요시 dref 첨삭 루프 재개(스크린샷 교체 → 핀 → 반영).
+1. 우테코 8기 본과정 정확한 시작일 확인 후 `about/index.mdx` timeline 수정.
+2. `brew install gitleaks` → `dref`·`manual-library` 스캔 → 통과 시 사용자가
+   `gh repo edit --visibility public` 실행 → 각 항목의 `visibility`·`links` 갱신.
+3. `manual-library` 를 실제 설명서를 담은 상태로 재캡처하면 시각 자료가 생긴다.
+4. Projects 확장 후보: `gh-mine`(골드라벨 채점 + 사람 승인 관문),
+   `video-summary`(기본 모델 호출 0), `naon`(프라이버시 설계).
+5. 390px 가로 넘침 — 이전 세션부터 있던 미해결 이슈. 이번에 만든
+   `/portfolio/*` 에서는 재현되지 않았다.
 
 ## Watch Outs
 
-- 390px 가로 넘침은 이번 작업 이전부터 있던 이슈 — 재구성 탓으로 오인해
-  되돌리지 말 것.
-- 레일 부활 제안은 ADR-0002 "되돌리는 법" 절 기준으로 판단.
-- 라이트 모드 값은 "반 단계" 감각으로 수렴한 상태 — 큰 폭 이동 금지,
-  변수 하나씩만.
+- **`src/content/.drafts/` 는 gitignore 대상이다.** 그리로 옮기면 "이동"이 아니라
+  추적 해제로 기록된다(커밋 `727295c` 는 -504 deletions 로 보인다). 파일은 디스크에
+  있고 git 이력으로도 복구된다. 되살리려면 `.drafts/memo-*` 를 `memo/` 로 옮긴다.
+- **`pnpm build` 통과는 렌더 검증이 아니다.** 스키마만 본다. 이번 세션에서 빌드를
+  통과한 뒤 브라우저에서 잡힌 것: `summary` 실질 상한 70자(`max-w-[38ch]`),
+  `problem` 의 `whitespace-pre-line` 줄바꿈(한 문단 = 한 줄로 쓸 것),
+  `judgment` 의 plain text 렌더(마크다운·곧은따옴표 안 됨).
+- **시각 자료는 "있는가"가 아니라 "작동을 보여주는가"로 판정한다.** 이번에 걸러낸
+  셋: 스토어 홍보 배너(로고), 디자인 QA 캡처(더미 데이터 `0페이지`), 아이콘 에셋.
+  없는 것을 포트폴리오용으로 만들어 내는 것은 `note` 없는 지표를 싣는 것과 같다.
+- **`~/projects/ww-project` 는 우테코 8기 레벨3 팀 프로젝트다.** 저장소 원격이
+  타인 계정이고 본인 커밋이 0건이라 남의 저장소로 오인하기 쉽다. 기존 코드베이스를
+  계승하는 팀 과제이며, 기여가 쌓이면 Projects 항목 후보가 된다.
+- 일반인 눈높이는 이 사이트의 유지 규칙이다. 설명을 덧붙이지 말고 같은 길이로 더
+  쉬운 단어를 쓴다. 숫자와 사실은 뭉개지 않는다. 상세는 스킬 문서에 있다.
