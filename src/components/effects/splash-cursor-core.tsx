@@ -23,6 +23,10 @@ interface CursorSplashProps {
   COLOR_UPDATE_SPEED?: number;
   BACK_COLOR?: ColorRGB;
   TRANSPARENT?: boolean;
+  /** 캔버스 전체 불투명도. 원본에는 없고 강도 단계를 위해 더했다. */
+  OPACITY?: number;
+  /** 0 이면 완전 무채색, 1 이면 원색 그대로. 이것도 강도용으로 더했다. */
+  SATURATION?: number;
 }
 
 interface Pointer {
@@ -68,6 +72,8 @@ export default function CursorSplash({
   COLOR_UPDATE_SPEED = 10,
   BACK_COLOR = { r: 0.5, g: 0, b: 0 },
   TRANSPARENT = true,
+  OPACITY = 0.15,
+  SATURATION = 0,
 }: CursorSplashProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -1467,7 +1473,13 @@ export default function CursorSplash({
   ]);
 
   return (
-    <div className="pointer-events-none fixed top-0 left-0 z-50 h-full w-full opacity-15 grayscale-100">
+    /* 불투명도와 채도가 opacity-15 grayscale-100 유틸리티로 굳어 있던 것을
+       props 로 뺐다 — 팔레트의 강도 단계가 이 둘을 움직인다. 기본값은
+       굳어 있던 값과 같아서, props 를 주지 않으면 예전과 똑같이 보인다. */
+    <div
+      className="pointer-events-none fixed top-0 left-0 z-50 h-full w-full"
+      style={{ opacity: OPACITY, filter: `saturate(${SATURATION})` }}
+    >
       <canvas ref={canvasRef} id="fluid" className="block h-screen w-screen" />
     </div>
   );
