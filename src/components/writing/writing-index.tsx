@@ -1,7 +1,8 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
 import { LENSES, WritingLens } from "@/config/lens";
 import { formatArchiveDate } from "@/lib/date";
 import { cn } from "@/lib/utils";
@@ -13,6 +14,9 @@ import { PostSummary } from "@/types/content";
  * 서버가 { title, permalink, date, lens } 만 담은 경량 배열을 넘긴다.
  * 컴파일된 MDX 는 클라이언트 번들에 들어오지 않는다. 이건 사이트 내비게이션이
  * 아니라 필터라서 헤더 nav 와 다른 컴포넌트로 둔다.
+ *
+ * 상태를 useState 가 아니라 ?lens= 에 둔다. 글 하단 알약형 내비가 여기로
+ * 들어오기 때문에 필터가 링크로 열려야 한다.
  */
 type Filter = WritingLens | "all";
 
@@ -30,15 +34,12 @@ function groupByYear(items: PostSummary[]): [string, PostSummary[]][] {
 }
 
 export function WritingIndex({ items }: { items: PostSummary[] }) {
-  const [filter, setFilter] = useState<Filter>("all");
+  const router = useRouter();
+  const param = useSearchParams().get("lens");
 
-  const counts = useMemo(() => {
-    const result: Record<string, number> = { all: items.length };
-    for (const lens of LENSES) {
-      result[lens.key] = items.filter((item) => item.lens === lens.key).length;
-    }
-    return result;
-  }, [items]);
+  const filter: Filter = LENSES.some((lens) => lens.key === param)
+    ? (param as WritingLens)
+    : "all";
 
   const visible = useMemo(
     () => (filter === "all" ? items : items.filter((i) => i.lens === filter)),
@@ -61,7 +62,12 @@ export function WritingIndex({ items }: { items: PostSummary[] }) {
               <button
                 key={key}
                 type="button"
-                onClick={() => setFilter(key)}
+                onClick={() =>
+                  router.replace(
+                    key === "all" ? "/writing" : `/writing?lens=${key}`,
+                    { scroll: false },
+                  )
+                }
                 aria-pressed={filter === key}
                 className={cn(
                   "cursor-pointer rounded px-2 py-1 text-sm transition-colors hover:bg-selection",
@@ -70,18 +76,16 @@ export function WritingIndex({ items }: { items: PostSummary[] }) {
                     : "text-second hover:text-heading",
                 )}
               >
-                {label}{" "}
-                <span className="text-2xs text-disabled tabular-nums">
-                  {counts[key]}
-                </span>
+                {label}
               </button>
             );
           })}
         </div>
 
-        <p className="min-h-6 text-sm text-second">
-          {active ? active.description : "지금까지 남긴 기록 전부"}
-        </p>
+        {/* 렌즈를 눌렀을 때만 뜻을 밝힌다. All 일 때 자리를 채우던 문장은
+            헤더 설명문과 같은 말이라 걷어냈다. min-h-6 는 남긴다 — 없애면
+            렌즈를 누를 때 아래 목록이 24px 튄다. */}
+        <p className="min-h-6 text-sm text-second">{active?.description}</p>
       </div>
 
       <div className="group/list space-y-8">
