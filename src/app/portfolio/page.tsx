@@ -6,6 +6,13 @@ import { getAllProjectsDesc } from "@/lib/projects";
 const DESCRIPTION =
   "만든 것과 그 작업이 만든 변화를 설명하는 공간입니다. 완성품보다 어떤 문제를 어떻게 판단했는지를 남깁니다.";
 
+/**
+ * 화면에는 둘째 문장만 쓴다. 첫 문장이 말하는 것은 h1 "Projects" 와 바로
+ * 아래 목록이 이미 보여준다. 검색 결과에는 두 문장이 다 필요하므로
+ * metadata 쪽은 DESCRIPTION 을 그대로 쓴다.
+ */
+const LEAD = "완성품보다 어떤 문제를 어떻게 판단했는지를 남깁니다.";
+
 export const metadata: Metadata = {
   title: "프로젝트",
   description: DESCRIPTION,
@@ -30,7 +37,7 @@ export default function PortfolioPage() {
       <header className="border-b border-border pb-7">
         <h1 className="text-2xl leading-tight text-heading">Projects</h1>
         <p className="mt-3 max-w-[42ch] text-sm text-balance text-second">
-          {DESCRIPTION}
+          {LEAD}
         </p>
       </header>
 

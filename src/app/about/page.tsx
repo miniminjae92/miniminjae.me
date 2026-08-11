@@ -2,8 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { AboutTimeline } from "@/components/about/about-timeline";
 import { PROFILE, SITE_URL } from "@/config/site-metadata";
-import { aboutDoc, allPosts } from "@/lib/content";
-import { formatDate } from "@/lib/date";
+import { aboutDoc } from "@/lib/content";
 import { getAllPostsDesc } from "@/lib/posts";
 import { getAllProjectsDesc } from "@/lib/projects";
 import Link from "next/link";
@@ -63,7 +62,11 @@ export default function AboutPage() {
   const contact = [
     { href: `mailto:${PROFILE.email}`, label: PROFILE.email },
     { href: PROFILE.github, label: PROFILE.github.replace("https://", "") },
-    { href: PROFILE.linkedin, label: PROFILE.linkedin.replace("https://", "") },
+    // www. 까지 떼야 위 두 줄과 시작선이 맞는다. href 는 상수 그대로 쓴다.
+    {
+      href: PROFILE.linkedin,
+      label: PROFILE.linkedin.replace("https://www.", ""),
+    },
   ];
 
   return (
@@ -71,7 +74,9 @@ export default function AboutPage() {
       {/* 이력서형 헤더 밴드 — 사진 · 이름 · 철학 요약.
           첫 화면이 사람(이름)과 주장(헤드라인·일하는 방식)을 함께 보여준다.
           contact 는 페이지 맨 아래로 — 읽기를 마친 사람이 찾는 정보다.
-          영문 이름은 동일 무게 병기가 아니라 작은 자간 넓은 라벨이다. */}
+          영문 이름 라벨은 뺐다. 바로 위 h1 의 한글 이름을 로마자로 다시
+          쓴 것뿐이라 밴드에 회색 한 줄만 더했다. PROFILE.nameEn 상수는
+          siteMetadata 의 authors·creator 에서 계속 쓴다. */}
       <header className="flex flex-wrap items-end gap-x-8 gap-y-6 border-b border-border pb-9">
         {/* 원본이 1086×1448 로 이미 정확히 3:4 라 잘라내지 않았다.
             테두리는 자리표시자에서 그대로 가져온다 — 사진도 다른 구획과
@@ -89,9 +94,6 @@ export default function AboutPage() {
           <h1 className="text-4xl leading-tight text-heading">
             {PROFILE.name}
           </h1>
-          <p className="mt-1.5 text-xs tracking-[0.18em] text-disabled uppercase">
-            {PROFILE.nameEn}
-          </p>
           <p className="mt-3 text-sm text-second">{about.role}</p>
         </div>
 
@@ -100,7 +102,7 @@ export default function AboutPage() {
             남아 붕 떠 보인다. 이름과의 중앙 여백은 의도된 간격이라
             폭은 조금씩만 늘린다 — 중앙 여백을 다 먹으면 밴드가 답답해진다. */}
         <div className="ml-auto min-w-0 grow basis-0 self-end space-y-5 max-w-[38ch]">
-          <p className="text-base leading-8 text-balance text-heading">
+          <p className="leading-8 text-balance text-heading">
             {about.headline}
           </p>
           {about.philosophy.length > 0 ? (
@@ -140,7 +142,9 @@ export default function AboutPage() {
         {timeline.length > 0 ? (
           <section className={SECTION_FRAME}>
             <SectionHeading>Timeline</SectionHeading>
-            <AboutTimeline items={timeline} />
+            {/* 남는 5개 항목이 전부 kind: education 이라 "교육"만 다섯 번
+                찍힌다. work·project 항목이 들어오면 다시 켠다. */}
+            <AboutTimeline items={timeline} showKind={false} />
           </section>
         ) : null}
 
@@ -153,8 +157,10 @@ export default function AboutPage() {
         ) : null}
 
         {/* 대표를 보여준다 — 갯수는 정보가 없고, 검토자가 타고 들어갈
-            입구가 필요하다. 타이틀 옆 부가설명은 있으면 싣고 없으면
-            비운다 — dref 같은 고유명사는 이름만으로 아무것도 말하지 않는다. */}
+            입구가 필요하다. 제목 옆 부가설명은 양쪽 섹션에서 다 뺐다.
+            글 쪽은 3건 중 1건이 제목을 되풀이하고 1건은 description 이
+            빈 문자열이었고, 작업 쪽은 같은 문장이 홈·/portfolio·상세
+            헤더에 그대로 있는데 좁은 3fr 열에서만 서너 줄로 접혔다. */}
         <section className={SECTION_FRAME}>
           <SectionHeading>Writing</SectionHeading>
           <ul className="space-y-2.5">
@@ -166,17 +172,12 @@ export default function AboutPage() {
                 >
                   {post.title}
                 </Link>
-                {post.description ? (
-                  <span className="ml-2 text-xs text-disabled">
-                    {post.description}
-                  </span>
-                ) : null}
               </li>
             ))}
           </ul>
           <p className="text-sm">
             <Link className="text-second hover:text-heading" href="/writing">
-              글 {allPosts.length}편 · 전체 보기 →
+              전체 보기 →
             </Link>
           </p>
         </section>
@@ -192,15 +193,15 @@ export default function AboutPage() {
                 >
                   {project.title}
                 </Link>
-                <span className="ml-2 text-xs text-disabled">
-                  {project.summary}
-                </span>
               </li>
             ))}
           </ul>
           <p className="text-sm">
+            {/* 카운트를 뺐다. getAllProjectsDesc 는 visibility 를 거르지
+                않아 private 2건까지 세면서 "공개된 작업"이라고 말하고
+                있었다 — 수가 틀렸고, 맞더라도 이 수로 달라지는 판단이 없다. */}
             <Link className="text-second hover:text-heading" href="/portfolio">
-              공개된 작업 {projects.length}건 · 전체 보기 →
+              전체 보기 →
             </Link>
           </p>
         </section>
@@ -250,9 +251,6 @@ export default function AboutPage() {
               </li>
             ))}
           </ul>
-          <p className="text-2xs text-disabled tabular-nums">
-            최종 수정 {formatDate(about.updated, "yyyy. MM. dd.")}
-          </p>
         </section>
       </div>
     </article>

@@ -55,7 +55,7 @@ const searchStyles = {
 
   // Footer row at the bottom of the dialog
   footer:
-    "flex justify-end px-4 py-2 border-t border-border text-[10px] text-second",
+    "flex justify-end px-4 py-2 border-t border-border text-xs text-second",
 };
 
 export function SearchDialog({ items }: { items: PostSummary[] }) {
@@ -138,12 +138,9 @@ export function SearchDialog({ items }: { items: PostSummary[] }) {
 
               {/* results area - fixed height, always scrollable */}
               <div className={searchStyles.resultsContainer}>
-                {results.length === 0 && query.length === 0 && (
-                  <div className={searchStyles.emptyWrapper}>
-                    <p className={searchStyles.emptyText}>Type to search.</p>
-                  </div>
-                )}
-
+                {/* 빈 상태 안내문("Type to search.")을 뺐다. 다이얼로그를
+                    열면 placeholder "Search posts..." 가 같은 지시를 이미
+                    하고 있어 한 화면에 두 겹이었다. */}
                 {results.length === 0 && query.length > 0 && (
                   <div className={searchStyles.emptyWrapper}>
                     <p className={searchStyles.emptyText}>No results found.</p>
@@ -152,8 +149,8 @@ export function SearchDialog({ items }: { items: PostSummary[] }) {
 
                 {results.length > 0 && (
                   <div className="space-y-1">
-                    <p className={searchStyles.sectionLabel}>Posts</p>
-
+                    {/* 섹션 라벨 "Posts" 를 뺐다. 검색 대상이 글 단일
+                        배열이라 나눌 다른 그룹이 존재하지 않는다. */}
                     {results.map((post) => (
                       <Link
                         key={`${post.type}-${post.slug}`}

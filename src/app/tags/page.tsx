@@ -19,9 +19,10 @@ export default function TagsPage() {
 
   return (
     <article className="mt-8 mb-page">
+      {/* 설명문은 화면에서 뺐다. 바로 아래 태그 칩 더미가 같은 말을 이미
+          보여준다. DESCRIPTION 상수는 metadata 가 계속 쓴다. */}
       <header className="border-b border-border pb-7">
         <h1 className="text-2xl leading-tight text-heading">Tags</h1>
-        <p className="mt-3 text-sm text-second">{DESCRIPTION}</p>
       </header>
 
       <div className="mt-9">

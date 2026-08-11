@@ -23,8 +23,11 @@ export function TagCloud({ tags }: { tags: [string, TagInfo][] }) {
 
   return (
     <div className="space-y-8">
+      {/* 칩에 글 수를 붙이지 않는다. 태그 15개 중 13개가 1이라 거의 모든
+          칩에 같은 숫자가 달렸다. info.count 는 남는다 — 칩 정렬이 빈도
+          내림차순이고 그 기준이 이 값이다. */}
       <div className="flex flex-wrap gap-2">
-        {tags.map(([tag, info]) => {
+        {tags.map(([tag]) => {
           const active = tag === selectedTag;
           return (
             <button
@@ -40,9 +43,6 @@ export function TagCloud({ tags }: { tags: [string, TagInfo][] }) {
               )}
             >
               {tag}
-              <span className="ml-1 text-[10px] text-disabled tabular-nums">
-                {info.count}
-              </span>
             </button>
           );
         })}
@@ -50,7 +50,7 @@ export function TagCloud({ tags }: { tags: [string, TagInfo][] }) {
 
       {selectedTag ? (
         <div className="space-y-2">
-          <h2 className="text-sm font-semibold text-heading">
+          <h2 className="text-sm font-bold text-heading">
             “{selectedTag}” 태그가 달린 글
           </h2>
 

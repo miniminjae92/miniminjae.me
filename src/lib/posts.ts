@@ -94,40 +94,6 @@ export function getPostNeighbors(
   return { prev: prevPost, next: nextPost };
 }
 
-function sortRelatedPosts(
-  a: { post: PostContent; sharedTagsCount: number },
-  b: { post: PostContent; sharedTagsCount: number },
-) {
-  // 1순위: 태그 개수 (내림차순)
-  if (a.sharedTagsCount !== b.sharedTagsCount) {
-    return b.sharedTagsCount - a.sharedTagsCount;
-  }
-  // 2순위: 날짜 (내림차순)
-  return new Date(b.post.date).getTime() - new Date(a.post.date).getTime();
-}
-
-/**
- * 태그 기반 관련 글
- * 1순위: 겹치는 태그 수, 2순위: 최신순
- */
-export function getRelatedPosts(
-  all: PostContent[],
-  currentPost: PostContent,
-  limit: number = 5,
-): PostContent[] {
-  return all
-    .filter((post) => post.slug !== currentPost.slug)
-    .map((post) => ({
-      post,
-      sharedTagsCount: post.tags.filter((tag) => currentPost.tags.includes(tag))
-        .length,
-    }))
-    .filter((item) => item.sharedTagsCount > 0)
-    .sort(sortRelatedPosts)
-    .slice(0, limit)
-    .map((item) => item.post);
-}
-
 /**
  * 포스트 리스트를 연도별로 그룹화 (내림차순)
  */

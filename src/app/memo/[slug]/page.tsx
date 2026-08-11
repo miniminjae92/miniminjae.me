@@ -2,15 +2,12 @@ import { notFound } from "next/navigation";
 import { BasePageProps } from "@/types/content";
 import ContentDetailPage from "@/components/post/content-detail-page";
 import {
-  getAllPostsDesc,
   getPostNeighbors,
   getPostsByTypeDesc,
-  getRelatedPosts,
 } from "@/lib/posts";
 import { SITE_URL } from "@/config/site-metadata";
 import { getProjectsForPost } from "@/lib/projects";
 
-const allPosts = getAllPostsDesc();
 const sortedMemos = getPostsByTypeDesc("memo");
 
 export function generateStaticParams() {
@@ -69,15 +66,12 @@ export default async function MemoDetailPage({ params }: BasePageProps) {
   }
 
   const { prev, next } = getPostNeighbors(sortedMemos, slug);
-  const relatedPosts = getRelatedPosts(allPosts, post, 5);
 
   return (
     <ContentDetailPage
       post={post}
       prevPost={prev}
       nextPost={next}
-      relatedPosts={relatedPosts}
-
       fromProjects={getProjectsForPost(post)}
     />
   );

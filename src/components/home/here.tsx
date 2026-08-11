@@ -41,7 +41,7 @@ export function HomeHero() {
           href="/about"
           className="shrink-0 text-sm text-second hover:text-heading"
         >
-          자기소개 전문 →
+          About me →
         </Link>
       </div>
     </header>

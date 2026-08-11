@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { MDXContent } from "@/components/mdx/mdx-content";
 import { MetricList } from "@/components/portfolio/metric-list";
 import { SITE_URL } from "@/config/site-metadata";
-import { formatPeriod, formatPostDateShort } from "@/lib/date";
+import { formatPeriod } from "@/lib/date";
 import {
   getAllProjectsDesc,
   getProjectBySlug,
@@ -89,6 +89,14 @@ export default async function ProjectDetailPage({ params }: BasePageProps) {
           ) : null}
         </p>
 
+        {/* 스택은 목록에서 여기로 옮겼다. 목록에서는 27~63자 나열이 6줄
+            깔리면서 클릭 판단을 맡은 요약과 부피가 맞먹었는데, 정작 상세에는
+            한 번도 렌더되지 않고 있었다. 역할·기간 줄과 합치지 않고 따로
+            두는 이유는 항목 수가 3~7개로 들쭉날쭉해서다. */}
+        {project.stack.length > 0 ? (
+          <p className="text-sm text-disabled">{project.stack.join(" · ")}</p>
+        ) : null}
+
         {project.links.length > 0 ? (
           <ul className="flex flex-wrap gap-x-4 text-sm">
             {project.links.map((link) => (
@@ -135,7 +143,8 @@ export default async function ProjectDetailPage({ params }: BasePageProps) {
         <section className="space-y-4">
           <h2 className="text-xl leading-tight text-heading">Result</h2>
           <MetricList metrics={project.metrics} />
-          <div className="prose max-w-none text-base text-second">
+          {/* 크기는 body 가 정한다 — content-detail-page 와 같은 이유다. */}
+          <div className="prose max-w-none text-second">
             <MDXContent code={project.code} />
           </div>
         </section>
@@ -149,15 +158,12 @@ export default async function ProjectDetailPage({ params }: BasePageProps) {
                 key={post.slug}
                 className="transition-opacity duration-300 group-hover/list:opacity-(--dim) hover:!opacity-100"
               >
-                <Link
-                  href={post.permalink}
-                  className="flex items-baseline justify-between gap-4 py-2"
-                >
+                {/* 날짜를 뺐다. 이 섹션이 뜨는 건 minjae-log 한 건뿐이고
+                    걸린 글 2편의 날짜가 둘 다 25.11.23 이라 정렬 단서도
+                    시간 단서도 되지 못했다. */}
+                <Link href={post.permalink} className="block py-2">
                   <span className="text-body hover:text-heading">
                     {post.title}
-                  </span>
-                  <span className="shrink-0 text-xs text-second tabular-nums">
-                    {formatPostDateShort(post.date)}
                   </span>
                 </Link>
               </li>
