@@ -19,17 +19,21 @@ const components = {
   h3: (props: HTMLAttributes<HTMLHeadingElement>) => (
     <h3 className="mt-18 mb-5 font-bold text-heading scroll-m-20" {...props} />
   ),
+  // h2·h3 와 크기가 같으므로 굵기로만 위계를 가른다. 넷 다 700 이면
+  // h4 가 h2 와 구별되지 않는다.
   h4: (props: HTMLAttributes<HTMLHeadingElement>) => (
-    <h4 className="mt-18 mb-5 font-bold text-heading" {...props} />
+    <h4 className="mt-18 mb-5 font-normal text-heading" {...props} />
   ),
   // 아래 여백이므로 가드는 마지막 요소에 건다. `:not(:first-child)` 였을 때는
   // 첫 문단만 mb 를 잃어 둘째 문단과 붙고, 대신 본문 끝에 빈 여백이 남았다.
   p: (props: HTMLAttributes<HTMLParagraphElement>) => (
-    <p className="leading-7 [&:not(:last-child)]:mb-5" {...props} />
+    <p className="leading-[1.75] [&:not(:last-child)]:mb-5" {...props} />
   ),
 
+  // 고운바탕에는 400 과 700 뿐이다. 500(font-medium)은 400 으로 떨어져
+  // 강조가 통째로 사라진다 — 진짜 자소가 있는 700 을 쓴다.
   strong: (props: HTMLAttributes<HTMLElement>) => (
-    <strong className="font-medium text-heading" {...props} />
+    <strong className="font-bold text-heading" {...props} />
   ),
 
   ul: (props: HTMLAttributes<HTMLUListElement>) => (
@@ -39,12 +43,14 @@ const components = {
     <ol className="ml-6 mt-4 mb-4 list-decimal [&>li]:mt-1" {...props} />
   ),
   li: (props: HTMLAttributes<HTMLLIElement>) => (
-    <li className="leading-7 my-1" {...props} />
+    <li className="leading-[1.75] my-1" {...props} />
   ),
 
   blockquote: (props: HTMLAttributes<HTMLQuoteElement>) => (
     <blockquote
-      className="mt-8 mb-8 border-l-4 border-border pl-6 italic"
+      /* 고운바탕에 이탤릭 자소가 없다 — 합성 기울임이 부리와 가로획 각도를
+         비튼다. 왼쪽 굵은 선과 들여쓰기가 이미 인용을 구분한다. */
+      className="mt-8 mb-8 border-l-4 border-border pl-6"
       {...props}
     />
   ),
@@ -88,7 +94,9 @@ const components = {
     ...props
   }: React.AnchorHTMLAttributes<HTMLAnchorElement>) => {
     const className =
-      "font-medium underline underline-offset-4 decoration-border hover:decoration-second transition-colors text-heading";
+      // font-medium 은 400 으로 떨어져 렌더에 아무 영향이 없다. 밑줄과
+      // 색이 이미 링크를 표시한다.
+      "underline underline-offset-4 decoration-border hover:decoration-second transition-colors text-heading";
     if (href?.startsWith("/")) {
       return (
         <Link href={href} className={className} {...props}>
@@ -137,7 +145,7 @@ const components = {
         unoptimized={props.src.startsWith("http")}
       />
       {props.alt && (
-        <span className="block p-2 text-center text-xs text-second bg-page border-t border-border">
+        <span className="block p-2 text-center text-sm text-second bg-page border-t border-border">
           {props.alt}
         </span>
       )}

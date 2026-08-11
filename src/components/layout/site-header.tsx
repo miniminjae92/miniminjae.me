@@ -28,7 +28,9 @@ export function SiteHeader({ searchIndex }: { searchIndex: PostSummary[] }) {
       <div className="flex items-center justify-between gap-4">
         <Link
           href="/"
-          className="shrink-0 text-base font-semibold tracking-tight text-heading"
+          /* 부리체는 글자면이 좌우로 넓어 여백이 이미 좁다 — tracking-tight
+             를 걷어낸다. semibold(600)는 700 으로 올라가므로 명시한다. */
+          className="display-face shrink-0 text-base font-bold text-heading"
         >
           {SITE_NAME}
         </Link>

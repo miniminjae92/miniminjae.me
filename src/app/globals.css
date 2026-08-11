@@ -1,11 +1,8 @@
-@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css");
-@font-face {
-  font-family: "GounBatang";
-  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/GowunBatang-Regular.woff")
-    format("woff");
-  font-weight: normal;
-  font-display: swap;
-}
+/* 고운바탕은 layout.tsx 의 next/font 가 받아 자체 호스팅한다. 예전에는
+   여기서 jsdelivr 의 1.72MB WOFF 를 Regular 한 벌만 받았는데, 그 파일은
+   구글이 주는 Gowun Batang 400 과 아웃라인이 바이트 단위로 같으면서
+   700 이 없었다 — 굵은 자리마다 브라우저가 획을 부풀리는 합성 볼드가
+   걸렸다. Pretendard 는 폰트 랩(dev)이 고를 때만 받아온다. */
 @import "tailwindcss";
 @custom-variant dark (&:is(.dark *));
 
@@ -131,11 +128,26 @@
   --spacing-page: var(--page-top);
   --spacing-half-page: var(--page-half-top);
 
-  --text-2xs: 0.7rem;
-  --font-goun: "GounBatang", serif;
+  /* 0.7rem(11.2px)이었다. 이 층은 획이 장치 1픽셀 아래로 떨어져 무너진다 —
+     12px 로 올리면 획이 20% 두꺼워진다. 짝이 없어 행간이 상속되던 것도
+     함께 정한다. */
+  --text-2xs: 0.75rem;
+  --text-2xs--line-height: 1.5;
+  --font-goun: var(--font-gowun), serif;
   --font-pretendard: "Pretendard Variable", sans-serif;
 
-  --font-sans: var(--font-goun);
+  /* 폰트는 서체 이름이 아니라 역할로 부른다(2026-08-06). 독자 두 명이
+     "읽는 게 메인인데 가독성이 아쉽다"고 했고, 고운바탕이 UI 전체의
+     기본이던 것을 물려 제목과 본문의 서체를 갈랐다.
+
+     이 두 변수만 바꾸면 사이트 전체의 서체 조합이 갈린다. 개발 모드의
+     폰트 랩(font-lab.tsx)이 <html> 인라인 스타일로 이 둘을 덮어써서
+     조합을 비교한다 — 조합이 정해지면 여기 기본값을 그 값으로 굳히고
+     랩을 걷어낸다. */
+  --font-display: var(--font-goun);
+  --font-body: var(--font-goun);
+
+  --font-sans: var(--font-body);
   --font-mono: var(--font-geist-mono);
 
   --color-code-bg: var(--code-bg);
@@ -144,8 +156,16 @@
 
 body {
   @apply m-0 min-h-screen p-0;
-  @apply font-sans text-base leading-7 tracking-normal antialiased;
+  /* 부리(세리프)는 같은 명목 크기에서 고딕보다 작아 보인다. 16px → 17px,
+     행간은 비율 1.75 로 짝지어 올린다. 17px 에 28px 를 그대로 두면 비율이
+     1.65 로 떨어져 부리 본문 권고 하한 아래가 된다. 18px 은 줄당 글자가
+     12% 줄어 레이아웃 개편이 되므로 여기서 멈춘다. */
+  @apply font-sans text-[1.0625rem] leading-[1.75] tracking-normal;
   @apply bg-page text-second;
+
+  /* 진짜 700 자소가 생겼으니 브라우저의 합성을 막는다. 이게 없으면
+     500·600 같은 중간 굵기에서 다시 획을 부풀린다. */
+  font-synthesis-weight: none;
 
   /* 한국어는 어절 중간에서 끊으면 안 읽힌다. keep-all 이 기본이고,
      끊을 데가 없는 긴 영문 토큰(URL 등)만 anywhere 가 구제한다.
@@ -155,8 +175,25 @@ body {
 }
 
 .prose-content {
-  font-family: var(--font-pretendard);
+  font-family: var(--font-body);
   font-weight: 400;
+}
+
+/* 제목은 표제 서체를 받는다. 요소 선택자라 특이도가 낮아, 개별 자리에서
+   font-* 유틸리티로 언제든 이길 수 있다. h4 이하는 본문과 같은 서체 —
+   위계가 깊어질수록 본문에 가까워진다. */
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+}
+
+/* 제목 태그가 아닌데 표제 서체를 받아야 하는 자리(헤더 워드마크 등).
+   Tailwind 의 font-display 유틸리티는 @theme inline 때문에 빌드 시점에
+   var(--font-goun) 으로 굳어 런타임 교체가 먹지 않는다 — 그래서 유틸리티
+   대신 이 클래스를 쓴다. */
+.display-face {
+  font-family: var(--font-display);
 }
 
 /* ── Studio 미리보기 ───────────────────────────────────────────
@@ -244,8 +281,8 @@ body {
 }
 
 /* 설계 문서가 요구하는데 지금까지 한 줄도 없던 항목.
-   장식 애니메이션은 전부 무력화한다. WebGL 커서는 CSS로 못 막으므로
-   home-cursor.tsx 에서 matchMedia 로 따로 게이팅한다. */
+   장식 애니메이션은 전부 무력화한다. 캔버스 커서 효과는 CSS로 못
+   막으므로 cursor-fx.tsx 에서 matchMedia 로 따로 게이팅한다. */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

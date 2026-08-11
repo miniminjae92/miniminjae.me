@@ -45,7 +45,7 @@ export function MetricList({ metrics }: { metrics: ProjectMetric[] }) {
           <dt className="text-xs text-disabled">{metric.label}</dt>
           <dd className="text-lg text-heading tabular-nums">{metric.value}</dd>
           {metric.note ? (
-            <dd className="text-xs text-second">{metric.note}</dd>
+            <dd className="text-sm text-second">{metric.note}</dd>
           ) : null}
         </div>
       ))}
