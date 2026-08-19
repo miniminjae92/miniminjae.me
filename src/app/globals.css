@@ -2,7 +2,7 @@
    여기서 jsdelivr 의 1.72MB WOFF 를 Regular 한 벌만 받았는데, 그 파일은
    구글이 주는 Gowun Batang 400 과 아웃라인이 바이트 단위로 같으면서
    700 이 없었다 — 굵은 자리마다 브라우저가 획을 부풀리는 합성 볼드가
-   걸렸다. Pretendard 는 폰트 랩(dev)이 고를 때만 받아온다. */
+   걸렸다. */
 @import "tailwindcss";
 @custom-variant dark (&:is(.dark *));
 
@@ -134,16 +134,16 @@
   --text-2xs: 0.75rem;
   --text-2xs--line-height: 1.5;
   --font-goun: var(--font-gowun), serif;
-  --font-pretendard: "Pretendard Variable", sans-serif;
 
   /* 폰트는 서체 이름이 아니라 역할로 부른다(2026-08-06). 독자 두 명이
      "읽는 게 메인인데 가독성이 아쉽다"고 했고, 고운바탕이 UI 전체의
      기본이던 것을 물려 제목과 본문의 서체를 갈랐다.
 
-     이 두 변수만 바꾸면 사이트 전체의 서체 조합이 갈린다. 개발 모드의
-     폰트 랩(font-lab.tsx)이 <html> 인라인 스타일로 이 둘을 덮어써서
-     조합을 비교한다 — 조합이 정해지면 여기 기본값을 그 값으로 굳히고
-     랩을 걷어낸다. */
+     이 두 변수만 바꾸면 사이트 전체의 서체 조합이 갈린다. 후보를 실물로
+     비교하는 장치(font-lab.tsx)를 dev 에 두고 돌렸고, 2026-08-19 에
+     양쪽 모두 고운바탕으로 가는 "원본"으로 확정하며 랩을 걷어냈다.
+     역할 이름은 그대로 둔다 — 조합을 다시 가를 때 갈아 끼울 자리가
+     여기 두 줄로 남아 있어야 한다. */
   --font-display: var(--font-goun);
   --font-body: var(--font-goun);
 
@@ -190,7 +190,8 @@ h3 {
 
 /* 제목 태그가 아닌데 표제 서체를 받아야 하는 자리(헤더 워드마크 등).
    Tailwind 의 font-display 유틸리티는 @theme inline 때문에 빌드 시점에
-   var(--font-goun) 으로 굳어 런타임 교체가 먹지 않는다 — 그래서 유틸리티
+   var(--font-goun) 으로 굳는다. 그러면 이 자리가 역할이 아니라 서체 이름에
+   묶여, 표제 서체를 갈 때 h1~h3 만 따라오고 여기는 남는다. 그래서 유틸리티
    대신 이 클래스를 쓴다. */
 .display-face {
   font-family: var(--font-display);

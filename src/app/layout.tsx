@@ -5,7 +5,6 @@ import "./globals.css";
 import "katex/dist/katex.min.css";
 import { ThemeProvider } from "next-themes";
 import { CursorFx } from "@/components/effects/cursor-fx";
-import { FontLab } from "@/components/dev/font-lab";
 import { PageShell } from "@/components/layout/page-shell";
 import { SiteHeader } from "@/components/layout/site-header";
 import { SiteFooter } from "@/components/layout/site-footer";
@@ -48,7 +47,6 @@ export default function RootLayout({
       <body className="bg-page text-body">
         <ThemeProvider attribute="class" defaultTheme="system">
           <CursorFx />
-          <FontLab />
           <a className="skip-link" href="#content">
             본문으로 건너뛰기
           </a>
