@@ -100,8 +100,16 @@ export default function AboutPage() {
         {/* grow + max-w 로 블록의 오른쪽 모서리를 밴드 끝선에 붙인다.
             shrink-to-fit 이면 가장 긴 행 기준으로 오른쪽에 어정쩡한 틈이
             남아 붕 떠 보인다. 이름과의 중앙 여백은 의도된 간격이라
-            폭은 조금씩만 늘린다 — 중앙 여백을 다 먹으면 밴드가 답답해진다. */}
-        <div className="ml-auto min-w-0 grow basis-0 self-end space-y-5 max-w-[38ch]">
+            폭은 조금씩만 늘린다 — 중앙 여백을 다 먹으면 밴드가 답답해진다.
+
+            basis 를 0 으로 두면 안 된다. flex-wrap 은 flex-basis 로 줄바꿈을
+            판정하는데, basis-0 은 어떤 폭에서도 "들어간다"로 읽혀 블록이 절대
+            다음 줄로 내려가지 않고 남은 틈 안으로 찌부러진다. 실측으로 뷰포트
+            430px 에서 45px, 400px 에서 15px 까지 눌려 한 줄에 한 글자씩 30줄이
+            났다(390~430px 는 요즘 폰의 주력 폭이다). basis-72 는 max-w-[38ch]
+            보다 작아 grow 를 막지 않으면서, 자리가 모자라면 블록을 통째로
+            다음 줄로 내린다. */}
+        <div className="ml-auto min-w-0 grow basis-72 self-end space-y-5 max-w-[38ch]">
           <p className="leading-8 text-balance text-heading">
             {about.headline}
           </p>
