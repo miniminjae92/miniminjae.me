@@ -1,6 +1,19 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // 공유 문서는 목록에 넣지 않으며, 검색 엔진에도 색인 제외를 요청한다.
+  // 인증 경계는 아니므로 URL을 아는 사람은 접근할 수 있다.
+  async headers() {
+    return [
+      {
+        source: "/shared/:path*",
+        headers: [
+          { key: "X-Robots-Tag", value: "noindex, nofollow, noarchive" },
+          { key: "Referrer-Policy", value: "no-referrer" },
+        ],
+      },
+    ];
+  },
   /**
    * 인덱스 3개만 /writing 으로 합친다.
    *
