@@ -1,0 +1,37 @@
+{
+  "query": "WITH weekly AS (SELECT person_id,toStartOfWeek(toTimeZone(timestamp,'Asia/Seoul'),1) AS week FROM events WHERE timestamp>=toDateTime('2026-08-03 00:00:00','Asia/Seoul') AND timestamp<toDateTime('2026-10-26 00:00:00','Asia/Seoul') AND event IN ('offer_link_click','banner_click') AND person_id NOT IN (SELECT person_id FROM raw_cohort_people WHERE cohort_id=464290 AND version=54) AND person_id NOT IN (SELECT person_id FROM static_cohort_people WHERE cohort_id=500325) GROUP BY person_id,week) SELECT offset,count() AS memberships,countIf(r.person_id=c.person_id) AS returned FROM (SELECT person_id,week,arrayJoin([0,1,2,3,4]) AS offset FROM weekly WHERE week<=toDate('2026-09-21')) c LEFT JOIN weekly r ON c.person_id=r.person_id AND r.week=c.week+toIntervalWeek(offset) GROUP BY offset ORDER BY offset",
+  "queriedAt": "2026-10-29T06:50:22.941Z",
+  "status": 200,
+  "columns": [
+    "offset",
+    "memberships",
+    "returned"
+  ],
+  "results": [
+    [
+      0,
+      2802,
+      2802
+    ],
+    [
+      1,
+      2802,
+      375
+    ],
+    [
+      2,
+      2802,
+      297
+    ],
+    [
+      3,
+      2802,
+      283
+    ],
+    [
+      4,
+      2802,
+      226
+    ]
+  ]
+}

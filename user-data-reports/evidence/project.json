@@ -1,0 +1,18 @@
+{
+  "timezone": "Asia/Seoul",
+  "test_account_filters": [
+    {
+      "key": "id",
+      "type": "cohort",
+      "value": 464290,
+      "operator": "not_in"
+    },
+    {
+      "key": "id",
+      "type": "cohort",
+      "value": 500325,
+      "operator": "not_in",
+      "cohort_name": "Test Users"
+    }
+  ]
+}

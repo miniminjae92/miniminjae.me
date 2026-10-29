@@ -1,0 +1,28 @@
+{
+  "past10WeeksMatch": true,
+  "past6CohortsMatch": true,
+  "quantiles": [
+    19.35812531839022,
+    24.977773942379354,
+    30.855180195958727,
+    34.304747396278515,
+    48.717948717948715
+  ],
+  "newGoal": 34,
+  "oldGoal": 34,
+  "periods": {
+    "previous": [
+      3260,
+      814
+    ],
+    "recent": [
+      3414,
+      895
+    ]
+  },
+  "percentPointChange": 1.2462577405917905,
+  "retention": [
+    226,
+    2802
+  ]
+}

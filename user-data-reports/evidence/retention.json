@@ -1,0 +1,52 @@
+{
+  "query": "WITH weekly AS (SELECT person_id,toStartOfWeek(toTimeZone(timestamp,'Asia/Seoul'),1) AS week FROM events WHERE timestamp>=toDateTime('2026-08-03 00:00:00','Asia/Seoul') AND timestamp<toDateTime('2026-10-26 00:00:00','Asia/Seoul') AND event IN ('offer_link_click','banner_click') AND person_id NOT IN (SELECT person_id FROM raw_cohort_people WHERE cohort_id=464290 AND version=54) AND person_id NOT IN (SELECT person_id FROM static_cohort_people WHERE cohort_id=500325) GROUP BY person_id,week) SELECT a.week,count() AS users,countIf(b.person_id=a.person_id) AS returned FROM weekly a LEFT JOIN weekly b ON a.person_id=b.person_id AND b.week=a.week+INTERVAL 4 WEEK WHERE a.week<=toDate('2026-09-21') GROUP BY a.week ORDER BY a.week",
+  "queriedAt": "2026-10-29T06:50:21.733Z",
+  "status": 200,
+  "columns": [
+    "week",
+    "users",
+    "returned"
+  ],
+  "results": [
+    [
+      "2026-08-03",
+      266,
+      19
+    ],
+    [
+      "2026-08-10",
+      178,
+      15
+    ],
+    [
+      "2026-08-17",
+      186,
+      15
+    ],
+    [
+      "2026-08-24",
+      391,
+      35
+    ],
+    [
+      "2026-08-31",
+      202,
+      26
+    ],
+    [
+      "2026-09-07",
+      489,
+      30
+    ],
+    [
+      "2026-09-14",
+      375,
+      46
+    ],
+    [
+      "2026-09-21",
+      715,
+      40
+    ]
+  ]
+}

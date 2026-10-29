@@ -1,0 +1,71 @@
+{
+  "query": "SELECT toStartOfWeek(toTimeZone(timestamp,'Asia/Seoul'),1) AS week, count(DISTINCT if(event='$pageview',person_id,NULL)) AS visitors, count(DISTINCT if(event IN ('offer_link_click','banner_click'),person_id,NULL)) AS active FROM events WHERE timestamp>=toDateTime('2026-08-03 00:00:00','Asia/Seoul') AND timestamp<toDateTime('2026-10-26 00:00:00','Asia/Seoul') AND person_id NOT IN (SELECT person_id FROM raw_cohort_people WHERE cohort_id=464290 AND version=54) AND person_id NOT IN (SELECT person_id FROM static_cohort_people WHERE cohort_id=500325) GROUP BY week ORDER BY week",
+  "queriedAt": "2026-10-29T06:49:59Z",
+  "columns": [
+    "week",
+    "visitors",
+    "active"
+  ],
+  "results": [
+    [
+      "2026-08-03",
+      546,
+      266
+    ],
+    [
+      "2026-08-10",
+      521,
+      178
+    ],
+    [
+      "2026-08-17",
+      734,
+      186
+    ],
+    [
+      "2026-08-24",
+      1185,
+      391
+    ],
+    [
+      "2026-08-31",
+      613,
+      202
+    ],
+    [
+      "2026-09-07",
+      2112,
+      489
+    ],
+    [
+      "2026-09-14",
+      1304,
+      375
+    ],
+    [
+      "2026-09-21",
+      1562,
+      715
+    ],
+    [
+      "2026-09-28",
+      2356,
+      591
+    ],
+    [
+      "2026-10-05",
+      1237,
+      305
+    ],
+    [
+      "2026-10-12",
+      1774,
+      616
+    ],
+    [
+      "2026-10-19",
+      1963,
+      380
+    ]
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "query": "SELECT if(timestamp<toDateTime('2026-10-12 00:00:00','Asia/Seoul'),'previous','recent') AS period,count(DISTINCT if(event='$pageview',person_id,NULL)) AS visitors,count(DISTINCT if(event IN ('offer_link_click','banner_click'),person_id,NULL)) AS active FROM events WHERE timestamp>=toDateTime('2026-09-28 00:00:00','Asia/Seoul') AND timestamp<toDateTime('2026-10-26 00:00:00','Asia/Seoul') AND person_id NOT IN (SELECT person_id FROM raw_cohort_people WHERE cohort_id=464290 AND version=54) AND person_id NOT IN (SELECT person_id FROM static_cohort_people WHERE cohort_id=500325) GROUP BY period ORDER BY period",
+  "queriedAt": "2026-10-29T06:50:20.826Z",
+  "status": 200,
+  "columns": [
+    "period",
+    "visitors",
+    "active"
+  ],
+  "results": [
+    [
+      "previous",
+      3260,
+      814
+    ],
+    [
+      "recent",
+      3414,
+      895
+    ]
+  ]
+}
